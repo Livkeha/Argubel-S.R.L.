@@ -1,17 +1,18 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Argubel Srl - Empresa Constructora</title>
 <meta name="description" content="Argubel es una empresa Argentina de la Industria de la Construcción, creada con el objetivo de ofrecer a nuestros clientes un completo abanico de servicios, dedicada a proyectos de gran envergadura y particulares...">
 <meta name="keywords" content="Obra Publica, Obra Residencial, Obra Comercial, Construcción, Remodelación">
-<link href="{{ asset('../css/estilos.css') }}" rel="stylesheet" type="text/css">
-<link rel="stylesheet" type="text/css" href="engine1/style.css" />
+<link id="stylesheet1" href="{{asset('../css/estilos.css')}}" rel="stylesheet">
+<!-- <link rel="stylesheet" type="text/css" href="engine1/style.css" /> -->
 <meta name="viewport" content="width=device-width">
 <!-- <script type="text/javascript" src="engine1/jquery.js"></script>
 <script type="text/javascript" src="engine1/rollhover.js"></script> -->
 
 </head>
+
 
 <body onLoad="MM_preloadImages('imagenes/obra-publica-hover.png','imagenes/obra-comercial-hover.png','imagenes/obra-residencial-hover.png')">
 <!--HEADER-->
@@ -39,7 +40,6 @@
 <!--CONTENT-->
 <section id="content">
 
-<?php var_dump("Fin");exit; ?>
 
   <div class="interior">
 
