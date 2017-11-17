@@ -1,0 +1,247 @@
+#wowslider-container1 { 
+	zoom: 1; 
+	position: relative; 
+	max-width:1200px;
+	margin:0px auto 0px;
+	z-index:90;
+	text-align:left; /* reset align=center */
+}
+* html #wowslider-container1{ width:1200px }
+#wowslider-container1 .ws_images ul{
+	position:relative;
+	width: 10000%; 
+	height:auto;
+	left:0;
+	list-style:none;
+	margin:0;
+	padding:0;
+	border-spacing:0;
+	overflow: visible;
+	/*table-layout:fixed;*/
+}
+#wowslider-container1 .ws_images ul li{
+	width:1%;
+	line-height:0; /*opera*/
+	float:left;
+	font-size:0;
+	padding:0 0 0 0 !important;
+	margin:0 0 0 0 !important;
+}
+
+#wowslider-container1 .ws_images{
+	position: relative;
+	left:0;
+	top:0;
+	width:100%;
+	height:100%;
+	overflow:hidden;
+}
+#wowslider-container1 .ws_images a{
+	width:100%;
+	display:block;
+	color:transparent;
+}
+#wowslider-container1 img{
+	max-width: none !important;
+}
+#wowslider-container1 .ws_images img{
+	width:100%;
+	border:none 0;
+	max-width: none;
+	padding:0;
+}
+#wowslider-container1 a{ 
+	text-decoration: none; 
+	outline: none; 
+	border: none; 
+}
+
+#wowslider-container1  .ws_bullets { 
+	font-size: 0px; 
+	float: left;
+	position:absolute;
+	z-index:70;
+}
+#wowslider-container1  .ws_bullets div{
+	position:relative;
+	float:left;
+}
+#wowslider-container1  .wsl{
+	display:none;
+}
+#wowslider-container1 sound, 
+#wowslider-container1 object{
+	position:absolute;
+}
+
+
+#wowslider-container1  .ws_bullets { 
+	padding: 5px; 
+}
+#wowslider-container1 .ws_bullets a { 
+	width:40px;
+	height:8px;
+	background: none;
+	border: 1px solid #FFFFFF;
+	float: left; 
+	text-indent: -9999px; 
+	position:relative;
+	margin-left:8px;
+	margin-top: 5px;
+	color:transparent;
+}
+#wowslider-container1 .ws_bullets a.ws_selbull, #wowslider-container1 .ws_bullets a:hover{
+	outline:  1px solid #FFFFFF;
+}
+
+#wowslider-container1 a.ws_next, #wowslider-container1 a.ws_prev {
+	position:absolute;
+	display:block;
+	z-index:60;
+	height: 40px;
+	width: 40px;
+	background: none;
+	border-style: solid;
+	border-color: #FFFFFF;
+    -webkit-transition: all 0.2s;
+    -moz-transition: all 0.2s;
+    -o-transition: all 0.2s;
+    transition: all 0.2s;
+}
+#wowslider-container1 a.ws_next{
+	border-width: 1px 1px 0 0;
+	top:50px;
+	right:50px;
+}
+#wowslider-container1 a.ws_prev {
+	border-width: 0 0 1px 1px;
+	right:50px;
+	bottom:50px;
+}
+#wowslider-container1 a.ws_next:hover{
+	border-width: 2px 2px 0 0;
+	margin: -5px -5px 0 0;
+}
+#wowslider-container1 a.ws_prev:hover {
+	border-width: 0 0 2px 2px;
+	margin: 0 5px -5px 0;
+}
+
+/*playpause*/
+#wowslider-container1 .ws_playpause {
+	display:none;
+    position: absolute;
+    top: 50%;
+	margin-top:-20px;
+    right: 60px;
+    z-index: 59;
+}
+#wowslider-container1:hover .ws_playpause {
+	display:block;
+	-webkit-transition: all 0.2s;
+    -moz-transition: all 0.2s;
+    -o-transition: all 0.2s;
+    transition: all 0.2s;
+
+}
+#wowslider-container1 .ws_pause {
+    width: 10px;
+    height: 40px;
+	border-style:solid;
+	border-width:0 1px;
+	border-color:white;	
+}
+#wowslider-container1 .ws_pause:hover {
+	width: 15px;
+    height: 50px;
+	border-width: 0 2px;
+	margin-right:-5px;
+}
+#wowslider-container1 .ws_play {
+    width: 30px;
+    height: 30px;
+    border-style:solid;
+	border-width:1px 1px 0 0;
+	border-color:white;
+	-webkit-transform:rotate(45deg);
+	   -moz-transform:rotate(45deg);
+		 -o-transform:rotate(45deg);
+			transform:rotate(45deg);
+}
+#wowslider-container1 .ws_play:hover {
+	border-width: 2px 2px 0 0;
+	margin-right:-5px;
+}
+/* bottom center */
+#wowslider-container1  .ws_bullets {
+	bottom:0;
+	left:50%;
+}
+#wowslider-container1  .ws_bullets div{
+	left:-50%;
+}
+#wowslider-container1 .ws-title{
+	position: absolute;
+	bottom:50px;
+	left: 50px;
+	margin-right:100px;
+	z-index: 50;
+	background: none;
+    color: #FFFFFF;
+	padding: 10px;
+	font-size: 18px;
+	line-height: 20px;
+	font-family: 'Open Sans',Arial,sans-serif;
+	text-transform: uppercase;
+	border: 1px solid #FFFFFF;
+}
+#wowslider-container1 .ws-title div{
+    margin-top: 10px;
+	font-size: 14px;
+	line-height: 16px;
+	text-transform: none;
+}
+#wowslider-container1 .ws_images ul{
+	animation: wsBasic 49s infinite;
+	-moz-animation: wsBasic 49s infinite;
+	-webkit-animation: wsBasic 49s infinite;
+}
+@keyframes wsBasic{0%{left:-0%} 5.92%{left:-0%} 10%{left:-100%} 15.92%{left:-100%} 20%{left:-200%} 25.92%{left:-200%} 30%{left:-300%} 35.92%{left:-300%} 40%{left:-400%} 45.92%{left:-400%} 50%{left:-500%} 55.92%{left:-500%} 60%{left:-600%} 65.92%{left:-600%} 70%{left:-700%} 75.92%{left:-700%} 80%{left:-800%} 85.92%{left:-800%} 90%{left:-900%} 95.92%{left:-900%} }
+@-moz-keyframes wsBasic{0%{left:-0%} 5.92%{left:-0%} 10%{left:-100%} 15.92%{left:-100%} 20%{left:-200%} 25.92%{left:-200%} 30%{left:-300%} 35.92%{left:-300%} 40%{left:-400%} 45.92%{left:-400%} 50%{left:-500%} 55.92%{left:-500%} 60%{left:-600%} 65.92%{left:-600%} 70%{left:-700%} 75.92%{left:-700%} 80%{left:-800%} 85.92%{left:-800%} 90%{left:-900%} 95.92%{left:-900%} }
+@-webkit-keyframes wsBasic{0%{left:-0%} 5.92%{left:-0%} 10%{left:-100%} 15.92%{left:-100%} 20%{left:-200%} 25.92%{left:-200%} 30%{left:-300%} 35.92%{left:-300%} 40%{left:-400%} 45.92%{left:-400%} 50%{left:-500%} 55.92%{left:-500%} 60%{left:-600%} 65.92%{left:-600%} 70%{left:-700%} 75.92%{left:-700%} 80%{left:-800%} 85.92%{left:-800%} 90%{left:-900%} 95.92%{left:-900%} }
+
+#wowslider-container1 .ws_bullets  a img{
+	text-indent:0;
+	display:block;
+	bottom:15px;
+	left:-72px;
+	visibility:hidden;
+	position:absolute;
+    border: 1px solid #FFFFFF;
+	max-width:none;
+}
+#wowslider-container1 .ws_bullets a:hover img{
+	visibility:visible;
+}
+
+#wowslider-container1 .ws_bulframe div div{
+	height:48px;
+	overflow:visible;
+	position:relative;
+}
+#wowslider-container1 .ws_bulframe div {
+	left:0;
+	overflow:hidden;
+	position:relative;
+	width:144px;
+	background-color:#FFFFFF;
+}
+#wowslider-container1  .ws_bullets .ws_bulframe{
+	display:none;
+	bottom:20px;
+	margin-left:20px;
+	overflow:visible;
+	position:absolute;
+	cursor:pointer;
+    border: 1px solid #FFFFFF;
+}

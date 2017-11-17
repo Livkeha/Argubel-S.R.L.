@@ -6,19 +6,19 @@
 <meta name="description" content="Argubel es una empresa Argentina de la Industria de la Construcción, creada con el objetivo de ofrecer a nuestros clientes un completo abanico de servicios, dedicada a proyectos de gran envergadura y particulares...">
 <meta name="keywords" content="Obra Publica, Obra Residencial, Obra Comercial, Construcción, Remodelación">
 <link id="stylesheet1" href="{{asset('../css/estilos.css')}}" rel="stylesheet">
-<!-- <link rel="stylesheet" type="text/css" href="engine1/style.css" /> -->
+<link rel="stylesheet" type="text/css" href="{{asset('../engine1/style.css')}}" />
 <meta name="viewport" content="width=device-width">
 <!-- <script type="text/javascript" src="engine1/jquery.js"></script>
 <script type="text/javascript" src="engine1/rollhover.js"></script> -->
 
 </head>
 
-
-<body onLoad="MM_preloadImages('imagenes/obra-publica-hover.png','imagenes/obra-comercial-hover.png','imagenes/obra-residencial-hover.png')">
+<body onLoad="MM_preloadImages('images/obra-publica-hover.png','images/obra-comercial-hover.png','images/obra-residencial-hover.png')">
 <!--HEADER-->
 <header id="header" class="interior">
-  <h1><a href="index.html"><img src="imagenes/logo-Argubel.png"alt="Argubel Empresa Constructora"/></a></h1>
+  <h1><a href="index.html"><img src="{{ url('images/logo-Argubel.png') }}" alt="Argubel Empresa Constructora"/></a></h1>
 </header>
+
 <!--/HEADER-->
 
 <!--NAV-->

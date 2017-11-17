@@ -10,7 +10,7 @@ body {
  font-size: 14px;
  color: #969696;
  background-color: #333;
- background-image: url(../imagenes/fondo-general.jpg);
+ background-image: url(../images/fondo-general.jpg);
  background-repeat: no-repeat;
  background-position: center top
 }
@@ -35,7 +35,7 @@ img {
 
 /*HEADER*/
 
-#header { 
+#header {
  overflow:hidden;
 }
 #header h1 {
@@ -178,7 +178,7 @@ footer .footer .interior-footer {
  text-align: right;
  padding: 15px 0
 }
- 
+
 @media screen and (max-width: 1000px) {
 
 #nav ul li {
@@ -287,5 +287,5 @@ max-width: 80%;
  float:none;
  width:100%;
  padding-bottom:5px; text-align:center
-}	
+}
 }
