@@ -28,3 +28,13 @@ Route::get('/obra-comercial', 'ObraComercialController@view')->name('obra-comerc
 Route::get('/obra-residencial', 'ObraResidencialController@view')->name('obra-residencial');
 
 Route::get('/contacto', 'ContactoController@view')->name('contacto');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+Route::group(['middleware' => ['permission:registrar_usuarios']], function () {
+    Route::get('/registrar', 'PermisosController@aceptado')->name('aceptado');
+});
+
+Route::get('/denegado', 'PermisosController@denegado')->name('denegado');

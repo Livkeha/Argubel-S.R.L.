@@ -37,28 +37,28 @@
 
       <div class="obra-2">
          <div class="cabezal-obra">
-          <h2><a href="obra-publica.html">Obra Pública</a></h2>
+          <h2><a href="{{ url('/obra-publica') }}">Obra Pública</a></h2>
           <div class="numero"> <img src="images/numero-1.png" alt=""/> </div>
         </div>
         <div class="content-obra">
-        <a href="obra-publica.html" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('obra publica','','images/obra-publica-hover.png',1)"><img id="obra publica" src="images/obra-publica.png" alt=""></a></div>
+        <a href="{{ url('/obra-publica') }}" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('obra publica','','images/obra-publica-hover.png',1)"><img id="obra publica" src="images/obra-publica.png" alt=""></a></div>
       </div>
 
       <div class="obra-1">
         <div class="cabezal-obra">
-          <h2><a href="obra-comercial.html">Obra Comercial</a></h2>
+          <h2><a href="{{ url('/obra-comercial') }}">Obra Comercial</a></h2>
           <div class="numero"> <img src="images/numero-2.png" alt=""/> </div>
         </div>
-        <div class="content-obra"><a href="obra-comercial.html" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('obra comercial','','images/obra-comercial-hover.png',1)"><img id="obra comercial" src="images/obra-comercial.png" alt=""></a> </div>
+        <div class="content-obra"><a href="{{ url('/obra-comercial') }}" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('obra comercial','','images/obra-comercial-hover.png',1)"><img id="obra comercial" src="images/obra-comercial.png" alt=""></a> </div>
       </div>
 
 
       <div class="obra-3 last">
          <div class="cabezal-obra">
-          <h2><a href="obra-residencial.html">Obra Residencial</a></h2>
+          <h2><a href="{{ url('/obra-residencial') }}">Obra Residencial</a></h2>
           <div class="numero"> <img src="images/numero-3.png" alt=""/> </div>
         </div>
-        <div class="content-obra"><a href="obra-residencial.html" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('obra Residencial','','images/obra-residencial-hover.png',1)"><img id="obra Residencial" src="images/obra-residencial.png" alt=""></a></div>
+        <div class="content-obra"><a href="{{ url('/obra-residencial') }}" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('obra Residencial','','images/obra-residencial-hover.png',1)"><img id="obra Residencial" src="images/obra-residencial.png" alt=""></a></div>
       </div>
 
      <div class="clear"></div>
