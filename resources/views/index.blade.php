@@ -8,16 +8,16 @@
 <link id="stylesheet1" href="{{asset('../css/estilos.css')}}" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="{{asset('../engine1/style.css')}}" />
 <meta name="viewport" content="width=device-width">
-<!-- <script type="text/javascript" src="engine1/jquery.js"></script>
-<script type="text/javascript" src="engine1/rollhover.js"></script> -->
+<script type="text/javascript" src="{{ url('engine1/jquery.js') }}"></script>
+<script type="text/javascript" src="{{ url('engine1/rollhover.js') }}"></script>
 
 </head>
-
 <body onLoad="MM_preloadImages('images/obra-publica-hover.png','images/obra-comercial-hover.png','images/obra-residencial-hover.png')">
 <!--HEADER-->
 <header id="header" class="interior">
-  <h1><a href="index.html"><img src="{{ url('images/logo-Argubel.png') }}" alt="Argubel Empresa Constructora"/></a></h1>
+  <h1><a href="{{ url('/index') }}"><img src="{{ url('images/logo-Argubel.png') }}" alt="Argubel Empresa Constructora"/></a></h1>
 </header>
+
 
 <!--/HEADER-->
 
