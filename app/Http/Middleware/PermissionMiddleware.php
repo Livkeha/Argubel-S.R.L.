@@ -17,12 +17,16 @@ class PermissionMiddleware
 
  public function handle($request, Closure $next, $permission)
  {
+     // if (Auth::guest()) {
+     //     return redirect('/login');
+     // }
+
      if (Auth::guest()) {
-         return redirect('/login');
+         return redirect('/index');
      }
 
      if (! $request->user()->can($permission)) {
-       return redirect('/denegado');
+       return redirect('/index');
         // abort(403);
      }
 

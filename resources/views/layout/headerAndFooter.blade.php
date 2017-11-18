@@ -18,7 +18,27 @@
 <body onLoad="MM_preloadImages('images/obra-publica-hover.png','images/obra-comercial-hover.png','images/obra-residencial-hover.png')">
 <!--HEADER-->
 <header id="header" class="interior">
+
+
+        @if (Auth::check())
+        <h3 class="login"> {{ Auth::user()->name }}</h3>
+        <a href="{{ url('/logout') }}"><h4 class="login"> Logout </h4>
+        @endif
+
+        @if (auth()->check())
+                        @if (auth()->user()->isAdministrator())
+                            <h1 style=color:green>Soy Administrador!!</h1>
+                        @else
+                            <h1 style=color:red>Soy Cliente</h1>
+                        @endif
+         @endif
+
+        @if (!Auth::check())
+        <a href="{{ url('/login') }}"><h3 class="login">LOGIN</h3></a>
+        @endif
+
   <h1><a href="{{ url('/index') }}"><img src="{{ url('images/logo-Argubel.png') }}" alt="Argubel Empresa Constructora"/></a></h1>
+
 </header>
 
 

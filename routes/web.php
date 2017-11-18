@@ -33,8 +33,10 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::group(['middleware' => ['permission:registrar_usuarios']], function () {
+Route::group(['middleware' => ['permission:registrar_clientes']], function () {
     Route::get('/registrar', 'PermisosController@aceptado')->name('aceptado');
 });
 
 Route::get('/denegado', 'PermisosController@denegado')->name('denegado');
+
+Route::get('logout', 'Auth\LoginController@logout');
