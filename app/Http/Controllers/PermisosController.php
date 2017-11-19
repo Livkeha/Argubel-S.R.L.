@@ -7,9 +7,14 @@ use Illuminate\Http\Request;
 class PermisosController extends Controller
 {
 
-  public function aceptado()
+  public function registrarCliente()
   {
-    return view('aceptado');
+    return view('registroClientes');
+  }
+
+  public function usuarioRegistrado()
+  {
+    return view('usuarioRegistrado');
   }
 
   public function denegado()

@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Auth\Events\Registered;
 
 class RegisterController extends Controller
 {
@@ -27,16 +29,21 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/usuarioRegistrado';
 
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
+
+     public function register(Request $request)
     {
-        $this->middleware('guest');
+        $this->validator($request->all())->validate();
+        event(new Registered($user = $this->create($request->all())));
+        // $this->guard()->login($user);
+        return $this->registered($request, $user)
+                        ?: redirect($this->redirectPath());
     }
 
     /**
@@ -48,9 +55,12 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|string|max:255',
+            'nombre' => 'required|string|max:255',
+            'apellido' => 'required|string|max:255',
+            'documento' => 'required|integer|max:999999999999999',
+            'telefono' => 'required|integer|max:999999999999999',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
+            'password' => 'required|string|min:5',
         ]);
     }
 
@@ -63,8 +73,11 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
+            'nombre' => $data['nombre'],
+            'apellido' => $data['apellido'],
+            'documento' => $data['documento'],
+            'telefono' => $data['telefono'],
+            'email' => strtolower($data['email']),
             'password' => bcrypt($data['password']),
         ]);
     }

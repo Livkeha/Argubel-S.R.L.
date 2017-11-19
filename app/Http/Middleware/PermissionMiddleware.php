@@ -22,11 +22,11 @@ class PermissionMiddleware
      // }
 
      if (Auth::guest()) {
-         return redirect('/index');
+         return redirect('/denegado');
      }
 
      if (! $request->user()->can($permission)) {
-       return redirect('/index');
+       return redirect('/denegado');
         // abort(403);
      }
 

@@ -21,7 +21,7 @@
 
 
         @if (Auth::check())
-        <h3 class="login"> {{ Auth::user()->name }}</h3>
+        <h3 class="login"> {{ Auth::user()->nombre }}</h3>
         <a href="{{ url('/logout') }}"><h4 class="login"> Logout </h4>
         @endif
 

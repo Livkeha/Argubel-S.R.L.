@@ -34,8 +34,12 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::group(['middleware' => ['permission:registrar_clientes']], function () {
-    Route::get('/registrar', 'PermisosController@aceptado')->name('aceptado');
+    Route::get('/registrar', 'PermisosController@registrarCliente')->name('registrarCliente');
 });
+
+Route::get('/usuarioRegistrado', 'PermisosController@usuarioRegistrado')->name('usuarioRegistrado');
+
+Route::get('/denegado', 'PermisosController@denegado')->name('denegado');
 
 Route::get('/denegado', 'PermisosController@denegado')->name('denegado');
 
