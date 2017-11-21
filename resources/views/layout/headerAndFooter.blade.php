@@ -46,15 +46,19 @@
 <nav id="nav">
   <div class="interior">
     <ul>
-      @role('Administrador')<li><a href="{{ url('/registrar') }}" class="current">REGISTRAR CLIENTE</a></li>@endrole
+      @role('Administrador')<li><a href="{{ url('/registrar') }}" class="current">REGISTRAR USUARIO</a></li>@endrole
       <li><a href="{{ url('/index') }}" class="current">HOME</a></li>
-      <li><a href="{{ url('/contacto') }}">CONTACTO</a></li>
-      <!--<li><a href="proveedores.html">PROVEEDORES</a></li>-->
-      <li><a href="{{ url('/obra-residencial') }}">OBRA RESIDENCIAL</a></li>
-      <li><a href="{{ url('/obra-comercial') }}">OBRA COMERCIAL</a></li>
-	  <li><a href="{{ url('/obra-publica') }}">OBRA PÚBLICA</a></li>
-	  <li><a href="{{ url('/servicios') }}">SERVICIOS</a></li>
-      <li><a href="{{ url('/empresa') }}">EMPRESA</a></li>
+      @if (!Auth::check()) <li><a href="{{ url('/contacto') }}">CONTACTO</a></li> @endif
+      <!--@if (!Auth::check()) <li><a href="proveedores.html">PROVEEDORES</a></li> @endif-->
+      @if (!Auth::check()) <li><a href="{{ url('/obra-residencial') }}">OBRA RESIDENCIAL</a></li> @endif
+      @if (!Auth::check()) <li><a href="{{ url('/obra-comercial') }}">OBRA COMERCIAL</a></li> @endif
+	    @if (!Auth::check()) <li><a href="{{ url('/obra-publica') }}">OBRA PÚBLICA</a></li> @endif
+	    @if (!Auth::check()) <li><a href="{{ url('/servicios') }}">SERVICIOS</a></li> @endif
+      @if (!Auth::check()) <li><a href="{{ url('/empresa') }}">EMPRESA</a></li> @endif
+      @role('Cliente') <li><a href="{{ url('/empresa') }}">CUOTAS</a></li> @endrole
+      @role('Cliente') <li><a href="{{ url('/empresa') }}">FOTOS</a></li> @endrole
+      @role('Cliente') <li><a href="{{ url('/empresa') }}">PLANOS</a></li> @endrole
+      @role('Cliente') <li><a href="{{ url('/empresa') }}">PROYECTOS</a></li> @endrole
 	</ul>
   </div>
 </nav>

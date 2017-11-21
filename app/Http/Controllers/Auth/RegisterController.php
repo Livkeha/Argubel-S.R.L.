@@ -93,6 +93,12 @@ class RegisterController extends Controller
 
         }
 
+        if ($data['rol'] == 'cliente') {
+
+          $user->assignRole('Cliente');
+
+        }
+
           return $user;
 
     }
