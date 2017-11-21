@@ -34,10 +34,16 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::group(['middleware' => ['permission:registrar_clientes']], function () {
-    Route::get('/registrar', 'PermisosController@registrarCliente')->name('registrarCliente');
+    Route::get('/registrarUsuario', 'Auth\RegisterController@registrarUsuario')->name('registrarUsuario');
 });
 
-Route::get('/usuarioRegistrado', 'PermisosController@usuarioRegistrado')->name('usuarioRegistrado');
+Route::group(['middleware' => ['permission:registrar_clientes']], function () {
+  Route::get('/usuarioRegistrado', 'Auth\RegisterController@usuarioRegistrado')->name('usuarioRegistrado');
+});
+
+Route::group(['middleware' => ['permission:registrar_desarrollos']], function () {
+    Route::get('/registrarProyecto', 'registrarProyectoController@registrarProyecto')->name('registrarProyecto');
+});
 
 Route::get('/denegado', 'PermisosController@denegado')->name('denegado');
 

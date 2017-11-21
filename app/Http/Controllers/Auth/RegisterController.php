@@ -37,6 +37,11 @@ class RegisterController extends Controller
      * @return void
      */
 
+     public function registrarUsuario()
+     {
+       return view('registroUsuario');
+     }
+
      public function register(Request $request)
     {
         $this->validator($request->all())->validate();
@@ -101,6 +106,11 @@ class RegisterController extends Controller
 
           return $user;
 
+    }
+
+    public function usuarioRegistrado()
+    {
+      return view('usuarioRegistrado');
     }
 
 }
