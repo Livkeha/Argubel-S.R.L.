@@ -5,6 +5,10 @@
 
         <script src="{{ asset('js/formNewUser.js') }}"></script>
 
+
+
+
+
         <form id="formNewUser" class="form-registro" action="{{ route('register') }}" method="POST" enctype="multipart/form-data">
 
           {{ csrf_field() }}
@@ -34,6 +38,13 @@
                 <label> Confirmar contraseña: </label>
                 <input id="cpassword" type="password" name="" placeholder="" class="input-48"> <div class="erroresNewUserJS" id="errorCPassword"> <span id="spanCPassword"></span></div>
 
+                <label> Rol: </label>
+                <select name="rol">
+                  <option disabled selected value> -- Seleccione un Rol -- </option>
+                  <option value="administrador">Administrador</option>
+                  <option value="cliente">Cliente</option>
+                </select>
+
                 <input type="text" name="errors" value="<?$errors?>" hidden="">
 
 
@@ -43,7 +54,19 @@
             </div>
         </form>
 
+
 @endsection
+@if ($errors->all() != null)
+  {{-- {{dd($errors->all())}} --}}
+        <section class="erroresPostUser">
+          @foreach ($errors->all() as $error)
+                <ul>
+                    <li style='font-size:40px; color:red'>{{ $error }}</li>
+                    {{-- {{dd(<li>{{ $error }}</li>);}} --}}
+                </ul>
+              @endforeach
+        </section>
+@endif
 
 @else
 <php

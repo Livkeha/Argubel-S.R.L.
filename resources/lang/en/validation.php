@@ -100,9 +100,20 @@ return [
     */
 
     'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
+
+        'email' => [
+            'required' => 'El campo de email no debe quedar vacio.',
+            'unique' => 'El correo electronico insertado ya se encuentra en la base de datos.'
         ],
+
+        'password' => [
+          'required' => 'El campo de contraseña no debe quedar vacio.'
+        ],
+
+        'documento' => [
+          'unique' => 'El documento insertado ya se encuentra en la base de datos.'
+        ],
+
     ],
 
     /*

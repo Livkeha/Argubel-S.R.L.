@@ -25,13 +25,11 @@
         <a href="{{ url('/logout') }}"><h4 class="login"> Logout </h4>
         @endif
 
-        @if (auth()->check())
-                        @if (auth()->user()->isAdministrator())
+                        @role('Administrador')
                             <h1 style=color:green>Soy Administrador!!</h1>
                         @else
-                            <h1 style=color:red>Soy Cliente</h1>
-                        @endif
-         @endif
+                            @if (Auth::check())<h1 style=color:red>Soy Cliente</h1> @endif
+                        @endrole
 
         @if (!Auth::check())
         <a href="{{ url('/login') }}"><h3 class="login">LOGIN</h3></a>
@@ -48,6 +46,7 @@
 <nav id="nav">
   <div class="interior">
     <ul>
+      @role('Administrador')<li><a href="{{ url('/registrar') }}" class="current">REGISTRAR CLIENTE</a></li>@endrole
       <li><a href="{{ url('/index') }}" class="current">HOME</a></li>
       <li><a href="{{ url('/contacto') }}">CONTACTO</a></li>
       <!--<li><a href="proveedores.html">PROVEEDORES</a></li>-->
@@ -60,6 +59,12 @@
   </div>
 </nav>
 <!--/NAV-->
+
+@role('Administrador')
+  El usuario es Admin!
+@else
+  El usuario no es Admin!
+@endrole
 
 @yield('contenido')
 

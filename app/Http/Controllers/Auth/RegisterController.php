@@ -52,13 +52,14 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
+
     protected function validator(array $data)
     {
         return Validator::make($data, [
             'nombre' => 'required|string|max:255',
             'apellido' => 'required|string|max:255',
-            'documento' => 'required|integer|max:999999999999999',
-            'telefono' => 'required|integer|max:999999999999999',
+            'documento' => 'required|string|max:999999999999999|unique:users',
+            'telefono' => 'required|string|max:999999999999999',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:5',
         ]);
@@ -70,15 +71,30 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\User
      */
+
     protected function create(array $data)
     {
-        return User::create([
-            'nombre' => $data['nombre'],
-            'apellido' => $data['apellido'],
-            'documento' => $data['documento'],
-            'telefono' => $data['telefono'],
-            'email' => strtolower($data['email']),
-            'password' => bcrypt($data['password']),
+
+        // {{dd($data['rol']);}}
+
+        $user = User::create([
+          'nombre' => $data['nombre'],
+          'apellido' => $data['apellido'],
+          'documento' => $data['documento'],
+          'telefono' => $data['telefono'],
+          'email' => strtolower($data['email']),
+          'password' => bcrypt($data['password']),
+          'rol' => $data['rol'],
         ]);
+
+        if ($data['rol'] == 'administrador') {
+
+          $user->assignRole('Administrador');
+
+        }
+
+          return $user;
+
     }
+
 }

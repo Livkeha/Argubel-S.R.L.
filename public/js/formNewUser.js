@@ -48,8 +48,8 @@ window.onload = function () {
        documento.onblur = function () {
 
 
-         // debugger;
-         if (documento.value.length >= 0 && documento.value.length < 7 || documento.value.length > 8 || !regexNumeros.test(documento.value)) {
+         debugger;
+         if (documento.value < 1 || documento.value.length >= 0 && documento.value.length < 7 || documento.value.length > 8 || !regexNumeros.test(documento.value)) {
          documentoValido = false;
            errorDocumento.style.display = "block";
          } else {
@@ -69,7 +69,10 @@ window.onload = function () {
          documentoValido = false;
          document.getElementById("spanDocumento").innerHTML = "Inserte solo valores numéricos.";
        }
-
+       else if(documento.value < 1) {
+         documentoValido = false;
+         document.getElementById("spanDocumento").innerHTML = "El documento no puede ser de valor cero.";
+       }
        }
 
          var telefono = document.getElementById("telefono");
@@ -78,7 +81,7 @@ window.onload = function () {
 
          telefono.onblur = function () {
 
-           if(telefono.value.length < 6 || telefono.value.length > 20 || !regexNumeros.test(telefono.value)) {
+           if(telefono.value < 1 || telefono.value.length < 6 || telefono.value.length > 15 || !regexNumeros.test(telefono.value)) {
            telefonoValido = false;
              errorTelefono.style.display = "block";
               }  else {
@@ -90,13 +93,17 @@ window.onload = function () {
                telefonoValido = false;
                document.getElementById("spanTelefono").innerHTML = "El teléfono no puede quedar vacío.";
              }
-            else if(regexNumeros.test(telefono.value) && telefono.value.length > 0 && telefono.value.length < 5 || telefono.value.length > 20) {
+            else if(regexNumeros.test(telefono.value) && telefono.value.length > 0 && telefono.value.length < 5 || telefono.value.length > 15) {
               telefonoValido = false;
              document.getElementById("spanTelefono").innerHTML = "Inserte un teléfono válido.";
            }
            else if(!regexNumeros.test(telefono.value)) {
              telefonoValido = false;
              document.getElementById("spanTelefono").innerHTML = "Inserte solo valores numéricos.";
+           }
+           else if(telefono.value < 1) {
+             telefonoValido = false;
+             document.getElementById("spanTelefono").innerHTML = "El teléfono no puede ser de valor cero.";
            }
          }
 

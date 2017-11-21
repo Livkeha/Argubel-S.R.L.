@@ -41,6 +41,6 @@ Route::get('/usuarioRegistrado', 'PermisosController@usuarioRegistrado')->name('
 
 Route::get('/denegado', 'PermisosController@denegado')->name('denegado');
 
-Route::get('/denegado', 'PermisosController@denegado')->name('denegado');
+Route::get('/adminInicial', 'AdminInicialController@view')->name('adminInicial');
 
 Route::get('logout', 'Auth\LoginController@logout');

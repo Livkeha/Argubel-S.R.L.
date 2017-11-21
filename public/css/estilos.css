@@ -157,6 +157,11 @@ nav {
  color: #00E0DF
 }
 
+label, input, span {
+  font-weight: bold;
+  color: green;
+}
+
 /*FOOTER*/
 footer {
  height: 100px;
