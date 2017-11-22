@@ -45,6 +45,12 @@ Route::group(['middleware' => ['permission:registrar_desarrollos']], function ()
     Route::get('/registrarProyecto', 'registrarProyectoController@registrarProyecto')->name('registrarProyecto');
 });
 
+Route::group(['middleware' => ['permission:registrar_desarrollos']], function () {
+    Route::post('/validarProyecto', 'registrarProyectoController@validarProyecto')->name('validarProyecto');
+});
+
+
+
 Route::get('/denegado', 'PermisosController@denegado')->name('denegado');
 
 Route::get('/adminInicial', 'AdminInicialController@view')->name('adminInicial');
