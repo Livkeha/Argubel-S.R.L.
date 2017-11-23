@@ -21,14 +21,14 @@
 
 
         @if (Auth::check())
-        <h3 class="login"> {{ Auth::user()->nombre }}</h3>
+        <h3 class="login"> {{ Auth::user()->nombre }} {{ Auth::user()->apellido }}</h3>
         <a href="{{ url('/logout') }}"><h4 class="login"> Logout </h4>
         @endif
 
                         @role('Administrador')
-                            <h1 style=color:green>Soy Administrador!!</h1>
+                            <h1 style=color:green>Administrador</h1>
                         @else
-                            @if (Auth::check())<h1 style=color:red>Soy Cliente</h1> @endif
+                            @if (Auth::check())<h1 style=color:red>Cliente</h1> @endif
                         @endrole
 
         @if (!Auth::check())
@@ -61,17 +61,11 @@
       @role('Cliente') <li><a href="{{ url('/') }}">CUOTAS</a></li> @endrole
       @role('Cliente') <li><a href="{{ url('/') }}">FOTOS</a></li> @endrole
       @role('Cliente') <li><a href="{{ url('/') }}">PLANOS</a></li> @endrole
-      @role('Cliente') <li><a href="{{ url('/') }}">PROYECTOS</a></li> @endrole
+      @role('Cliente') <li><a href="{{ url('/') }}">(NOMBRE DEL PROYECTO)</a></li> @endrole
 	</ul>
   </div>
 </nav>
 <!--/NAV-->
-
-@role('Administrador')
-  El usuario es Admin!
-@else
-  El usuario no es Admin!
-@endrole
 
 @yield('contenido')
 
@@ -79,7 +73,7 @@
 <footer>
 	<div class="footer">
       <div class="interior-footer"><p><strong>Argubel S.R.L.</strong><br>
-		Tel.: 4443-6740 / 4443-7165 <a href="mailto:info@argubel.com.ar">info@argubel.com.ar</a><br>
+		    Tel.: 4443-6740 / 4443-7165 <a href="mailto:info@argubel.com.ar">info@argubel.com.ar</a><br>
         Todos los derechos reservados - 2014
         </p>
       <div class="logo-footer">

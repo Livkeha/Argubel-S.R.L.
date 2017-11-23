@@ -14,10 +14,7 @@ class RegistrarProyectoController extends Controller
   public function registrarProyecto()
   {
 
-    $nombreInversores = DB::table('users')->value('nombre');
-    $apellidoInversores = DB::table('users')->value('apellido');
-
-    {{dd($nombreInversores . " " . $apellidoInversores);}}
+    $inversores = DB::table('users')->get();
 
     return view('registroProyecto', compact('inversores'));
     // return view('registroProyecto');

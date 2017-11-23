@@ -52,10 +52,12 @@
     <input type='number' name="altura" required>
 
     <label> Inversor </label>
-      <select name="rol">
-        @foreach
-        <option value=""></option>
+    
+      <select name="inversor">
+        @foreach ($inversores as $inversor)
+        <option value=""><?php echo ($inversor->nombre . ' ' . $inversor->apellido . " - " . $inversor->documento); ?></option>
         @endforeach
+
     </select>
 
     <div class="cleaner"></div>
