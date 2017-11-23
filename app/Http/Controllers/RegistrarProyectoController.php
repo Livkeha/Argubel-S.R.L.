@@ -14,17 +14,18 @@ class RegistrarProyectoController extends Controller
   public function registrarProyecto()
   {
 
-    $inversores = DB::table('users')->get();
+    $inversores = DB::table('users')->orderBy('apellido', 'asc')->get();
 
     return view('registroProyecto', compact('inversores'));
-    // return view('registroProyecto');
   }
 
 
   protected function validarProyecto(Request $request)
   {
 
-    // {{dd($request->all());}}
+    {{dd($request->all());}}
+
+
 
 
     if (array_key_exists("proyectoCreado", $request->all())) {

@@ -52,13 +52,23 @@
     <input type='number' name="altura" required>
 
     <label> Inversor </label>
-    
-      <select name="inversor">
+
+    <?php $numeroInversor = 0; ?>
+        <div class="container">
         @foreach ($inversores as $inversor)
-        <option value=""><?php echo ($inversor->nombre . ' ' . $inversor->apellido . " - " . $inversor->documento); ?></option>
+
+            <input type="checkbox" value=<?php echo($inversor->id) ?> name=<?php echo("inversor-".$numeroInversor) ?> required/> <?php echo($inversor->apellido . ", " . $inversor->nombre . " - " . $inversor->documento); ?> <br />
+
+        <?php $numeroInversor = $numeroInversor + 1; ?>
         @endforeach
 
-    </select>
+      <!-- <select name="inversor">
+        @foreach ($inversores as $inversor)
+        <option value=""><php echo ($inversor->nombre . ' ' . $inversor->apellido . " - " . $inversor->documento); ?></option>
+        @endforeach
+      </select>  -->
+
+      </div>
 
     <div class="cleaner"></div>
 
