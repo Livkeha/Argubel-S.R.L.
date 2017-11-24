@@ -41,8 +41,6 @@ class RegistrarProyectoController extends Controller
       //   return;
       // }
 
-      var_dump($key, $hayInversor);
-
       if($hayInversor == -2)
       {
         break;
