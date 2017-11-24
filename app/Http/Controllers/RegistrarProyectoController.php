@@ -23,7 +23,33 @@ class RegistrarProyectoController extends Controller
   protected function validarProyecto(Request $request)
   {
 
-    {{dd($request->all());}}
+    // {{dd($request["inversor"] . "%");}}
+
+
+    foreach ($request->all() as $key => $value) {
+
+      // {{dd($request->all());}}
+
+
+      $hayInversor = substr_compare("inversor", $key, 0);
+
+      // if ($hayInversor != -2) {
+      //   continue;
+      // }
+      //
+      // if ($hayInversor == -2) {
+      //   return;
+      // }
+
+      var_dump($key, $hayInversor);
+
+      if($hayInversor == -2)
+      {
+        break;
+      }
+
+    }
+
 
 
 
@@ -31,42 +57,59 @@ class RegistrarProyectoController extends Controller
     if (array_key_exists("proyectoCreado", $request->all())) {
 
       $validator = Validator::make($request->all(), [
-        'nombre' => 'required|string|min:10',
-        'calle' => 'required|string|min:10',
-        'altura' => 'required|string|min:10',
-        'inversor' => 'required|string|min:10',
-        'contenido' => 'required|string|max:500',
+        'nombre' => 'required|string|min:2',
+        'calle' => 'required|string|min:2',
+        'altura' => 'required|string|min:2',
       ]);
+
     }
 
+    // if(array_key_exists(""))
 
 
-    if($validator->fails()) {
+
+    if($validator->fails() || $hayInversor != -2) {
 
       $failedRules = $validator->failed();
 
+      // {{dd($failedRules);}}
+
       $errors = [];
 
-      if(isset($failedRules['titulo']['Min']))
+      if(isset($failedRules['nombre']['Min']))
        {
-         $errors['tituloMin'] = ("El título debe poseer un mínimo de 10 caracteres.");
+         $errors['nombreMin'] = ("El nombre debe poseer un mínimo de 2 caracteres.");
        }
 
-      if(isset($failedRules['titulo']['Required']))
+      if(isset($failedRules['nombre']['Required']))
        {
-         $errors['tituloRequired'] = ("El campo del título es obligatorio.");
+         $errors['nombreRequired'] = ("El campo del título es obligatorio.");
        }
 
-      if(isset($failedRules['contenido']['Max']))
+      if(isset($failedRules['calle']['Min']))
        {
-         $errors['contenidoMax'] = ("El contenido debe poseer un máximo de 500 caracteres.");
+         $errors['calleMin'] = ("La calle debe poseer un mínimo de 2 caracteres.");
        }
 
-      if(isset($failedRules['contenido']['Required']))
+      if(isset($failedRules['calle']['Required']))
        {
-        $errors['contenidoRequired'] = ("El campo del contenido es obligatorio.");
+         $errors['calleRequired'] = ("El campo de la calle es obligatorio.");
        }
 
+      if(isset($failedRules['altura']['Min']))
+       {
+         $errors['alturaMin'] = ("La altura debe poseer un mínimo de 1 caracter.");
+       }
+
+      if(isset($failedRules['altura']['Required']))
+       {
+         $errors['alturaRequired'] = ("El campo de la altura es obligatorio.");
+       }
+
+       if($hayInversor != 2)
+       {
+         $errors['sinInversor'] = ("Debe seleccionar al menos un inversor.");
+       }
 
       // {{dd($errors);}}
 

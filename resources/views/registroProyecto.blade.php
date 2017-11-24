@@ -1,31 +1,25 @@
-@if (auth()->user()->isAdministrator())
-
 @extends('layout.headerAndFooter')
-@section('contenido')
 
-  @if($_POST)
-    {{-- {{dd($_POST)}} --}}
-    {{-- {{dd($errors->all()}} --}}
-  @endif
+  @section('contenido')
 
-  @if (isset($_POST['postCreado']))
-    {{-- {{dd("Ahora seee")}} --}}
-  @endif
+@if($errors->all() == null)
+<h1 style=color:green>No hay errores nene!!</h1>
+@endif
 
-  @if ($errors->all() != null)
-    {{-- {{dd($errors->all())}} --}}
-          <section class="erroresPostUser">
-            @foreach ($errors->all() as $clave => $valor)
-              {{-- {{dd($clave, $valor)}} --}}
-                  <ul>
-                      <li>·   {{ $valor }}</li>
-                  </ul>
-                @endforeach
-          </section>
-  @endif
+@if ($errors->all() != null)
+
+        <section class="erroresPostUser">
+          @foreach ($errors->all() as $clave => $valor)
+
+                <ul>
+                    <li>·   {{ $valor }}</li>
+                </ul>
+              @endforeach
+        </section>
+@endif
 
   @if (isset($_POST['proyectoCreado']))
-    {{-- {{dd($errors->all())}} --}}
+      <!-- {{dd($errors->all())}} -->
           <section class="postSatisfactorio" style=<?php if(isset($_POST['proyectoCreado'])) {?> "background-color: rgba(47, 175, 36, 0.4);" <?php } ?>>
             <ul>
               <li>Tu nuevo post se ha subido correctamente.</li>
@@ -34,11 +28,11 @@
           </section>
   @endif
 
-  <!-- {{-- <section class="mapa-instructivo" style=<?php if($errors->all() != null) {?> "padding-top: 0px;" <?php } ?>> --}} -->
+  <!-- {{-- <section class="mapa-instructivo" style=<php if($errors->all() != null) {?> "padding-top: 0px;" <php } ?>> --}} -->
 
 
-<article class="contactar">
-  <h3 class="contactenos" style=<?php if($errors->all() != null || isset($_POST['proyectoCreado'])) {?> "padding-top: 0px;" <?php } ?>> Nuevo Post </h3>
+<section class="contactar">
+  <!-- <h3 class="contactenos" style=<php if($errors->all() != null || isset($_POST['proyectoCreado'])) {?> "padding-top: 0px;" <php } ?>> Nuevo Post </h3> -->
   <form class="contacto-form" action="{{ route('validarProyecto') }}" method="post">
     {{ csrf_field() }}
     <label> Nombre de Proyecto </label>
@@ -57,7 +51,7 @@
         <div class="container">
         @foreach ($inversores as $inversor)
 
-            <input type="checkbox" value=<?php echo($inversor->id) ?> name=<?php echo("inversor-".$numeroInversor) ?> required/> <?php echo($inversor->apellido . ", " . $inversor->nombre . " - " . $inversor->documento); ?> <br />
+            <input type="checkbox" value=<?php echo($inversor->id) ?> name=<?php echo("inversor-".$numeroInversor) ?> /> <?php echo($inversor->apellido . ", " . $inversor->nombre . " - " . $inversor->documento); ?> <br />
 
         <?php $numeroInversor = $numeroInversor + 1; ?>
         @endforeach
@@ -75,7 +69,7 @@
     <button class="borrar" type="reset">Borrar</button>
     <button class="enviar" type="submit" name="proyectoCreado">Enviar</button>
   </form>
-</article>
+</section>
 
-@endif
+
 @endsection
