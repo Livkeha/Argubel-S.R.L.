@@ -37,6 +37,10 @@ Route::group(['middleware' => ['permission:registrar_clientes']], function () {
     Route::get('/registrarUsuario', 'Auth\RegisterController@registrarUsuario')->name('registrarUsuario');
 });
 
+Route::group(['middleware' => ['permission:registrar_desarrollos']], function () {
+    Route::post('/registrarUsuario', 'Auth\RegisterController@create')->name('registrarUsuario');
+});
+
 Route::group(['middleware' => ['permission:registrar_clientes']], function () {
   Route::get('/usuarioRegistrado', 'Auth\RegisterController@usuarioRegistrado')->name('usuarioRegistrado');
 });
@@ -46,12 +50,12 @@ Route::group(['middleware' => ['permission:registrar_desarrollos']], function ()
 });
 
 Route::group(['middleware' => ['permission:registrar_desarrollos']], function () {
-    Route::post('/validarProyecto', 'registrarProyectoController@validarProyecto')->name('validarProyecto');
+    Route::get('/validarProyecto', 'HomeController@index')->name('home');
 });
 
-
-
-Route::get('/denegado', 'PermisosController@denegado')->name('denegado');
+Route::group(['middleware' => ['permission:registrar_desarrollos']], function () {
+    Route::post('/validarProyecto', 'registrarProyectoController@validarProyecto')->name('validarProyecto');
+});
 
 Route::get('/adminInicial', 'AdminInicialController@view')->name('adminInicial');
 

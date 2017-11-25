@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\User;
+use App\Project;
 use Redirect;
 use DB;
+use Auth;
 
 class RegistrarProyectoController extends Controller
 {
@@ -14,9 +16,22 @@ class RegistrarProyectoController extends Controller
   public function registrarProyecto()
   {
 
-    $inversores = DB::table('users')->orderBy('apellido', 'asc')->get();
+    $inversoresNuevos = DB::table('users')->orderBy('apellido', 'asc')->where('project_id', '=', null)->get();
+    $inversoresOcupados = DB::table('users')->orderBy('apellido', 'asc')->where('project_id', '!=', null)->get();
 
-    return view('registroProyecto', compact('inversores'));
+    $listaProyectos = [];
+
+    foreach ($inversoresOcupados as $inversor) {
+      $nombreProyecto = DB::table('projects')->where("id", "=", "$inversor->project_id")->value('nombre');
+      $listaProyectos[$inversor->project_id] = ($nombreProyecto);
+    }
+
+    // var_dump($inversoresOcupados['project_id']);
+
+    // $inversiones = DB::table('projects')->where("id", "=", "$inversoresOcupados['project_id']")->get();
+
+
+    return view('registroProyecto', compact('inversoresNuevos', 'inversoresOcupados', 'listaProyectos'));
   }
 
 
@@ -30,8 +45,7 @@ class RegistrarProyectoController extends Controller
 
       // {{dd($request->all());}}
 
-
-      $hayInversor = substr_compare("inversor", $key, 0);
+      $hayInversor = substr_compare("inversor", $key, 0, 8);
 
       // if ($hayInversor != -2) {
       //   continue;
@@ -41,7 +55,7 @@ class RegistrarProyectoController extends Controller
       //   return;
       // }
 
-      if($hayInversor == -2)
+      if($hayInversor == 0)
       {
         break;
       }
@@ -66,7 +80,7 @@ class RegistrarProyectoController extends Controller
 
 
 
-    if($validator->fails() || $hayInversor != -2) {
+    if($validator->fails() || $hayInversor != 0) {
 
       $failedRules = $validator->failed();
 
@@ -104,7 +118,7 @@ class RegistrarProyectoController extends Controller
          $errors['alturaRequired'] = ("El campo de la altura es obligatorio.");
        }
 
-       if($hayInversor != 2)
+       if($hayInversor != 0)
        {
          $errors['sinInversor'] = ("Debe seleccionar al menos un inversor.");
        }
@@ -134,23 +148,48 @@ class RegistrarProyectoController extends Controller
   public function registroProyecto(array $proyectoNuevo)
   {
 
-    $user_id = Auth::user()->id;
+    // var_dump($proyectoNuevo);exit;
 
     $nuevoPost = Project::create([
-      'titulo' => $proyectoNuevo['titulo'],
-      'slug' => str_slug($proyectoNuevo['titulo']),
-      'contenido' => $proyectoNuevo['contenido'],
-      'user_id' => $user_id,
+      'nombre' => $proyectoNuevo['nombre'],
+      'calle' => $proyectoNuevo['calle'],
+      'altura' => $proyectoNuevo['altura'],
       ]);
 
-    $proyectoSubido = ("Tu nuevo proyecto se ha subido correctamente.");
+      $idProyecto = $nuevoPost["id"];
+
+          foreach ($proyectoNuevo as $inversor => $idInversor) {  // ESTE VALUE ES EL ID DEL USUARIO QUE VA A TENER EL PROYECTO
+
+            // var_dump($inversor, $idInversor);
+
+            $hayInversor = substr_compare("inversor", $inversor, 0, 8);
+
+            // var_dump($inversor, $hayInversor);
+
+            if($hayInversor == 0)
+            {
+              $inversores = DB::table('users')->where("id", "=", "$idInversor")->select("project_id")->update( ['project_id' => $idProyecto] );
+            }
+          }
+
+    $proyectoCreado = ("El nuevo proyecto se ha subido correctamente.");
+
+    $inversoresNuevos = DB::table('users')->orderBy('apellido', 'asc')->where('project_id', '=', null)->get();
+    $inversoresOcupados = DB::table('users')->orderBy('apellido', 'asc')->where('project_id', '!=', null)->get();
+
+    $listaProyectos = [];
+
+    foreach ($inversoresOcupados as $inversor) {
+      $nombreProyecto = DB::table('projects')->where("id", "=", "$inversor->project_id")->value('nombre');
+      $listaProyectos[$inversor->project_id] = ($nombreProyecto);
+    }
 
 
     // return redirect()->action('PostsUsuarioController@crearPost');
     // {{dd($postSubido);}}
     // return Redirect::route('crearPost')->with($postSubido);
     // return Redirect::route('crearPost', compact('postSubido'));
-      return view('crear-post-usuario', compact('proyectoSubido'));
+      return view('registroProyecto', compact('proyectoCreado', 'inversoresNuevos', 'inversoresOcupados', 'listaProyectos'));
     // return Redirect::route('crearPost')->withErrors($postSubido); ESTE ES EL QUE FUNCA
   }
 

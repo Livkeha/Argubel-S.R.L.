@@ -110,7 +110,9 @@ class RegisterController extends Controller
 
     public function usuarioRegistrado()
     {
-      return view('usuarioRegistrado');
+      $usuarioCreado = ("El nuevo usuario se ha creado correctamente.");
+
+      return view('registroUsuario', compact('usuarioCreado'));
     }
 
 }

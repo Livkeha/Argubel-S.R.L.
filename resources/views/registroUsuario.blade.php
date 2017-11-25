@@ -5,8 +5,16 @@
 
         <script src="{{ asset('js/formNewUser.js') }}"></script>
 
+        @if (isset($usuarioCreado))
 
+                <section class="postSatisfactorio" style=<?php if(isset($usuarioCreado)) {?> "background-color: rgba(47, 175, 36, 0.4);" <?php } ?>>
+                  <ul>
+                    <li>El nuevo usuario se ha creado correctamente.</li>
+                  </ul>
+                  {{-- <span class="postSatisfactorio">El nuevo usuario se ha creado correctamente.</span> --}}
+                </section>
 
+        @endif
 
 
         <form id="formNewUser" class="form-registro" action="{{ route('register') }}" method="POST" enctype="multipart/form-data">

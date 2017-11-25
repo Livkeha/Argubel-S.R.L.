@@ -22,7 +22,7 @@
 
         @if (Auth::check())
         <h3 class="login"> {{ Auth::user()->nombre }} {{ Auth::user()->apellido }}</h3>
-        <a href="{{ url('/logout') }}"><h4 class="login"> Logout </h4>
+        <a href="{{ url('/logout') }}"><h4 class="login"> Logout </h4></a>
         @endif
 
                         @role('Administrador')
@@ -58,10 +58,10 @@
 	    @if (!Auth::check()) <li><a href="{{ url('/obra-publica') }}">OBRA PÚBLICA</a></li> @endif
 	    @if (!Auth::check()) <li><a href="{{ url('/servicios') }}">SERVICIOS</a></li> @endif
       @if (!Auth::check()) <li><a href="{{ url('/empresa') }}">EMPRESA</a></li> @endif
-      @role('Cliente') <li><a href="{{ url('/') }}">CUOTAS</a></li> @endrole
-      @role('Cliente') <li><a href="{{ url('/') }}">FOTOS</a></li> @endrole
-      @role('Cliente') <li><a href="{{ url('/') }}">PLANOS</a></li> @endrole
-      @role('Cliente') <li><a href="{{ url('/') }}">(NOMBRE DEL PROYECTO)</a></li> @endrole
+      @role('Cliente') @if (isset($nombreProyecto)) <li><a href="{{ url('/') }}">CUOTAS</a></li> @endif @endrole
+      @role('Cliente') @if (isset($nombreProyecto)) <li><a href="{{ url('/') }}">FOTOS</a></li> @endif @endrole
+      @role('Cliente') @if (isset($nombreProyecto)) <li><a href="{{ url('/') }}">PLANOS</a></li> @endif @endrole
+      @role('Cliente') @if (isset($nombreProyecto)) <li style="text-decoration: underline"><b>{{ $nombreProyecto  }}</b></li> @endif @endrole
 	</ul>
   </div>
 </nav>

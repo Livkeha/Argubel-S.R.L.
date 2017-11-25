@@ -2,8 +2,15 @@
 @section('contenido')
 
 <!--CONTENT-->
-<section id="content">
+<!-- @if($errors->any())
+<h1 style=color:red; text-align:center>{{$errors->first()}}</h1>
+@endif -->
 
+@if (Session::has('permisoDenegado'))
+   <h1 class="alert alert-info" style="color:red; text-align: center;">{{ Session::get('permisoDenegado') }}</h1>
+@endif
+
+<section id="content">
 
   <div class="interior">
 

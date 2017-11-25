@@ -4,6 +4,8 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Auth;
+use Redirect;
+use Session;
 
 class PermissionMiddleware
 {
@@ -22,14 +24,18 @@ class PermissionMiddleware
      // }
 
      if (Auth::guest()) {
-         return redirect('/denegado');
+         // return redirect('/denegado');
+         Session::flash('permisoDenegado', "Usted no tiene permisos para acceder a esa ruta.");
+         return Redirect::route('index');
      }
 
      if (! $request->user()->can($permission)) {
-       return redirect('/denegado');
+       Session::flash('permisoDenegado', "Usted no tiene permisos para acceder a esa ruta.");
+       return Redirect::route('index');
         // abort(403);
      }
 
      return $next($request);
  }
+ 
 }

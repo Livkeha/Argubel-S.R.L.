@@ -1,10 +1,8 @@
-@extends('layout.headerAndFooter')
+@if (auth()->user()->isAdministrator())
 
+  @extends('layout.headerAndFooter')
   @section('contenido')
 
-@if($errors->all() == null)
-<h1 style=color:green>No hay errores nene!!</h1>
-@endif
 
 @if ($errors->all() != null)
 
@@ -19,22 +17,26 @@
 @endif
 
   @if (isset($_POST['proyectoCreado']))
-      <!-- {{dd($errors->all())}} -->
+
           <section class="postSatisfactorio" style=<?php if(isset($_POST['proyectoCreado'])) {?> "background-color: rgba(47, 175, 36, 0.4);" <?php } ?>>
             <ul>
-              <li>Tu nuevo post se ha subido correctamente.</li>
+              <li>El nuevo proyecto se ha subido correctamente.</li>
             </ul>
-            {{-- <span class="postSatisfactorio">Tu nuevo post se ha subido correctamente.</span> --}}
+            {{-- <span class="postSatisfactorio">El nuevo proyecto se ha subido correctamente.</span> --}}
           </section>
+
   @endif
 
-  <!-- {{-- <section class="mapa-instructivo" style=<php if($errors->all() != null) {?> "padding-top: 0px;" <php } ?>> --}} -->
 
 
 <section class="contactar">
   <!-- <h3 class="contactenos" style=<php if($errors->all() != null || isset($_POST['proyectoCreado'])) {?> "padding-top: 0px;" <php } ?>> Nuevo Post </h3> -->
   <form class="contacto-form" action="{{ route('validarProyecto') }}" method="post">
+
     {{ csrf_field() }}
+
+    <h3 class="form-titulo" style=<?php if($errors->all() != null) {?> "padding-top: 0px;" <?php } ?>>Nuevo Proyecto</h3>
+
     <label> Nombre de Proyecto </label>
     <input type="text" name="nombre" required>
     <span class="erroresPost"><?php isset($error) ?></span>
@@ -48,19 +50,23 @@
     <label> Inversor </label>
 
     <?php $numeroInversor = 0; ?>
+
         <div class="container">
-        @foreach ($inversores as $inversor)
+        @foreach ($inversoresNuevos as $inversor)
 
             <input type="checkbox" value=<?php echo($inversor->id) ?> name=<?php echo("inversor-".$numeroInversor) ?> /> <?php echo($inversor->apellido . ", " . $inversor->nombre . " - " . $inversor->documento); ?> <br />
 
         <?php $numeroInversor = $numeroInversor + 1; ?>
         @endforeach
 
-      <!-- <select name="inversor">
-        @foreach ($inversores as $inversor)
-        <option value=""><php echo ($inversor->nombre . ' ' . $inversor->apellido . " - " . $inversor->documento); ?></option>
+        @foreach ($inversoresOcupados as $inversor)
+
+            <input type="checkbox" value=<?php echo($inversor->id) ?> name=<?php echo("inversor-".$numeroInversor) ?> disabled/> <?php echo($inversor->apellido . ", " . $inversor->nombre . " - " . $inversor->documento . " (" . $listaProyectos[$inversor->project_id] . ")"); ?> <br />
+
+        <?php $numeroInversor = $numeroInversor + 1; ?>
         @endforeach
-      </select>  -->
+
+    <?php $numeroInversor = 0; ?>
 
       </div>
 
@@ -73,3 +79,10 @@
 
 
 @endsection
+
+
+@else
+<php
+header('refresh:0; url=/index');
+?>
+@endif
