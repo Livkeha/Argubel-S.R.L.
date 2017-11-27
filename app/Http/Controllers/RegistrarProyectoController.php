@@ -16,7 +16,8 @@ class RegistrarProyectoController extends Controller
   public function registrarProyecto()
   {
 
-    $inversoresNuevos = DB::table('users')->orderBy('apellido', 'asc')->where('project_id', '=', null)->get();
+    // $inversoresNuevos = DB::table('users')->orderBy('apellido', 'asc')->where('project_id', '=', null)->get();
+    $inversoresNuevos = DB::table('users')->orderBy('apellido', 'asc')->where('project_id', '=', null)->where('rol', '=', 'cliente')->get();
     $inversoresOcupados = DB::table('users')->orderBy('apellido', 'asc')->where('project_id', '!=', null)->get();
 
     $listaProyectos = [];
@@ -174,7 +175,8 @@ class RegistrarProyectoController extends Controller
 
     $proyectoCreado = ("El nuevo proyecto se ha subido correctamente.");
 
-    $inversoresNuevos = DB::table('users')->orderBy('apellido', 'asc')->where('project_id', '=', null)->get();
+    $inversoresNuevos = DB::table('users')->orderBy('apellido', 'asc')->where('project_id', '=', null)->where('rol', '=', 'cliente')->get();
+    // $inversoresNuevos = DB::table('users')->orderBy('apellido', 'asc')->where('project_id', '=', null)->get();
     $inversoresOcupados = DB::table('users')->orderBy('apellido', 'asc')->where('project_id', '!=', null)->get();
 
     $listaProyectos = [];
@@ -190,7 +192,6 @@ class RegistrarProyectoController extends Controller
     // return Redirect::route('crearPost')->with($postSubido);
     // return Redirect::route('crearPost', compact('postSubido'));
       return view('registroProyecto', compact('proyectoCreado', 'inversoresNuevos', 'inversoresOcupados', 'listaProyectos'));
-    // return Redirect::route('crearPost')->withErrors($postSubido); ESTE ES EL QUE FUNCA
   }
 
 }

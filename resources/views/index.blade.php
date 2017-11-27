@@ -10,6 +10,10 @@
    <h1 class="alert alert-info" style="color:red; text-align: center;">{{ Session::get('permisoDenegado') }}</h1>
 @endif
 
+@if (Session::has('adminInicial'))
+   <h1 class="alert alert-info" style="color:blue; text-align: center;">{{ Session::get('adminInicial') }}</h1>
+@endif
+
 <section id="content">
 
   <div class="interior">

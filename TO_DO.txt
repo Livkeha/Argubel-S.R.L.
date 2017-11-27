@@ -1,0 +1,8 @@
+Si hay mas de un usuario, no se puede acceder a adminInicial.   HECHO
+
+Si un user tiene proyecto, que aparezca "Eliminar usuario" y "Eliminar proyecto".
+
+Si no tiene, que aparezca un select con todos los proyectos, y al lado el boton "Añadir".
+
+La vista de fotos, cuotas y planos es la misma para ambos. Si sos administrador, te aparece la opción para agregar contenido.
+

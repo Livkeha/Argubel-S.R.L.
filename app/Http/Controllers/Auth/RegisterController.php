@@ -83,8 +83,8 @@ class RegisterController extends Controller
         // {{dd($data['rol']);}}
 
         $user = User::create([
-          'nombre' => $data['nombre'],
-          'apellido' => $data['apellido'],
+          'nombre' => ucfirst(strtolower($data['nombre'])),
+          'apellido' => ucfirst(strtolower($data['apellido'])),
           'documento' => $data['documento'],
           'telefono' => $data['telefono'],
           'email' => strtolower($data['email']),

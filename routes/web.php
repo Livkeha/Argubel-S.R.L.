@@ -57,6 +57,14 @@ Route::group(['middleware' => ['permission:registrar_desarrollos']], function ()
     Route::post('/validarProyecto', 'registrarProyectoController@validarProyecto')->name('validarProyecto');
 });
 
+Route::group(['middleware' => ['permission:lista_desarrollos']], function () {
+    Route::get('/listaDesarrollos', 'ProyectosController@verLista')->name('listaDesarrollos');
+});
+
+Route::group(['middleware' => ['permission:lista_clientes']], function () {
+    Route::get('/listaUsuarios', 'UsuariosController@verLista')->name('listaUsuarios');
+});
+
 Route::get('/adminInicial', 'AdminInicialController@view')->name('adminInicial');
 
 Route::get('logout', 'Auth\LoginController@logout');

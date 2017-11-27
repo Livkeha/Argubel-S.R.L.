@@ -6,11 +6,20 @@ use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use App\User;
+use DB;
+use Session;
+use Redirect;
 
 class AdminInicialController extends Controller
 {
   public function view()
   {
+
+    $ceroUsuarios = DB::table('users')->value('nombre');
+
+    if($ceroUsuarios == null)
+    {
+
     $role = Role::create(['name' => 'Administrador']);
 
     Permission::create(['name' => 'registrar_clientes']);
@@ -47,6 +56,15 @@ class AdminInicialController extends Controller
 
     $role = Role::create(['name' => 'Cliente']);
 
-    return view('usuarioRegistrado');
+    Session::flash('adminInicial', "El administrador inicial ha sido creado correctamente.");
+    return Redirect::route('index');
+
+    }
+
+    else {
+      Session::flash('permisoDenegado', "Usted no tiene permisos para acceder a esa ruta.");
+      return Redirect::route('index');
+    }
+
   }
 }

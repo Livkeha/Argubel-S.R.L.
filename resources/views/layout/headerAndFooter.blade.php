@@ -48,9 +48,9 @@
     <ul>
       <li><a href="{{ url('/index') }}" class="current">HOME</a></li>
       @role('Administrador')<li><a href="{{ url('/registrarUsuario') }}">REGISTRAR USUARIO</a></li>@endrole
-      @role('Administrador')<li><a href="{{ url('/') }}">LISTA DE USUARIOS</a></li>@endrole
+      @role('Administrador')<li><a href="{{ url('/listaUsuarios') }}">LISTA DE USUARIOS</a></li>@endrole
       @role('Administrador')<li><a href="{{ url('/registrarProyecto') }}">REGISTRAR PROYECTO</a></li>@endrole
-      @role('Administrador')<li><a href="{{ url('/') }}">LISTA DE PROYECTOS</a></li>@endrole
+      @role('Administrador')<li><a href="{{ url('/listaDesarrollos') }}">LISTA DE PROYECTOS</a></li>@endrole
       @if (!Auth::check()) <li><a href="{{ url('/contacto') }}">CONTACTO</a></li> @endif
       <!--@if (!Auth::check()) <li><a href="proveedores.html">PROVEEDORES</a></li> @endif-->
       @if (!Auth::check()) <li><a href="{{ url('/obra-residencial') }}">OBRA RESIDENCIAL</a></li> @endif
@@ -61,7 +61,7 @@
       @role('Cliente') @if (isset($nombreProyecto)) <li><a href="{{ url('/') }}">CUOTAS</a></li> @endif @endrole
       @role('Cliente') @if (isset($nombreProyecto)) <li><a href="{{ url('/') }}">FOTOS</a></li> @endif @endrole
       @role('Cliente') @if (isset($nombreProyecto)) <li><a href="{{ url('/') }}">PLANOS</a></li> @endif @endrole
-      @role('Cliente') @if (isset($nombreProyecto)) <li style="text-decoration: underline"><b>{{ $nombreProyecto  }}</b></li> @endif @endrole
+      @role('Cliente') @if (isset($nombreProyecto)) <li style="text-decoration: underline"><b>{{ $nombreProyecto }}</b></li> @endif @endrole
 	</ul>
   </div>
 </nav>

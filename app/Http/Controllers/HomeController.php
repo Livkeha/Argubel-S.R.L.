@@ -29,8 +29,8 @@ class HomeController extends Controller
 
        if (Auth::check() && Auth::user()->project_id != null) {
 
-         $nombreProyecto = DB::table('projects')->where("id", "=", Auth::user()->project_id)->value('nombre');
-         
+         $nombreProyecto = strtoupper(DB::table('projects')->where("id", "=", Auth::user()->project_id)->value('nombre'));
+
          return view('index', compact('nombreProyecto'));
 
        }
