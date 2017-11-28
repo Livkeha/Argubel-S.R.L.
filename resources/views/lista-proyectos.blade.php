@@ -12,6 +12,14 @@
 
         {{--  {{dd($proyectos->first())}} --}}
 
+        {{--  {{dd($inversores->all())}} --}}
+
+        @if (Session::has('proyectoActualizado'))
+           <h2 class="alert alert-info" style="color:red; text-align: center;">{{ Session::get('proyectoActualizado') }}</h2>
+        @endif
+
+        @if($inversores->all() == null) <h3 style="color: blue; text-align:center;"><b>No hay inversores disponibles sin proyecto asignado.</b></h3> @endif
+
         <div class="container" style="height:500px; width:100%;">
           <div class="responsive-table">
 
@@ -31,12 +39,13 @@
                     {{-- {{dd($users)}} --}}
                     <tr>
                       {{-- {{dd($proyecto->id)}} --}}
-                      <td>{{ $proyecto->nombre }}</td>
+                      <td><b>{{ $proyecto->nombre }}</b></td>
                       <td class="contenidoPost">{{ $proyecto->calle }}</td>
                       <td>{{ $proyecto->altura }}</td>
                       <td>{{ $proyecto->created_at}}</td>
                       <td>
-                        <button class="btn btn-xs btn-success">Añadir Inversor</button>
+                        @if($inversores->all() != null) <a class="btn btn-xs btn-success" href="{{ URL::to('agregarInversor/' . $proyecto->id) }}">Añadir Inversor</a> @endif
+                        @if($inversores->all() == null) <a class="btn btn-xs btn-success disabled">Añadir Inversor</a> @endif
                         <a class="btn btn-xs btn-primary" href="{{ route('index') }}">Cuotas</a>
                         <button class="btn btn-xs btn-primary" href={{ route('index') }}>Fotos</button>
                         <button class="btn btn-xs btn-primary" href={{ route('index') }}>Planos</button>

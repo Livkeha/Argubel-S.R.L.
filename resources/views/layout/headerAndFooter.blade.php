@@ -15,7 +15,9 @@
 @yield('obras')
 
 </head>
-<body onLoad="MM_preloadImages('images/obra-publica-hover.png','images/obra-comercial-hover.png','images/obra-residencial-hover.png')">
+
+<!-- <body onLoad="MM_preloadImages('images/obra-publica-hover.png','images/obra-comercial-hover.png','images/obra-residencial-hover.png')"> -->
+
 <!--HEADER-->
 <header id="header" class="interior">
 
@@ -47,8 +49,8 @@
   <div class="interior">
     <ul>
       <li><a href="{{ url('/index') }}" class="current">HOME</a></li>
-      @role('Administrador')<li><a href="{{ url('/registrarUsuario') }}">REGISTRAR USUARIO</a></li>@endrole
-      @role('Administrador')<li><a href="{{ url('/listaUsuarios') }}">LISTA DE USUARIOS</a></li>@endrole
+      @role('Administrador')<li><a href="{{ url('/registrarUsuario') }}">REGISTRAR INVERSOR</a></li>@endrole
+      @role('Administrador')<li><a href="{{ url('/listaUsuarios') }}">LISTA DE INVERSORES</a></li>@endrole
       @role('Administrador')<li><a href="{{ url('/registrarProyecto') }}">REGISTRAR PROYECTO</a></li>@endrole
       @role('Administrador')<li><a href="{{ url('/listaDesarrollos') }}">LISTA DE PROYECTOS</a></li>@endrole
       @if (!Auth::check()) <li><a href="{{ url('/contacto') }}">CONTACTO</a></li> @endif
@@ -77,7 +79,7 @@
         Todos los derechos reservados - 2014
         </p>
       <div class="logo-footer">
-        <img src="images/logo-Argubel-footer.png" alt=""/> </div>
+        <img src="{{ url('images/logo-Argubel-footer.png') }}" alt=""/> </div>
       </div>
 
     </div>

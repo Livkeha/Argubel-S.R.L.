@@ -18,10 +18,10 @@
             <table class="table table-hover" style="table-layout: fixed; width: 100%; height:100px;">
                 <thead>
                   <tr>
+                    <th>Inversor</th>
+                    <th>Documento</th>
+                    <th>Teléfono</th>
                     <th>Proyecto</th>
-                    <th>Calle</th>
-                    <th>Altura</th>
-                    <th>Iniciado</th>
                     <th>Acciones</th>
                   <tr>
                 </thead>
@@ -31,14 +31,15 @@
                     {{-- {{dd($users)}} --}}
                     <tr>
                       {{-- {{dd($usuario->id)}} --}}
-                      <td>{{ $usuario->nombre }}</td>
-                      <td class="contenidoPost">{{ $usuario->apellido }}</td>
-                      <td>{{ $usuario->documento }}</td>
-                      <td>{{ $usuario->created_at}}</td>
+                      <td><b>{{ $usuario->apellido }}, {{ $usuario->nombre }}</b></td>
+                      <td class="contenidoPost">{{ $usuario->documento }}</td>
+                      <td>{{ $usuario->telefono }}</td>
+                      <td>@if($usuario->project_id == null && $usuario->rol == "administrador") <span class="btn btn-xs btn-warning disabled" style="color:black;">Administrador</span> @elseif($usuario->project_id != null && $usuario->rol == "cliente") {{ $listaProyectos[$usuario->project_id] }} @else @if($usuario->project_id == null && $usuario->rol == "cliente") El inversor aun no participa de un proyecto. @endif @endif</td>
+                      <!-- <td>Acá va el proyecto de cada uno</td> -->
                       <td>
                         <button class="btn btn-xs btn-danger">Eliminar Usuario</button>
-                        <a class="btn btn-xs btn-primary" href="{{ route('index') }}">Eliminar Proyecto</a>
-                        <button class="btn btn-xs btn-success" href={{ route('index') }}>Añadir Proyecto</button>
+                        @if($usuario->project_id != null) <a class="btn btn-xs btn-primary" href="{{ route('index') }}">Eliminar Proyecto</a> @endif
+                        @if($usuario->project_id == null && $usuario->rol == "cliente") <button class="btn btn-xs btn-success" href={{ route('index') }}>Añadir Proyecto</button> @endif
                       </td>
                     <tr>
                   @endforeach

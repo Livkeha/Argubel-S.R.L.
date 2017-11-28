@@ -27,7 +27,7 @@
 
   @endif
 
-
+@if($inversoresNuevos->all() == null) <h3 style="color: blue; text-align:center;"><b>Debe crear un inversor nuevo antes de crear un proyecto.</b></h3> @endif
 
 <section class="contactar">
   <!-- <h3 class="contactenos" style=<php if($errors->all() != null || isset($_POST['proyectoCreado'])) {?> "padding-top: 0px;" <php } ?>> Nuevo Post </h3> -->
@@ -72,8 +72,8 @@
 
     <div class="cleaner"></div>
 
-    <button class="borrar" type="reset">Borrar</button>
-    <button class="enviar" type="submit" name="proyectoCreado">Enviar</button>
+    @if ($inversoresNuevos->all() != null)<button class="enviar" type="submit" name="proyectoCreado">Crear Proyecto</button> @endif
+    @if ($inversoresNuevos->all() == null)<button class="enviar" type="" name="proyectoCreado" disabled>Crear Proyecto</button> @endif
   </form>
 </section>
 
