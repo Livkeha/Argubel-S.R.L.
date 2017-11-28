@@ -18,7 +18,9 @@
            <h2 class="alert alert-info" style="color:red; text-align: center;">{{ Session::get('proyectoActualizado') }}</h2>
         @endif
 
-        @if($inversores->all() == null) <h4 style="color: blue; text-align:center;"><b>No hay inversores disponibles sin proyecto asignado.</b></h4> @endif
+        <h2 class="form-titulo" style="color: blue; text-align:center;">Lista de proyectos</h2>
+
+        @if($inversores->all() == null) <h4 style="color: red; text-align:center;"><b>No hay inversores disponibles sin proyecto asignado.</b></h4> @endif
 
         <div class="container" style="height:502px; width:100%;">
           <div class="responsive-table">
@@ -38,7 +40,7 @@
                   <?php $color = 0; ?>
                   @foreach($proyectos as $proyecto)
                     {{-- {{dd($users)}} --}}
-                    @if ($color % 2 == 0) <tr style="background-color:rgba(176,106,92,0.4); border: 1px solid rgba(0,0,0,0.3);"> @endif
+                    @if ($color % 2 == 0) <tr style="background-color:rgba(176,106,92,0.3); border: 1px solid rgba(0,0,0,0.3);"> @endif
                     @if ($color % 2 != 0) <tr style="background-color:rgba(124,88,145,0.3); border: 1px solid rgba(0,0,0,0.3);"> @endif
                       {{-- {{dd($proyecto->id)}} --}}
                       <td><b>{{ $proyecto->nombre }}</b></td>

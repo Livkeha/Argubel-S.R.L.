@@ -12,6 +12,9 @@
 
         {{--  {{dd($usuarios->first())}} --}}
 
+        <h2 class="form-titulo" style="color: blue; text-align:center;">Lista de inversores</h2>
+
+
         <div class="container" style="height:541px; width:100%;">
           <div class="responsive-table">
 
@@ -21,6 +24,7 @@
                     <th>Inversor</th>
                     <th>Documento</th>
                     <th>Teléfono</th>
+                    <th>Correo</th>
                     <th>Proyecto</th>
                     <th>Acciones</th>
                   <tr>
@@ -28,34 +32,25 @@
 
                 <tbody>
                   @foreach($usuarios as $usuario)
-                    {{-- {{dd($users)}} --}}
-                    <tr style="border: 1px solid rgba(0,0,0,0.3);">
-                      {{-- {{dd($usuario->id)}} --}}
 
-                      @if($usuario->rol == "administrador")<td style="background-color:rgba(124,88,145,0.3);"><b>{{ $usuario->apellido }}, {{ $usuario->nombre }}</b></td> @endif
-                      @if($usuario->rol == "cliente")<td style="background-color:rgba(176,106,92,0.4);"><b>{{ $usuario->apellido }}, {{ $usuario->nombre }}</b></td> @endif
+                    @if($usuario->rol == "administrador") <tr style="border: 1px solid rgba(0,0,0,0.3); background-color: rgba(124,88,145,0.3);"> @endif
+                    @if($usuario->rol == "cliente") <tr style="border: 1px solid rgba(0,0,0,0.3); background-color: rgba(176,106,92,0.3);"> @endif
 
-                      @if($usuario->rol == "administrador")<td style="background-color:rgba(124,88,145,0.3);">{{ $usuario->documento }}</td> @endif
-                      @if($usuario->rol == "cliente")<td style="background-color:rgba(176,106,92,0.4);">{{ $usuario->documento }}</td> @endif
+                      <td><b>{{ $usuario->apellido }}, {{ $usuario->nombre }}</b></td>
 
-                      @if($usuario->rol == "administrador")<td style="background-color:rgba(124,88,145,0.3);">{{ $usuario->telefono }}</td> @endif
-                      @if($usuario->rol == "cliente")<td style="background-color:rgba(176,106,92,0.4);">{{ $usuario->telefono }}</td> @endif
+                      <td>{{ $usuario->documento }}</td>
 
-                      @if($usuario->rol == "administrador")<td style="background-color:rgba(124,88,145,0.3);">@if($usuario->project_id == null && $usuario->rol == "administrador") <span class="btn btn-xs btn-warning disabled" style="color:black;">Administrador</span> @elseif($usuario->project_id != null && $usuario->rol == "cliente") <b>{{ $listaProyectos[$usuario->project_id] }}</b> @else @if($usuario->project_id == null && $usuario->rol == "cliente") <i>El inversor aun no participa de un proyecto.</i> @endif @endif @endif</td>
+                      <td>{{ $usuario->telefono }}</td>
 
-                      @if($usuario->rol == "cliente")<td style="background-color:rgba(176,106,92,0.4);">@if($usuario->project_id == null && $usuario->rol == "administrador") <span class="btn btn-xs btn-warning disabled" style="color:black;">Administrador</span> @elseif($usuario->project_id != null && $usuario->rol == "cliente") <b>{{ $listaProyectos[$usuario->project_id] }}</b> @else @if($usuario->project_id == null && $usuario->rol == "cliente") <i>El inversor aun no participa de un proyecto.</i> @endif @endif @endif</td>
+                      <td>{{ $usuario->email }}</td>
 
-                      @if($usuario->rol == "administrador")<td style="background-color:rgba(124,88,145,0.3);">
+                      <td>@if($usuario->project_id == null && $usuario->rol == "administrador") <span class="btn btn-xs btn-warning disabled" style="color:black;">Administrador</span> @elseif($usuario->project_id != null && $usuario->rol == "cliente") <b>{{ $listaProyectos[$usuario->project_id] }}</b> @else @if($usuario->project_id == null && $usuario->rol == "cliente") <i>El inversor aun no participa de un proyecto.</i> @endif @endif </td>
+
+                      <td>
                         <button class="btn btn-xs btn-danger">Eliminar Usuario</button>
                         @if($usuario->project_id != null) <a class="btn btn-xs btn-primary" href="{{ route('index') }}">Eliminar Proyecto</a> @endif
                         @if($usuario->project_id == null && $usuario->rol == "cliente") <button class="btn btn-xs btn-success" href={{ route('index') }}>Añadir Proyecto</button> @endif
-                      </td> @endif
-
-                      @if($usuario->rol == "cliente")<td style="background-color:rgba(176,106,92,0.4);">
-                        <button class="btn btn-xs btn-danger">Eliminar Usuario</button>
-                        @if($usuario->project_id != null) <a class="btn btn-xs btn-primary" href="{{ route('index') }}">Eliminar Proyecto</a> @endif
-                        @if($usuario->project_id == null && $usuario->rol == "cliente") <button class="btn btn-xs btn-success" href={{ route('index') }}>Añadir Proyecto</button> @endif
-                      </td> @endif
+                      </td>
 
                     <tr>
                   @endforeach
