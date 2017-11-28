@@ -186,7 +186,6 @@ class RegistrarProyectoController extends Controller
       $listaProyectos[$inversor->project_id] = ($nombreProyecto);
     }
 
-
     // return redirect()->action('PostsUsuarioController@crearPost');
     // {{dd($postSubido);}}
     // return Redirect::route('crearPost')->with($postSubido);

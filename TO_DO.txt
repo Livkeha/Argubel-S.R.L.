@@ -2,7 +2,9 @@ Si hay mas de un usuario, no se puede acceder a adminInicial.   HECHO
 
 Si un user tiene proyecto, que aparezca "Eliminar usuario" y "Eliminar proyecto".   HECHO
 
-Si no tiene, que aparezca un select con todos los proyectos, y al lado el boton "Aniadir".
+Si un user NO tiene proyecto, que aparezca un select con todos los proyectos, y al lado el boton "Aniadir".
+
+Analizar poner Bootstrap Dropdown para agregar proyecto a un usuario.
 
 La vista de fotos, cuotas y planos es la misma para ambos. Si sos administrador, te aparece la opcion para agregar contenido.
 

@@ -12,7 +12,7 @@
 
         {{--  {{dd($usuarios->first())}} --}}
 
-        <div class="container" style="height:500px; width:100%;">
+        <div class="container" style="height:541px; width:100%;">
           <div class="responsive-table">
 
             <table class="table table-hover" style="table-layout: fixed; width: 100%; height:100px;">
@@ -29,18 +29,34 @@
                 <tbody>
                   @foreach($usuarios as $usuario)
                     {{-- {{dd($users)}} --}}
-                    <tr>
+                    <tr style="border: 1px solid rgba(0,0,0,0.3);">
                       {{-- {{dd($usuario->id)}} --}}
-                      <td><b>{{ $usuario->apellido }}, {{ $usuario->nombre }}</b></td>
-                      <td class="contenidoPost">{{ $usuario->documento }}</td>
-                      <td>{{ $usuario->telefono }}</td>
-                      <td>@if($usuario->project_id == null && $usuario->rol == "administrador") <span class="btn btn-xs btn-warning disabled" style="color:black;">Administrador</span> @elseif($usuario->project_id != null && $usuario->rol == "cliente") {{ $listaProyectos[$usuario->project_id] }} @else @if($usuario->project_id == null && $usuario->rol == "cliente") El inversor aun no participa de un proyecto. @endif @endif</td>
-                      <!-- <td>Acá va el proyecto de cada uno</td> -->
-                      <td>
+
+                      @if($usuario->rol == "administrador")<td style="background-color:rgba(124,88,145,0.3);"><b>{{ $usuario->apellido }}, {{ $usuario->nombre }}</b></td> @endif
+                      @if($usuario->rol == "cliente")<td style="background-color:rgba(176,106,92,0.4);"><b>{{ $usuario->apellido }}, {{ $usuario->nombre }}</b></td> @endif
+
+                      @if($usuario->rol == "administrador")<td style="background-color:rgba(124,88,145,0.3);">{{ $usuario->documento }}</td> @endif
+                      @if($usuario->rol == "cliente")<td style="background-color:rgba(176,106,92,0.4);">{{ $usuario->documento }}</td> @endif
+
+                      @if($usuario->rol == "administrador")<td style="background-color:rgba(124,88,145,0.3);">{{ $usuario->telefono }}</td> @endif
+                      @if($usuario->rol == "cliente")<td style="background-color:rgba(176,106,92,0.4);">{{ $usuario->telefono }}</td> @endif
+
+                      @if($usuario->rol == "administrador")<td style="background-color:rgba(124,88,145,0.3);">@if($usuario->project_id == null && $usuario->rol == "administrador") <span class="btn btn-xs btn-warning disabled" style="color:black;">Administrador</span> @elseif($usuario->project_id != null && $usuario->rol == "cliente") <b>{{ $listaProyectos[$usuario->project_id] }}</b> @else @if($usuario->project_id == null && $usuario->rol == "cliente") <i>El inversor aun no participa de un proyecto.</i> @endif @endif @endif</td>
+
+                      @if($usuario->rol == "cliente")<td style="background-color:rgba(176,106,92,0.4);">@if($usuario->project_id == null && $usuario->rol == "administrador") <span class="btn btn-xs btn-warning disabled" style="color:black;">Administrador</span> @elseif($usuario->project_id != null && $usuario->rol == "cliente") <b>{{ $listaProyectos[$usuario->project_id] }}</b> @else @if($usuario->project_id == null && $usuario->rol == "cliente") <i>El inversor aun no participa de un proyecto.</i> @endif @endif @endif</td>
+
+                      @if($usuario->rol == "administrador")<td style="background-color:rgba(124,88,145,0.3);">
                         <button class="btn btn-xs btn-danger">Eliminar Usuario</button>
                         @if($usuario->project_id != null) <a class="btn btn-xs btn-primary" href="{{ route('index') }}">Eliminar Proyecto</a> @endif
                         @if($usuario->project_id == null && $usuario->rol == "cliente") <button class="btn btn-xs btn-success" href={{ route('index') }}>Añadir Proyecto</button> @endif
-                      </td>
+                      </td> @endif
+
+                      @if($usuario->rol == "cliente")<td style="background-color:rgba(176,106,92,0.4);">
+                        <button class="btn btn-xs btn-danger">Eliminar Usuario</button>
+                        @if($usuario->project_id != null) <a class="btn btn-xs btn-primary" href="{{ route('index') }}">Eliminar Proyecto</a> @endif
+                        @if($usuario->project_id == null && $usuario->rol == "cliente") <button class="btn btn-xs btn-success" href={{ route('index') }}>Añadir Proyecto</button> @endif
+                      </td> @endif
+
                     <tr>
                   @endforeach
                 </tbody>

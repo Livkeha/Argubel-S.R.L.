@@ -16,12 +16,11 @@
 
         @endif
 
+            <h2 class="form-titulo" style="color: blue; padding-top: 10px; text-align:center;">Nuevo Usuario</h2>
 
         <form id="formNewUser" class="form-registro" action="{{ route('register') }}" method="POST" enctype="multipart/form-data">
 
           {{ csrf_field() }}
-
-            <h3 class="form-titulo" style=<?php if($errors->all() != null) {?> "padding-top: 0px;" <?php } ?>>Nuevo Usuario</h3>
 
             <div class="container-inputs">
 

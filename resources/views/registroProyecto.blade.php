@@ -27,15 +27,15 @@
 
   @endif
 
-@if($inversoresNuevos->all() == null) <h3 style="color: blue; text-align:center;"><b>Debe crear un inversor nuevo antes de crear un proyecto.</b></h3> @endif
+      <h2 class="form-titulo" style="color: blue; padding-top: 10px; text-align:center;">Nuevo Proyecto</h2>
+
+@if($inversoresNuevos->all() == null) <h3 style="color: red; text-align:center;padding-top: 5px;padding-bottom: 20px;"><b>Debe crear un inversor nuevo antes de crear un proyecto.</b></h3> @endif
 
 <section class="contactar">
   <!-- <h3 class="contactenos" style=<php if($errors->all() != null || isset($_POST['proyectoCreado'])) {?> "padding-top: 0px;" <php } ?>> Nuevo Post </h3> -->
   <form class="contacto-form" action="{{ route('validarProyecto') }}" method="post">
 
     {{ csrf_field() }}
-
-    <h3 class="form-titulo" style=<?php if($errors->all() != null) {?> "padding-top: 0px;" <?php } ?>>Nuevo Proyecto</h3>
 
     <label> Nombre de Proyecto </label>
     <input type="text" name="nombre" required>
@@ -74,6 +74,7 @@
 
     @if ($inversoresNuevos->all() != null)<button class="enviar" type="submit" name="proyectoCreado">Crear Proyecto</button> @endif
     @if ($inversoresNuevos->all() == null)<button class="enviar" type="" name="proyectoCreado" disabled>Crear Proyecto</button> @endif
+
   </form>
 </section>
 
