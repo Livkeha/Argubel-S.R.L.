@@ -73,7 +73,7 @@ Route::group(['middleware' => ['permission:lista_clientes']], function () {
     Route::get('/listaUsuarios', 'UsuariosController@verLista')->name('listaUsuarios');
 });
 
-Route::group(['middleware' => ['permission:ver_datos_proyectos']], function () {
+Route::group(['middleware' => ['permission:datos_proyectos']], function () {
     Route::get('/listaUsuarios', 'UsuariosController@verLista')->name('listaUsuarios');
 });
 
