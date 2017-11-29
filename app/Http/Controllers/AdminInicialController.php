@@ -56,8 +56,6 @@ class AdminInicialController extends Controller
 
     $role = Role::create(['name' => 'Cliente']);
 
-    Permission::create(['name' => 'datos_proyectos']);
-    
     $role->givePermissionTo('datos_proyectos');
 
     Session::flash('adminInicial', "El administrador inicial ha sido creado correctamente.");
