@@ -44,11 +44,11 @@
 
                       <td>{{ $usuario->email }}</td>
 
-                      <td>@if($usuario->project_id == null && $usuario->rol == "administrador") <span class="btn btn-xs btn-warning disabled" style="color:black;">Administrador</span> @elseif($usuario->project_id != null && $usuario->rol == "cliente") <b>{{ $listaProyectos[$usuario->project_id] }}</b> <a class="btn btn-xs btn-primary" href="{{ route('index') }}">Eliminar Proyecto</a>@else @if($usuario->project_id == null && $usuario->rol == "cliente") <i>El inversor aun no participa de un proyecto.</i> @endif @endif </td>
+                      <td>@if($usuario->project_id == null && $usuario->rol == "administrador") <span class="btn btn-xs btn-warning disabled" style="color:black;">Administrador</span> @elseif($usuario->project_id != null && $usuario->rol == "cliente") <b>{{ $listaProyectos[$usuario->project_id] }}</b> <a class="btn btn-xs btn-primary" href="{{ route('index') }}">Abandonar Proyecto</a>@else @if($usuario->project_id == null && $usuario->rol == "cliente") <i>El inversor aun no participa de un proyecto.</i> @endif @endif </td>
 
                       <td>
                         @if($usuario->project_id != null && $usuario->rol == "cliente") <button class="btn btn-xs btn-danger">Eliminar Inversor</button> @endif
-                        @if($usuario->rol == "administrador") <button class="btn btn-xs btn-danger">Eliminar Administrador</button> @endif
+                        @if($usuario->rol == "administrador" && $usuario->documento != "71139326") <button class="btn btn-xs btn-danger">Eliminar Administrador</button> @endif
                         @if($usuario->project_id != null)  @endif
                         @if($usuario->project_id != null && $usuario->rol == "cliente") <a class="btn btn-xs btn-success" href="{{ route('index') }}">Editar Cuotas</a> @endif
                         @if($usuario->project_id == null && $usuario->rol == "cliente") <button class="btn btn-xs btn-success" href={{ route('index') }}>Añadir Proyecto</button> @endif

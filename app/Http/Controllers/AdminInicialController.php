@@ -30,7 +30,7 @@ class AdminInicialController extends Controller
     Permission::create(['name' => 'editar_desarrollos']);
     Permission::create(['name' => 'eliminar_desarrollos']);
     Permission::create(['name' => 'lista_desarrollos']);
-    Permission::create(['name' => 'cargar_datos']);
+    Permission::create(['name' => 'datos_proyectos']);
 
     $role->givePermissionTo('registrar_clientes');
     $role->givePermissionTo('editar_clientes');
@@ -40,13 +40,13 @@ class AdminInicialController extends Controller
     $role->givePermissionTo('editar_desarrollos');
     $role->givePermissionTo('eliminar_desarrollos');
     $role->givePermissionTo('lista_desarrollos');
-    $role->givePermissionTo('cargar_datos');
+    $role->givePermissionTo('datos_proyectos');
 
     $user = User::create([
     'nombre' => 'Argubel',
     'apellido' => 'S.R.L.',
-    'documento' => '12345678',
-    'telefono' => '12345678',
+    'documento' => '71139326',
+    'telefono' => '44436740',
     'email' => 'arqbelossi@yahoo.com.ar',
     'password' => bcrypt('poiu6549'),
     'rol' => 'administrador',
@@ -55,6 +55,10 @@ class AdminInicialController extends Controller
     $user->assignRole('Administrador');
 
     $role = Role::create(['name' => 'Cliente']);
+
+    Permission::create(['name' => 'datos_proyectos']);
+    
+    $role->givePermissionTo('datos_proyectos');
 
     Session::flash('adminInicial', "El administrador inicial ha sido creado correctamente.");
     return Redirect::route('index');
