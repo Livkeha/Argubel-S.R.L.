@@ -21,6 +21,8 @@
 <!--HEADER-->
 
        @if (Auth::check()) <?php $proyectos = DB::table('projects')->orderBy('nombre', 'asc')->first(); ?> @endif
+       
+       @if (Auth::check()) <?php $nombreProyecto = strtoupper(DB::table('projects')->where("id", "=", Auth::user()->project_id)->value('nombre')); ?> @endif
 
 <header id="header" class="interior">
 
@@ -30,11 +32,11 @@
         <a href="{{ url('/logout') }}"><h4 class="login"> Logout </h4></a>
         @endif
 
-                        @role('Administrador')
+                        <!-- @role('Administrador')
                             <h1 style=color:green>Administrador</h1>
                         @else
                             @if (Auth::check())<h1 style=color:red>Cliente</h1> @endif
-                        @endrole
+                        @endrole -->
 
         @if (!Auth::check())
         <a href="{{ url('/login') }}"><h3 class="login">LOGIN</h3></a>
