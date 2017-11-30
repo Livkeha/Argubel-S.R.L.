@@ -18,9 +18,9 @@
            <h2 class="alert alert-info" style="color:red; text-align: center;">{{ Session::get('proyectoActualizado') }}</h2>
         @endif
 
-        <h2 class="form-titulo" style="color: blue; text-align:center;">Lista de proyectos</h2>
+        <h2 class="form-titulo" style="color: blue; text-align:center;">Lista de desarrollos</h2>
 
-        @if($inversores->all() == null) <h4 style="color: red; text-align:center;"><b>No hay inversores disponibles sin proyecto asignado.</b></h4> @endif
+        @if($inversores->all() == null) <h4 style="color: red; text-align:center;"><b>No hay inversores disponibles sin desarrollo asignado.</b></h4> @endif
 
         <div class="container" style="height:502px; width:100%;">
           <div class="responsive-table">
@@ -29,9 +29,8 @@
                 <thead>
                   <tr>
                     <th>Proyecto</th>
-                    <th>Calle</th>
-                    <th>Altura</th>
-                    <th>Iniciado</th>
+                    <th>Dirección</th>
+                    <th>Inicio de Desarrollo</th>
                     <th>Acciones</th>
                   <tr>
                 </thead>
@@ -44,15 +43,14 @@
                     @if ($color % 2 != 0) <tr style="background-color:rgba(124,88,145,0.3); border: 1px solid rgba(0,0,0,0.3);"> @endif
                       {{-- {{dd($proyecto->id)}} --}}
                       <td><b>{{ $proyecto->nombre }}</b></td>
-                      <td class="contenidoPost">{{ $proyecto->calle }}</td>
-                      <td>{{ $proyecto->altura }}</td>
+                      <td class="contenidoPost">{{ $proyecto->calle }} {{$proyecto->altura}}</td>
                       <td>{{ $proyecto->created_at}}</td>
                       <td>
                         @if($inversores->all() != null) <a class="btn btn-xs btn-success" href="{{ URL::to('agregarInversor/' . $proyecto->id) }}">Añadir Inversor</a> @endif
                         @if($inversores->all() == null) <a class="btn btn-xs btn-success disabled">Añadir Inversor</a> @endif
                         <button class="btn btn-xs btn-primary" href={{ route('index') }}>Fotos</button>
                         <button class="btn btn-xs btn-primary" href={{ route('index') }}>Planos</button>
-                        <button class="btn btn-xs btn-danger" href={{ route('index') }}>Eliminar Proyecto</button>
+                        <button class="btn btn-xs btn-danger" href={{ route('index') }}>Eliminar Desarrollo</button>
                       </td>
                     <tr>
                       <?php $color = $color + 1; ?>

@@ -9,6 +9,7 @@ use App\User;
 use DB;
 use Session;
 use Redirect;
+use File;
 
 class AdminInicialController extends Controller
 {
@@ -47,7 +48,7 @@ class AdminInicialController extends Controller
     'apellido' => 'S.R.L.',
     'documento' => '71139326',
     'telefono' => '44436740',
-    'email' => 'arqbelossi@yahoo.com.ar',
+    'email' => 'info@argubel.com.ar',
     'password' => bcrypt('poiu6549'),
     'rol' => 'administrador',
     ]);
@@ -57,6 +58,8 @@ class AdminInicialController extends Controller
     $role = Role::create(['name' => 'Cliente']);
 
     $role->givePermissionTo('datos_proyectos');
+
+    $limpiarDirectorios = File::deleteDirectory(public_path('imagenesDesarrollos'));
 
     Session::flash('adminInicial', "El administrador inicial ha sido creado correctamente.");
     return Redirect::route('index');

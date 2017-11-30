@@ -73,13 +73,15 @@ class RegistrarProyectoController extends Controller
         'nombre' => 'required|string|min:2',
         'calle' => 'required|string|min:2',
         'altura' => 'required|string|min:2',
+        'imagenPresentacion' => 'required|image|mimes:jpeg,png,jpg|dimensions:min_width=640,min_height=480',
+        'imagenUbicacion' => 'required|image|mimes:jpeg,png,jpg|dimensions:min_width=640,min_height=480',
       ]);
 
     }
 
     // if(array_key_exists(""))
 
-
+    // {{dd($validator);}}
 
     if($validator->fails() || $hayInversor != 0) {
 
@@ -119,6 +121,34 @@ class RegistrarProyectoController extends Controller
          $errors['alturaRequired'] = ("El campo de la altura es obligatorio.");
        }
 
+      if(isset($failedRules['imagenPresentacion']['Required']))
+       {
+         $errors['imagenPresentacionRequired'] = ("Debe adjuntar una imagen de presentación.");
+       }
+
+      if(isset($failedRules['imagenUbicacion']['Required']))
+       {
+         $errors['imagenUbicacionRequired'] = ("Debe adjuntar una imagen de ubicación.");
+       }
+
+      if(isset($failedRules['imagenPresentacion']['Image']) || isset($failedRules['imagenUbicacion']['Image']))
+        {
+          if(isset($failedRules['imagenPresentacion']['Image'])) { $errors['imagenPresentacionImage'] = ("La imagen de presentación debe ser en formato .JPEG, .PNG o .JPG."); }
+          if(isset($failedRules['imagenUbicacion']['Image'])) { $errors['imagenUbicacionImage'] = ("La imagen de ubicación debe ser en formato .JPEG, .PNG o .JPG."); }
+        }
+
+      if(isset($failedRules['imagenPresentacion']['uploaded']) || isset($failedRules['imagenUbicacion']['uploaded']))
+        {
+          if(isset($failedRules['imagenPresentacion']['uploaded'])) { $errors['imagenPresentacionUploaded'] = ("Error al adjuntar la imagen de presentación."); }
+          if(isset($failedRules['imagenUbicacion']['uploaded'])) { $errors['imagenUbicacionUploaded'] = ("Error al adjuntar la imagen de ubicación."); }
+        }
+
+      if(isset($failedRules['imagenPresentacion']['Dimensions']) || isset($failedRules['imagenUbicacion']['Dimensions']))
+        {
+          if(isset($failedRules['imagenPresentacion']['Dimensions'])) { $errors['imagenPresentacionDimensions'] = ("La imagen de presentación debe tener un tamaño mínimo de 640 x 480."); }
+          if(isset($failedRules['imagenUbicacion']['Dimensions'])) { $errors['imagenUbicacionDimensions'] = ("La imagen de ubicación debe tener un tamaño mínimo de 640 x 480."); }
+        }
+
        if($hayInversor != 0)
        {
          $errors['sinInversor'] = ("Debe seleccionar al menos un inversor.");
@@ -155,6 +185,8 @@ class RegistrarProyectoController extends Controller
       'nombre' => $proyectoNuevo['nombre'],
       'calle' => $proyectoNuevo['calle'],
       'altura' => $proyectoNuevo['altura'],
+      'imagenPresentacion' => $this->subirImagenPresentacion($proyectoNuevo),
+      'imagenUbicacion' => $this->subirImagenUbicacion($proyectoNuevo),
       ]);
 
       $idProyecto = $nuevoPost["id"];
@@ -173,7 +205,7 @@ class RegistrarProyectoController extends Controller
             }
           }
 
-    $proyectoCreado = ("El nuevo proyecto se ha subido correctamente.");
+    $proyectoCreado = ("El nuevo desarrollo se ha subido correctamente.");
 
     $inversoresNuevos = DB::table('users')->orderBy('apellido', 'asc')->where('project_id', '=', null)->where('rol', '=', 'cliente')->get();
     // $inversoresNuevos = DB::table('users')->orderBy('apellido', 'asc')->where('project_id', '=', null)->get();
@@ -192,5 +224,67 @@ class RegistrarProyectoController extends Controller
     // return Redirect::route('crearPost', compact('postSubido'));
       return view('registroProyecto', compact('proyectoCreado', 'inversoresNuevos', 'inversoresOcupados', 'listaProyectos'));
   }
+
+  public function subirImagenPresentacion($proyectoNuevo)
+  {
+
+      // {{dd($proyectoNuevo);}}
+      $proyecto = $proyectoNuevo['nombre'];
+      // {{dd($proyecto);}}
+      $file = $proyectoNuevo['imagenPresentacion'];
+      // {{dd($file);}}
+      $ext = $file->extension();
+      // {{dd($ext);}}
+      // $name = uniqid();
+      // $name = ucfirst(($data['username'] . '-perfil'));
+      $name = ucfirst(('Presentacion'));
+      // {{dd($name);}}
+      $file->storeAs($proyecto, $name.'.'.$ext);
+
+      // $file->storeAs($user, $name.'.'.$ext);
+
+      // $image = new \App\Image(['src' => $name.'.'.$ext]);
+
+      $image = $name . '.' . $ext;
+      // {{dd($image);}}
+
+      // {{dd($image);}}
+
+      // $user->images()->save($image);
+
+     return $image;
+
+   }
+
+  public function subirImagenUbicacion($proyectoNuevo)
+  {
+
+      // {{dd($proyectoNuevo);}}
+      $proyecto = $proyectoNuevo['nombre'];
+      // {{dd($proyecto);}}
+      $file = $proyectoNuevo['imagenUbicacion'];
+      // {{dd($file);}}
+      $ext = $file->extension();
+      // {{dd($ext);}}
+      // $name = uniqid();
+      // $name = ucfirst(($data['username'] . '-perfil'));
+      $name = ucfirst(('Ubicacion'));
+      // {{dd($name);}}
+      $file->storeAs($proyecto, $name.'.'.$ext);
+
+      // $file->storeAs($user, $name.'.'.$ext);
+
+      // $image = new \App\Image(['src' => $name.'.'.$ext]);
+
+      $image = $name . '.' . $ext;
+      // {{dd($image);}}
+
+      // {{dd($image);}}
+
+      // $user->images()->save($image);
+
+     return $image;
+
+   }
 
 }

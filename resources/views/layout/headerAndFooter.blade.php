@@ -51,8 +51,8 @@
       <li><a href="{{ url('/index') }}" class="current">HOME</a></li>
       @role('Administrador')<li><a href="{{ url('/registrarUsuario') }}">REGISTRAR INVERSOR</a></li>@endrole
       @role('Administrador')<li><a href="{{ url('/listaUsuarios') }}">LISTA DE INVERSORES</a></li>@endrole
-      @role('Administrador')<li><a href="{{ url('/registrarProyecto') }}">REGISTRAR PROYECTO</a></li>@endrole
-      @role('Administrador')<li><a href="{{ url('/listaDesarrollos') }}">LISTA DE PROYECTOS</a></li>@endrole
+      @role('Administrador')<li><a href="{{ url('/registrarProyecto') }}">REGISTRAR DESARROLLO</a></li>@endrole
+      @role('Administrador')<li><a href="{{ url('/listaDesarrollos') }}">LISTA DE DESARROLLOS</a></li>@endrole
       @if (!Auth::check()) <li><a href="{{ url('/contacto') }}">CONTACTO</a></li> @endif
       <!--@if (!Auth::check()) <li><a href="proveedores.html">PROVEEDORES</a></li> @endif-->
       @if (!Auth::check()) <li><a href="{{ url('/obra-residencial') }}">OBRA RESIDENCIAL</a></li> @endif

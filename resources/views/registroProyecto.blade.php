@@ -4,17 +4,17 @@
   @section('contenido')
 
 
-@if ($errors->all() != null)
-
-        <section class="erroresPostUser">
-          @foreach ($errors->all() as $clave => $valor)
-
-                <ul>
-                    <li>·   {{ $valor }}</li>
-                </ul>
-              @endforeach
-        </section>
-@endif
+  @if ($errors->all() != null)
+  {{-- {{dd($errors->all())}} --}}
+          <section class="erroresPostUser">
+            @foreach ($errors->all() as $error)
+                  <ul>
+                      <li>{{ $error }}</li>
+                      {{-- {{dd(<li>{{ $error }}</li>);}} --}}
+                  </ul>
+                @endforeach
+          </section>
+  @endif
 
   @if (isset($_POST['proyectoCreado']))
 
@@ -22,22 +22,22 @@
             <ul>
               <li>El nuevo proyecto se ha subido correctamente.</li>
             </ul>
-            {{-- <span class="postSatisfactorio">El nuevo proyecto se ha subido correctamente.</span> --}}
+            {{-- <span class="postSatisfactorio">El nuevo desarrollo se ha subido correctamente.</span> --}}
           </section>
 
   @endif
 
-      <h2 class="form-titulo" style="color: blue; padding-top: 10px; text-align:center;">Nuevo Proyecto</h2>
+      <h2 class="form-titulo" style="color: blue; padding-top: 10px; text-align:center;">Nuevo Desarrollo</h2>
 
-@if($inversoresNuevos->all() == null) <h3 style="color: red; text-align:center;padding-top: 5px;padding-bottom: 20px;"><b>Debe crear un inversor nuevo antes de crear un proyecto.</b></h3> @endif
+@if($inversoresNuevos->all() == null) <h3 style="color: red; text-align:center;padding-top: 5px;padding-bottom: 20px;"><b>Debe crear un inversor nuevo antes de crear un desarrollo.</b></h3> @endif
 
 <section class="contactar">
   <!-- <h3 class="contactenos" style=<php if($errors->all() != null || isset($_POST['proyectoCreado'])) {?> "padding-top: 0px;" <php } ?>> Nuevo Post </h3> -->
-  <form class="contacto-form" action="{{ route('validarProyecto') }}" method="post">
+  <form class="contacto-form" action="{{ route('validarProyecto') }}" method="post" enctype="multipart/form-data">
 
     {{ csrf_field() }}
 
-    <label> Nombre de Proyecto </label>
+    <label> Nombre de Desarrollo </label>
     <input type="text" name="nombre" required>
     <span class="erroresPost"><?php isset($error) ?></span>
 
@@ -46,6 +46,14 @@
 
     <label> Altura </label>
     <input type='number' name="altura" required>
+
+    <label for="">Imagen de presentación:</label>
+    <input type="file" name="imagenPresentacion" class="subir-imagen-presentacion" value="">
+    <span class="error-imgPresentacion"></span>
+
+    <label for="">Imagen de ubicación:</label>
+    <input type="file" name="imagenUbicacion" class="subir-imagen-ubicacion" value="">
+    <span class="error-imgUbicacion"></span>
 
     <label> Inversor </label>
 
@@ -72,8 +80,8 @@
 
     <div class="cleaner"></div>
 
-    @if ($inversoresNuevos->all() != null)<button class="enviar" type="submit" name="proyectoCreado">Crear Proyecto</button> @endif
-    @if ($inversoresNuevos->all() == null)<button class="enviar" type="" name="proyectoCreado" disabled>Crear Proyecto</button> @endif
+    @if ($inversoresNuevos->all() != null)<button class="enviar" type="submit" name="proyectoCreado">Crear Desarrollo</button> @endif
+    @if ($inversoresNuevos->all() == null)<button class="enviar" type="" name="proyectoCreado" disabled>Crear Desarrollo</button> @endif
 
   </form>
 </section>

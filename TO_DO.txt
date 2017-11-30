@@ -8,6 +8,14 @@ Analizar poner Bootstrap Dropdown para agregar proyecto a un usuario.
 
 La vista de fotos, cuotas y planos es la misma para ambos. Si sos administrador, te aparece la opcion para agregar contenido.
 
-No se puede borrar el usuario "Argubel".
+No se puede borrar el usuario "Argubel".   HECHO
 
 Cambiar contraseña de X usuario en la lista de usuarios.
+
+Agregar al form de crear proyecto un input de foto principal, un input de foto ubicación y un textarea de descripción.
+
+  Desarrollo - Monto Establecido: $10000 (Lapicito)
+
+Año: {SELECT DEL AÑO} | (Monto Establecido) | Fecha Vencimiento | (Monto Pagado) | Fecha Pagado | Balance | (BOTÓN DE QUE PAGÓ)  (Administrador) (Añadir valor establecido)
+
+Año: {SELECT DEL AÑO} | (Monto Establecido) | Fecha Vencimiento | (Monto Pagado) | Fecha Pagado | Balance          (Cliente) (Agregar botón de imprimir planilla)

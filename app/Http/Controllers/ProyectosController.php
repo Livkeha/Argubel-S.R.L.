@@ -103,9 +103,9 @@ class ProyectosController extends Controller
   $inversoresNuevos = DB::table('users')->orderBy('apellido', 'asc')->where('project_id', '=', null)->where('rol', '=', 'cliente')->get();
   $proyectoReferido = DB::table('projects')->where('id', "=", "$idProyecto")->first();
 
-  $proyectoActualizado = ("El proyecto \"" . $proyectoReferido->nombre .  "\" se ha actualizado correctamente.");
+  $proyectoActualizado = ("El desarrollo \"" . $proyectoReferido->nombre .  "\" se ha actualizado correctamente.");
 
-  Session::flash('proyectoActualizado', "El proyecto \"" . $proyectoReferido->nombre .  "\" se ha actualizado correctamente.");
+  Session::flash('proyectoActualizado', "El desarrollo \"" . $proyectoReferido->nombre .  "\" se ha actualizado correctamente.");
 
   return back()->with('inversoresNuevos', 'proyectoReferido', 'proyectoActualizado');
   // return view('agregarInversor', compact('inversoresNuevos', 'proyectoReferido'));
