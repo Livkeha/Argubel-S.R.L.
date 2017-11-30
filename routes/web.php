@@ -50,11 +50,11 @@ Route::group(['middleware' => ['permission:registrar_desarrollos']], function ()
 });
 
 Route::group(['middleware' => ['permission:registrar_desarrollos']], function () {
-    Route::get('/validarProyecto', 'HomeController@index')->name('home');
+    Route::get('/validarDesarrollo', 'HomeController@index')->name('home');
 });
 
 Route::group(['middleware' => ['permission:registrar_desarrollos']], function () {
-    Route::post('/validarProyecto', 'registrarProyectoController@validarProyecto')->name('validarProyecto');
+    Route::post('/validarDesarrollo', 'registrarProyectoController@validarDesarrollo')->name('validarDesarrollo');
 });
 
 Route::group(['middleware' => ['permission:lista_desarrollos']], function () {
@@ -73,9 +73,9 @@ Route::group(['middleware' => ['permission:lista_clientes']], function () {
     Route::get('/listaUsuarios', 'UsuariosController@verLista')->name('listaUsuarios');
 });
 
-// Route::group(['middleware' => ['permission:datos_proyectos']], function () {
-//     Route::get('/listaUsuarios', 'UsuariosController@verLista')->name('listaUsuarios');
-// });
+Route::group(['middleware' => ['permission:datos_proyectos']], function () {
+    Route::get('/miDesarrollo/{nombreProyecto}', 'ProyectosController@miDesarrollo')->name('miDesarrollo');
+});
 
 Route::get('/adminInicial', 'AdminInicialController@view')->name('adminInicial');
 

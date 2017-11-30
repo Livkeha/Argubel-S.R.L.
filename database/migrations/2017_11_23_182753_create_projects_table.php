@@ -18,8 +18,9 @@ class CreateProjectsTable extends Migration
             $table->string('nombre')->unique();
             $table->string('calle');
             $table->string('altura');
-            $table->text('imagenPresentacion');
-            $table->text('imagenUbicacion');
+            $table->string('imagenPresentacion');
+            $table->string('imagenUbicacion');
+            $table->text('descripcion');
             $table->timestamps();
         });
     }

@@ -38,4 +38,9 @@ class User extends Authenticatable
    {
        return $this->hasRole('Administrador');
    }
+
+    public function isClient()
+   {
+       return $this->hasRole('Cliente');
+   }
 }

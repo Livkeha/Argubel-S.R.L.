@@ -19,6 +19,9 @@
 <!-- <body onLoad="MM_preloadImages('images/obra-publica-hover.png','images/obra-comercial-hover.png','images/obra-residencial-hover.png')"> -->
 
 <!--HEADER-->
+
+       @if (Auth::check()) <?php $proyectos = DB::table('projects')->orderBy('nombre', 'asc')->first(); ?> @endif
+
 <header id="header" class="interior">
 
 
@@ -52,7 +55,7 @@
       @role('Administrador')<li><a href="{{ url('/registrarUsuario') }}">REGISTRAR INVERSOR</a></li>@endrole
       @role('Administrador')<li><a href="{{ url('/listaUsuarios') }}">LISTA DE INVERSORES</a></li>@endrole
       @role('Administrador')<li><a href="{{ url('/registrarProyecto') }}">REGISTRAR DESARROLLO</a></li>@endrole
-      @role('Administrador')<li><a href="{{ url('/listaDesarrollos') }}">LISTA DE DESARROLLOS</a></li>@endrole
+      @role('Administrador') @if (isset($proyectos))<li><a href="{{ url('/listaDesarrollos') }}">LISTA DE DESARROLLOS</a></li> @endif @endrole
       @if (!Auth::check()) <li><a href="{{ url('/contacto') }}">CONTACTO</a></li> @endif
       <!--@if (!Auth::check()) <li><a href="proveedores.html">PROVEEDORES</a></li> @endif-->
       @if (!Auth::check()) <li><a href="{{ url('/obra-residencial') }}">OBRA RESIDENCIAL</a></li> @endif
@@ -63,7 +66,7 @@
       @role('Cliente') @if (isset($nombreProyecto)) <li><a href="{{ url('/') }}">CUOTAS</a></li> @endif @endrole
       @role('Cliente') @if (isset($nombreProyecto)) <li><a href="{{ url('/') }}">FOTOS</a></li> @endif @endrole
       @role('Cliente') @if (isset($nombreProyecto)) <li><a href="{{ url('/') }}">PLANOS</a></li> @endif @endrole
-      @role('Cliente') @if (isset($nombreProyecto)) <li style="text-decoration: underline"><b>{{ $nombreProyecto }}</b></li> @endif @endrole
+      @role('Cliente') @if (isset($nombreProyecto)) <li style="text-decoration: underline"><a href="{{ URL::to('miDesarrollo/' . strtolower($nombreProyecto)) }}"><b>{{ $nombreProyecto }}</b></a></li> @endif @endrole
 	</ul>
   </div>
 </nav>

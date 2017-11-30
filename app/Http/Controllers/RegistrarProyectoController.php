@@ -36,7 +36,7 @@ class RegistrarProyectoController extends Controller
   }
 
 
-  protected function validarProyecto(Request $request)
+  protected function validarDesarrollo(Request $request)
   {
 
     // {{dd($request["inversor"] . "%");}}
@@ -63,18 +63,15 @@ class RegistrarProyectoController extends Controller
 
     }
 
-
-
-
-
     if (array_key_exists("proyectoCreado", $request->all())) {
 
       $validator = Validator::make($request->all(), [
-        'nombre' => 'required|string|min:2',
+        'nombre' => 'required|string|min:2|unique:projects',
         'calle' => 'required|string|min:2',
         'altura' => 'required|string|min:2',
         'imagenPresentacion' => 'required|image|mimes:jpeg,png,jpg|dimensions:min_width=640,min_height=480',
         'imagenUbicacion' => 'required|image|mimes:jpeg,png,jpg|dimensions:min_width=640,min_height=480',
+        'descripcion' => 'required|string|min:10|max:3000',
       ]);
 
     }
@@ -99,6 +96,11 @@ class RegistrarProyectoController extends Controller
       if(isset($failedRules['nombre']['Required']))
        {
          $errors['nombreRequired'] = ("El campo del título es obligatorio.");
+       }
+
+      if(isset($failedRules['nombre']['Unique']))
+       {
+         $errors['nombreUnique'] = ("El nombre del desarrollo ya se encuentra asignado.");
        }
 
       if(isset($failedRules['calle']['Min']))
@@ -149,6 +151,16 @@ class RegistrarProyectoController extends Controller
           if(isset($failedRules['imagenUbicacion']['Dimensions'])) { $errors['imagenUbicacionDimensions'] = ("La imagen de ubicación debe tener un tamaño mínimo de 640 x 480."); }
         }
 
+      if(isset($failedRules['descripcion']['Min']))
+       {
+         $errors['descripcionMin'] = ("La descripcion debe contener un mínimo de 10 caracteres.");
+       }
+
+      if(isset($failedRules['descripcion']['Max']))
+       {
+         $errors['descripcionMax'] = ("La descripcion no debe superar los 3000 caracteres.");
+       }
+
        if($hayInversor != 0)
        {
          $errors['sinInversor'] = ("Debe seleccionar al menos un inversor.");
@@ -187,6 +199,7 @@ class RegistrarProyectoController extends Controller
       'altura' => $proyectoNuevo['altura'],
       'imagenPresentacion' => $this->subirImagenPresentacion($proyectoNuevo),
       'imagenUbicacion' => $this->subirImagenUbicacion($proyectoNuevo),
+      'descripcion' => $proyectoNuevo['descripcion'],
       ]);
 
       $idProyecto = $nuevoPost["id"];

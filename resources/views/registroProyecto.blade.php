@@ -33,7 +33,7 @@
 
 <section class="contactar">
   <!-- <h3 class="contactenos" style=<php if($errors->all() != null || isset($_POST['proyectoCreado'])) {?> "padding-top: 0px;" <php } ?>> Nuevo Post </h3> -->
-  <form class="contacto-form" action="{{ route('validarProyecto') }}" method="post" enctype="multipart/form-data">
+  <form class="contacto-form" action="{{ route('validarDesarrollo') }}" method="post" enctype="multipart/form-data">
 
     {{ csrf_field() }}
 
@@ -54,6 +54,9 @@
     <label for="">Imagen de ubicación:</label>
     <input type="file" name="imagenUbicacion" class="subir-imagen-ubicacion" value="">
     <span class="error-imgUbicacion"></span>
+
+    <label> Descripción </label>
+    <textarea type='textarea' name="descripcion" required></textarea>
 
     <label> Inversor </label>
 

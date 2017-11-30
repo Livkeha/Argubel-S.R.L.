@@ -82,8 +82,6 @@ class ProyectosController extends Controller
   public function inversorAgregado($inversorAgregado)
   {
 
-
-
       $idProyecto = $inversorAgregado["idProyecto"];
 
       foreach ($inversorAgregado as $inversor => $idInversor) {  // ESTE VALUE ES EL ID DEL USUARIO QUE VA A TENER EL PROYECTO
@@ -111,4 +109,14 @@ class ProyectosController extends Controller
   // return view('agregarInversor', compact('inversoresNuevos', 'proyectoReferido'));
 
   }
+
+  public function miDesarrollo($nombreProyecto)
+  {
+
+    $proyectoReferido = DB::table('projects')->where('nombre', "=", "$nombreProyecto")->first();
+
+      return view('mi-desarrollo', compact('proyectoReferido'));
+
+  }
+
 }
