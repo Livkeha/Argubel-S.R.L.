@@ -18,6 +18,10 @@
            <h2 class="alert alert-info" style="color:red; text-align: center;">{{ Session::get('proyectoActualizado') }}</h2>
         @endif
 
+        @if (Session::has('desarrolloEliminado'))
+           <h1 class="alert alert-info" style="color:black; text-align: center;">{{ Session::get('desarrolloEliminado') }}</h1>
+        @endif
+
         <h2 class="form-titulo" style="color: blue; text-align:center;">Lista de desarrollos</h2>
 
         @if($inversores->all() == null) <h4 style="color: red; text-align:center;"><b>No hay inversores disponibles sin desarrollo asignado.</b></h4> @endif
@@ -50,7 +54,7 @@
                         @if($inversores->all() == null) <a class="btn btn-xs btn-success disabled">Añadir Inversor</a> @endif
                         <button class="btn btn-xs btn-primary" href={{ route('index') }}>Fotos</button>
                         <button class="btn btn-xs btn-primary" href={{ route('index') }}>Planos</button>
-                        <button class="btn btn-xs btn-danger" href={{ route('index') }}>Eliminar Desarrollo</button>
+                        <a class="btn btn-xs btn-danger" href="{{ URL::to('eliminarDesarrollo/' . $proyecto->id) }}">Eliminar Desarrollo</a>
                       </td>
                     <tr>
                       <?php $color = $color + 1; ?>

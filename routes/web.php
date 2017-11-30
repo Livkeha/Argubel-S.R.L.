@@ -66,6 +66,10 @@ Route::group(['middleware' => ['permission:editar_desarrollos']], function () {
 });
 
 Route::group(['middleware' => ['permission:editar_desarrollos']], function () {
+    Route::get('/eliminarDesarrollo/{id}', 'ProyectosController@eliminarDesarrollo')->name('eliminarDesarrollo');
+});
+
+Route::group(['middleware' => ['permission:editar_desarrollos']], function () {
     Route::post('/validarInversorAgregado', 'ProyectosController@validarInversorAgregado')->name('validarInversorAgregado');
 });
 

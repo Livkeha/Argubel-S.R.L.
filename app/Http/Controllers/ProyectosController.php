@@ -7,6 +7,7 @@ use App\Project;
 use Redirect;
 use Session;
 use DB;
+use File;
 
 class ProyectosController extends Controller
 {
@@ -116,6 +117,39 @@ class ProyectosController extends Controller
     $proyectoReferido = DB::table('projects')->where('nombre', "=", "$nombreProyecto")->first();
 
       return view('mi-desarrollo', compact('proyectoReferido'));
+
+  }
+
+  public function eliminarDesarrollo($proyectoId)
+  {
+
+    $proyectoReferido = DB::table('projects')->where('id', "=", "$proyectoId")->first();
+
+    // {{dd($proyectoReferido);}}
+
+    // TODO: Desvincular usuarios con este proyecto, borrar imágenes del proyecto y eliminar proyecto.
+
+    $inversoresComprometidos = DB::table('users')->where('project_id', '=', "$proyectoReferido->id")->get();
+
+    if($inversoresComprometidos != null) {
+
+      $inversoresComprometidos = DB::table('users')->where('project_id', '=', "$proyectoReferido->id")->select('project_id')->update(
+        ['project_id' => null]
+      );
+
+    }
+
+    // {{dd($inversoresComprometidos);}}
+
+    $eliminarArchivos = File::deleteDirectory(public_path('imagenesDesarrollos/' . $proyectoReferido->nombre));
+
+    Session::flash('desarrolloEliminado', "El desarrollo ". $proyectoReferido->nombre . " ha sido eliminado correctamente.");
+
+    $eliminarDesarrollo = DB::table('projects')->where('id', "=", "$proyectoId")->delete();
+
+    return redirect()->action('ProyectosController@verLista');
+
+    // return back()->with(
 
   }
 

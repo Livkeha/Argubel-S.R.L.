@@ -2,17 +2,23 @@ Si hay mas de un usuario, no se puede acceder a adminInicial.   HECHO
 
 Si un user tiene proyecto, que aparezca "Eliminar usuario" y "Eliminar proyecto".   HECHO
 
+No se puede borrar el usuario "Argubel".   HECHO
+
+Agregar al form de crear proyecto un input de foto principal, un input de foto ubicación y un textarea de descripción.      HECHO
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
 Si un user NO tiene proyecto, que aparezca un select con todos los proyectos, y al lado el boton "Aniadir".
 
 Analizar poner Bootstrap Dropdown para agregar proyecto a un usuario.
 
 La vista de fotos, cuotas y planos es la misma para ambos. Si sos administrador, te aparece la opcion para agregar contenido.
 
-No se puede borrar el usuario "Argubel".   HECHO
+
 
 Cambiar contraseña de X usuario en la lista de usuarios.
 
-Agregar al form de crear proyecto un input de foto principal, un input de foto ubicación y un textarea de descripción.
+
 
   Desarrollo - Monto Establecido: $10000 (Lapicito)
 
