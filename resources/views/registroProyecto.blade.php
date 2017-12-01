@@ -3,6 +3,7 @@
   @extends('layout.headerAndFooter')
   @section('contenido')
 
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
   @if ($errors->all() != null)
   {{-- {{dd($errors->all())}} --}}
@@ -31,38 +32,51 @@
 
 @if($inversoresNuevos->all() == null) <h3 style="color: red; text-align:center;padding-top: 5px;padding-bottom: 20px;"><b>Debe crear un inversor nuevo antes de crear un desarrollo.</b></h3> @endif
 
-<section class="contactar">
+<section class="container">
   <!-- <h3 class="contactenos" style=<php if($errors->all() != null || isset($_POST['proyectoCreado'])) {?> "padding-top: 0px;" <php } ?>> Nuevo Post </h3> -->
-  <form class="contacto-form" action="{{ route('validarDesarrollo') }}" method="post" enctype="multipart/form-data">
+  <form class="form" action="{{ route('validarDesarrollo') }}" method="post" enctype="multipart/form-data">
 
     {{ csrf_field() }}
 
-    <label> Nombre de Desarrollo </label>
-    <input type="text" name="nombre" required>
-    <span class="erroresPost"><?php isset($error) ?></span>
+    <div class="form-group"> 
+      <label class="control-label col-md-2 bg-info"> Nombre de Desarrollo </label> 
+      <input class="form-control" type="text" name="nombre" required> 
+      <span class="erroresPost"><?php isset($error) ?></span> 
+    </div> 
+     
+    <div class="form-group"> 
+      <label class="control-label col-sm-2"> Calle </label> 
+      <input class="form-control" type="text" name="calle" required> 
+    </div> 
+     
+    <div class="form-group"> 
+      <label class="control-label col-sm-2"> Altura </label> 
+      <input class="form-control" type='number' name="altura" required> 
+    </div> 
+     
+    <div class="form-group"> 
+      <label class="control-label col-md-2" for="">Imagen de presentación:</label> 
+      <input type="file" name="imagenPresentacion" class="file" value=""> 
+      <span class="error-imgPresentacion"></span> 
+    </div> 
 
-    <label> Calle </label>
-    <input type="text" name="calle" required>
-
-    <label> Altura </label>
-    <input type='number' name="altura" required>
-
-    <label for="">Imagen de presentación:</label>
-    <input type="file" name="imagenPresentacion" class="subir-imagen-presentacion" value="">
-    <span class="error-imgPresentacion"></span>
-
-    <label for="">Imagen de ubicación:</label>
-    <input type="file" name="imagenUbicacion" class="subir-imagen-ubicacion" value="">
-    <span class="error-imgUbicacion"></span>
-
-    <label> Descripción </label>
-    <textarea type='textarea' name="descripcion" required></textarea>
-
-    <label> Inversor </label>
+    <div class="form-group"> 
+      <label class="control-label col-md-2" for="">Imagen de ubicación:</label> 
+      <input type="file" name="imagenUbicacion" class="file" value=""> 
+      <span class="error-imgUbicacion"></span> 
+    </div> 
+     
+    <div class="form-group"> 
+      <label class="control-label col-md-2"> Descripción </label> 
+      <textarea type='textarea' name="descripcion" required></textarea> 
+    </div> 
+     
+ 
+    <label class="control-label col-sm-2"> Inversor </label> 
 
     <?php $numeroInversor = 0; ?>
 
-        <div class="container">
+        <div class="container-inversores">
         @foreach ($inversoresNuevos as $inversor)
 
             <input type="checkbox" value=<?php echo($inversor->id) ?> name=<?php echo("inversor-".$numeroInversor) ?> /> <?php echo($inversor->apellido . ", " . $inversor->nombre . " - " . $inversor->documento); ?> <br />
