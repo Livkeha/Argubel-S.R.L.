@@ -125,6 +125,17 @@ class ProyectosController extends Controller
 
   }
 
+  public function fotosMiDesarrollo($nombreProyecto)
+  {
+
+    $proyectoReferido = DB::table('projects')->where('nombre', "=", "$nombreProyecto")->first();
+
+    // {{dd($proyectoReferido);}}
+
+      return view('fotos-mi-desarrollo', compact('proyectoReferido'));
+
+  }
+
   public function eliminarDesarrollo($proyectoId)
   {
 

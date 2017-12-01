@@ -61,7 +61,7 @@
                         @if($usuario->rol == "cliente") <button class="btn btn-xs btn-danger">Eliminar Inversor</button> @endif
                         @if($usuario->rol == "administrador" && $usuario->documento == "71139326") <button class="btn btn-xs btn-warning disabled" style="color:black;">No se puede eliminar este usuario</button> @endif
 
-                        @if($usuario->project_id == null && $usuario->rol == "cliente")
+                        @if($usuario->project_id == null && $usuario->rol == "cliente" && $totalProyectos->first() != null)
 
                         {!! Form::open(array('route' => array('ingresarEnDesarrollo', $usuario->id))) !!}
                         <!-- {{ Form::open(array('url' => 'www.google.com.ar')) }} -->

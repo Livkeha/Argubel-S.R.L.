@@ -6,11 +6,13 @@ No se puede borrar el usuario "Argubel".   HECHO
 
 Agregar al form de crear proyecto un input de foto principal, un input de foto ubicación y un textarea de descripción.      HECHO
 
+Si un user NO tiene proyecto, que aparezca un select con todos los proyectos, y al lado el boton "Aniadir".    HECHO
+
 --------------------------------------------------------------------------------------------------------------------------------------------
 
-Si un user NO tiene proyecto, que aparezca un select con todos los proyectos, y al lado el boton "Aniadir".
 
-Analizar poner Bootstrap Dropdown para agregar proyecto a un usuario.
+
+Analizar poner Bootstrap Dropdown para agregar proyecto a un usuario.    ÚLTIMA PRIORIDAD
 
 La vista de fotos, cuotas y planos es la misma para ambos. Si sos administrador, te aparece la opcion para agregar contenido.
 
