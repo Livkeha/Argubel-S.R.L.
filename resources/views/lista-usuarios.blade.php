@@ -12,6 +12,14 @@
 
         {{--  {{dd($usuarios->first())}} --}}
 
+        @if (Session::has('usuarioActualizado'))
+           <h1 class="alert alert-info" style="color:black; text-align: center;">{{ Session::get('usuarioActualizado') }}</h1>
+        @endif
+
+        @if (Session::has('desarrolloIngresado'))
+           <h1 class="alert alert-info" style="color:black; text-align: center;">{{ Session::get('desarrolloIngresado') }}</h1>
+        @endif
+
         <h2 class="form-titulo" style="color: blue; text-align:center;">Lista de inversores</h2>
 
 
@@ -36,22 +44,48 @@
                     @if($usuario->rol == "administrador") <tr style="border: 1px solid rgba(0,0,0,0.3); background-color: rgba(124,88,145,0.3);"> @endif
                     @if($usuario->rol == "cliente") <tr style="border: 1px solid rgba(0,0,0,0.3); background-color: rgba(176,106,92,0.3);"> @endif
 
-                      <td><b>{{ $usuario->apellido }}, {{ $usuario->nombre }}</b></td>
+                      <td style="height:60px; line-height: 3.5; vertical-align: middle;"><b>{{ $usuario->apellido }}, {{ $usuario->nombre }}</b></td>
 
-                      <td>{{ $usuario->documento }}</td>
+                      <td style="height:60px; line-height: 3.5; vertical-align: middle;">{{ $usuario->documento }}</td>
 
-                      <td>{{ $usuario->telefono }}</td>
+                      <td style="height:60px; line-height: 3.5; vertical-align: middle;">{{ $usuario->telefono }}</td>
 
-                      <td>{{ $usuario->email }}</td>
+                      <td style="height:60px; line-height: 3.5; vertical-align: middle;">{{ $usuario->email }}</td>
 
-                      <td>@if($usuario->project_id == null && $usuario->rol == "administrador") <span class="btn btn-xs btn-warning disabled" style="color:black;">Administrador</span> @elseif($usuario->project_id != null && $usuario->rol == "cliente") <b>{{ $listaProyectos[$usuario->project_id] }}</b> <a class="btn btn-xs btn-primary" href="{{ route('index') }}">Abandonar Desarrollo</a>@else @if($usuario->project_id == null && $usuario->rol == "cliente") <i>El inversor aun no participa de un desarrollo.</i> @endif @endif </td>
+                      <td style="height:60px; line-height: 3.5; vertical-align: middle;">@if($usuario->project_id == null && $usuario->rol == "administrador") <span class="btn btn-xs btn-warning disabled" style="color:black;">Administrador</span> @elseif($usuario->project_id != null && $usuario->rol == "cliente") <b>{{ $listaProyectos[$usuario->project_id] }}</b> <a class="btn btn-xs btn-primary" href="{{ URL::to('abandonarDesarrollo/' . $usuario->project_id . "/" . $usuario->id) }}">Abandonar Desarrollo</a>@else @if($usuario->project_id == null && $usuario->rol == "cliente") <i>El inversor aun no participa de un desarrollo.</i> @endif @endif </td>
 
-                      <td>
-                        @if($usuario->project_id != null && $usuario->rol == "cliente") <button class="btn btn-xs btn-danger">Eliminar Inversor</button> @endif
-                        @if($usuario->rol == "administrador" && $usuario->documento != "12345678") <button class="btn btn-xs btn-danger">Eliminar Administrador</button> @endif
-                        @if($usuario->project_id != null)  @endif
+                      <td style="height:60px; line-height: 3.5; vertical-align: middle;">
+
+                        @if($usuario->rol == "administrador" && $usuario->documento != "71139326") <button class="btn btn-xs btn-danger">Eliminar Administrador</button> @endif
                         @if($usuario->project_id != null && $usuario->rol == "cliente") <a class="btn btn-xs btn-success" href="{{ route('index') }}">Editar Cuotas</a> @endif
-                        @if($usuario->project_id == null && $usuario->rol == "cliente") <button class="btn btn-xs btn-success" href={{ route('index') }}>Añadir Desarrollo</button> @endif
+                        @if($usuario->rol == "cliente") <button class="btn btn-xs btn-danger">Eliminar Inversor</button> @endif
+
+                        @if($usuario->project_id == null && $usuario->rol == "cliente")
+
+                        {!! Form::open(array('route' => array('ingresarEnDesarrollo', $usuario->id))) !!}
+                        <!-- {{ Form::open(array('url' => 'www.google.com.ar')) }} -->
+
+                          <?php echo Form::token(); ?>
+
+                          <select name="desarrollo" required>
+
+                          <option disabled selected value> -- Desarrollos -- </option>
+
+                          @foreach($totalProyectos as $proyecto)
+
+                          <option value="<?php echo($proyecto->id);?>"> {{$proyecto->nombre}} </option>
+
+                          @endforeach
+
+                        </select>
+
+                         <button class="btn btn-xs btn-success" type="submit" name="desarrollo-agregado">Añadir Desarrollo</button>
+
+                         {{ Form::close() }}
+
+                         @endif
+
+                         <!-- @if($usuario->project_id == null && $usuario->rol == "cliente") <button class="btn btn-xs btn-success" href={{ route('index') }}>Añadir Desarrollo</button> @endif -->
                       </td>
 
                     <tr>

@@ -69,6 +69,14 @@ Route::group(['middleware' => ['permission:editar_desarrollos']], function () {
     Route::get('/eliminarDesarrollo/{id}', 'ProyectosController@eliminarDesarrollo')->name('eliminarDesarrollo');
 });
 
+Route::group(['middleware' => ['permission:editar_clientes']], function () {
+    Route::get('/abandonarDesarrollo/{proyectoId}/{usuarioId}', 'UsuariosController@abandonarDesarrollo')->name('abandonarDesarrollo');
+});
+
+Route::group(['middleware' => ['permission:editar_clientes']], function () {
+    Route::post('/ingresarEnDesarrollo/{usuarioId}', 'UsuariosController@ingresarEnDesarrollo')->name('ingresarEnDesarrollo');
+});
+
 Route::group(['middleware' => ['permission:editar_desarrollos']], function () {
     Route::post('/validarInversorAgregado', 'ProyectosController@validarInversorAgregado')->name('validarInversorAgregado');
 });

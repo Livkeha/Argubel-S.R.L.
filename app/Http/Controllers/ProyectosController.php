@@ -106,8 +106,10 @@ class ProyectosController extends Controller
 
   Session::flash('proyectoActualizado', "El desarrollo \"" . $proyectoReferido->nombre .  "\" se ha actualizado correctamente.");
 
-  return back()->with('inversoresNuevos', 'proyectoReferido', 'proyectoActualizado');
-  // return view('agregarInversor', compact('inversoresNuevos', 'proyectoReferido'));
+  // return back()->with('inversoresNuevos', 'proyectoReferido', 'proyectoActualizado');
+  
+  return redirect()->action('ProyectosController@verLista');
+
 
   }
 
@@ -143,7 +145,7 @@ class ProyectosController extends Controller
 
     $eliminarArchivos = File::deleteDirectory(public_path('imagenesDesarrollos/' . $proyectoReferido->nombre));
 
-    Session::flash('desarrolloEliminado', "El desarrollo ". $proyectoReferido->nombre . " ha sido eliminado correctamente.");
+    Session::flash('desarrolloEliminado', "El desarrollo \"". $proyectoReferido->nombre . "\" ha sido eliminado correctamente.");
 
     $eliminarDesarrollo = DB::table('projects')->where('id', "=", "$proyectoId")->delete();
 
