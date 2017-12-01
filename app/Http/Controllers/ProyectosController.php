@@ -23,6 +23,9 @@ class ProyectosController extends Controller
       if($proyectos->first() == null)
       {
         // {{dd("No hay nada, está bien");}}
+
+        Session::flash('sinDesarrollo', "No se encuentran desarrollos guardados.");
+
         return redirect()->route('index');
       } else {
         return view('lista-proyectos', compact('proyectos', 'inversores'));
@@ -107,7 +110,7 @@ class ProyectosController extends Controller
   Session::flash('proyectoActualizado', "El desarrollo \"" . $proyectoReferido->nombre .  "\" se ha actualizado correctamente.");
 
   // return back()->with('inversoresNuevos', 'proyectoReferido', 'proyectoActualizado');
-  
+
   return redirect()->action('ProyectosController@verLista');
 
 

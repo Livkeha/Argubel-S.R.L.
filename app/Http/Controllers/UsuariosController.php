@@ -68,9 +68,11 @@ class UsuariosController extends Controller
 
     $usuarioReferido = DB::table('users')->where('id', "=", "$usuarioId")->first();
 
+    $desarrolloAfectado = DB::table('projects')->where("id", "=", "$proyectoId")->value('nombre');
+
     // {{dd($usuarioReferido->nombre);}}
 
-    Session::flash('usuarioActualizado', "\"" . $usuarioReferido->nombre . " " . $usuarioReferido->apellido . "\" abandonó el desarrollo satisfactoriamente.");
+    Session::flash('usuarioActualizado', "\"" . $usuarioReferido->nombre . " " . $usuarioReferido->apellido . "\" abandonó el desarrollo \"" . $desarrolloAfectado . "\" satisfactoriamente.");
 
     return redirect()->action('UsuariosController@verLista');
     // {{dd($usuarioReferido);}}

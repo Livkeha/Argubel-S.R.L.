@@ -18,6 +18,10 @@
    <h1 class="alert alert-info" style="color:black; text-align: center;">{{ Session::get('desarrolloEliminado') }}</h1>
 @endif
 
+@if (Session::has('sinDesarrollo'))
+   <h1 class="alert alert-info" style="color:red; text-align: center;">{{ Session::get('sinDesarrollo') }}</h1>
+@endif
+
 <section id="content">
 
   <div class="interior">
