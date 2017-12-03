@@ -69,7 +69,7 @@
       @if (!Auth::check()) <li><a href="{{ url('/empresa') }}">EMPRESA</a></li> @endif
       @role('Cliente') @if ($nombreProyecto) <li><a href="{{ url('/') }}">CUOTAS</a></li> @endif @endrole
       @role('Cliente') @if ($nombreProyecto) <li><a href="{{ URL::to('miDesarrollo/' . strtolower($nombreProyecto)) . '/fotos' }}">FOTOS</a></li> @endif @endrole
-      @role('Cliente') @if ($nombreProyecto) <li><a href="{{ url('/') }}">PLANOS</a></li> @endif @endrole
+      @role('Cliente') @if ($nombreProyecto) <li><a href="{{ URL::to('miDesarrollo/' . strtolower($nombreProyecto)) . '/planos' }}">PLANOS</a></li> @endif @endrole
       @role('Cliente') @if ($nombreProyecto) <li style="text-decoration: underline"><a href="{{ URL::to('miDesarrollo/' . strtolower($nombreProyecto)) }}"><b>{{ $nombreProyecto }}</b></a></li> @endif @endrole
 	</ul>
   </div>

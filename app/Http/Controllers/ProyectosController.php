@@ -8,6 +8,7 @@ use Redirect;
 use Session;
 use DB;
 use File;
+use Auth;
 
 class ProyectosController extends Controller
 {
@@ -94,7 +95,7 @@ class ProyectosController extends Controller
 
       $hayInversor = substr_compare("inversor", $inversor, 0, 8);
 
-      var_dump($inversor, $hayInversor);
+      // var_dump($inversor, $hayInversor);
 
       if($hayInversor == 0)
       {
@@ -121,6 +122,12 @@ class ProyectosController extends Controller
 
     $proyectoReferido = DB::table('projects')->where('nombre', "=", "$nombreProyecto")->first();
 
+    if(Auth::user()->rol != "administrador" && $proyectoReferido == null || Auth::user()->rol == "cliente" && $proyectoReferido->id != Auth::user()->project_id)
+    {
+      Session::flash('permisoDenegado', "Usted no tiene permisos para acceder a esa ruta.");
+      return Redirect::route('index');
+    }
+
       return view('mi-desarrollo', compact('proyectoReferido'));
 
   }
@@ -130,20 +137,135 @@ class ProyectosController extends Controller
 
     $proyectoReferido = DB::table('projects')->where('nombre', "=", "$nombreProyecto")->first();
 
-    // {{dd($proyectoReferido);}}
+    $existePresentacion = public_path('imagenesDesarrollos/' . $proyectoReferido->nombre . "/" . 'Presentacion.jpeg');
+    $existeUbicacion = public_path('imagenesDesarrollos/' . $proyectoReferido->nombre . "/" . 'Ubicacion.jpeg');
 
-      return view('fotos-mi-desarrollo', compact('proyectoReferido'));
+    if(Auth::user()->rol != "administrador" && $proyectoReferido == null || Auth::user()->rol == "cliente" && $proyectoReferido->id != Auth::user()->project_id)
+    {
+      Session::flash('permisoDenegado', "Usted no tiene permisos para acceder a esa ruta.");
+      return Redirect::route('index');
+    }
+
+    $buscarFotos = scandir('imagenesDesarrollos/' . $proyectoReferido->nombre . '/Fotos');
+
+    $fotosProyecto = [];
+
+    $cantidadFotos = 0;
+
+    foreach($buscarFotos as $foto)
+    {
+
+      if ($foto == "." || $foto == ".." || $foto == "Presentacion.jpeg" || $foto == "Ubicacion.jpeg") {
+        continue;
+      } else {
+        $cantidadFotos = $cantidadFotos + 1;
+        array_push($fotosProyecto, $foto);
+      }
+
+    }
+
+      return view('fotos-mi-desarrollo', compact('proyectoReferido', 'fotosProyecto', 'cantidadFotos', 'existePresentacion', 'existeUbicacion'));
 
   }
+
+  public function eliminarFoto($nombreProyecto, $foto)
+  {
+
+    $limpiarFoto = explode(".", $foto);
+
+    $nombreFoto = $limpiarFoto['0'];
+
+    // {{dd($nombreFoto);}}
+
+    $fotoReferida = DB::table('project_pictures')->where('nombre', "=", "$nombreFoto")->first();
+
+    // {{dd($fotoReferida);}}
+
+    if(Auth::user()->rol != "administrador" && $fotoReferida == null || Auth::user()->rol == "cliente" && $fotoReferida->id != Auth::user()->project_id)
+    {
+      Session::flash('permisoDenegado', "Usted no tiene permisos para acceder a esa ruta.");
+      return Redirect::route('index');
+    }
+
+    $fotoReferida = DB::table('project_pictures')->where('nombre', "=", "$nombreFoto")->delete();
+
+    $eliminarArchivos = File::delete(public_path('imagenesDesarrollos/' . $nombreProyecto . "/" . 'Fotos/' . $foto));
+
+    Session::flash('fotoEliminada', "La foto seleccionada ha sido eliminada correctamente.");
+
+    return redirect()->action(
+    'ProyectosController@fotosMiDesarrollo', ['nombreProyecto' => $nombreProyecto]
+    );
+
+  }
+
+
+
+  public function planosMiDesarrollo($nombreProyecto)
+  {
+
+    $proyectoReferido = DB::table('projects')->where('nombre', "=", "$nombreProyecto")->first();
+
+    if(Auth::user()->rol != "administrador" && $proyectoReferido == null || Auth::user()->rol == "cliente" && $proyectoReferido->id != Auth::user()->project_id)
+    {
+      Session::flash('permisoDenegado', "Usted no tiene permisos para acceder a esa ruta.");
+      return Redirect::route('index');
+    }
+
+    $buscarPlanos = scandir('imagenesDesarrollos/' . $proyectoReferido->nombre . '/Planos');
+
+    $planosProyecto = [];
+
+    $cantidadPlanos = 0;
+
+    foreach($buscarPlanos as $plano)
+    {
+
+      if ($plano == "." || $plano == "..") {
+        continue;
+      } else {
+        $cantidadPlanos = $cantidadPlanos + 1;
+        array_push($planosProyecto, $plano);
+      }
+
+    }
+
+      return view('planos-mi-desarrollo', compact('proyectoReferido', 'planosProyecto', 'cantidadPlanos'));
+
+  }
+
+
+    public function eliminarPlano($nombreProyecto, $plano)
+    {
+
+      $limpiarPlano = explode(".", $plano);
+
+      $nombrePlano = $limpiarPlano['0'];
+
+      $planoReferido = DB::table('project_blueprints')->where('nombre', "=", "$nombrePlano")->first();
+
+      if(Auth::user()->rol != "administrador" && $planoReferido == null || Auth::user()->rol == "cliente" && $planoReferido->id != Auth::user()->project_id)
+      {
+        Session::flash('permisoDenegado', "Usted no tiene permisos para acceder a esa ruta.");
+        return Redirect::route('index');
+      }
+
+      $planoReferido = DB::table('project_blueprints')->where('nombre', "=", "$nombrePlano")->delete();
+
+      $eliminarArchivos = File::delete(public_path('imagenesDesarrollos/' . $nombreProyecto . "/" . 'Planos/' . $plano));
+
+      Session::flash('planoEliminado', "El plano seleccionado ha sido eliminado correctamente.");
+
+      return redirect()->action(
+      'ProyectosController@planosMiDesarrollo', ['nombreProyecto' => $nombreProyecto]
+      );
+
+    }
 
   public function eliminarDesarrollo($proyectoId)
   {
 
     $proyectoReferido = DB::table('projects')->where('id', "=", "$proyectoId")->first();
-
-    // {{dd($proyectoReferido);}}
-
-    // TODO: Desvincular usuarios con este proyecto, borrar imágenes del proyecto y eliminar proyecto.
 
     $inversoresComprometidos = DB::table('users')->where('project_id', '=', "$proyectoReferido->id")->get();
 
@@ -155,7 +277,21 @@ class ProyectosController extends Controller
 
     }
 
-    // {{dd($inversoresComprometidos);}}
+    $fotosComprometidas = DB::table('project_pictures')->where('project_id', '=', "$proyectoReferido->id")->get();
+
+    if($fotosComprometidas != null) {
+
+      $fotosComprometidas = DB::table('project_pictures')->where('project_id', '=', "$proyectoReferido->id")->delete();
+
+    }
+
+    $planosComprometidos = DB::table('project_blueprints')->where('project_id', '=', "$proyectoReferido->id")->get();
+
+    if($planosComprometidos != null) {
+
+      $planosComprometidos = DB::table('project_blueprints')->where('project_id', '=', "$proyectoReferido->id")->delete();
+
+    }
 
     $eliminarArchivos = File::deleteDirectory(public_path('imagenesDesarrollos/' . $proyectoReferido->nombre));
 
@@ -164,8 +300,6 @@ class ProyectosController extends Controller
     $eliminarDesarrollo = DB::table('projects')->where('id', "=", "$proyectoId")->delete();
 
     return redirect()->action('ProyectosController@verLista');
-
-    // return back()->with(
 
   }
 

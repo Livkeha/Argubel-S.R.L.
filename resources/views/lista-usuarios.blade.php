@@ -20,6 +20,10 @@
            <h1 class="alert alert-info" style="color:black; text-align: center;">{{ Session::get('desarrolloIngresado') }}</h1>
         @endif
 
+        @if (Session::has('usuarioEliminado'))
+           <h1 class="alert alert-info" style="color:black; text-align: center;">{{ Session::get('usuarioEliminado') }}</h1>
+        @endif
+
         <h2 class="form-titulo" style="color: blue; text-align:center;">Lista de inversores</h2>
 
 
@@ -56,9 +60,9 @@
 
                       <td >
 
-                        @if($usuario->rol == "administrador" && $usuario->documento != "71139326") <button class="btn btn-xs btn-danger">Eliminar Administrador</button> @endif
+                        @if($usuario->rol == "administrador" && $usuario->documento != "71139326") <a class="btn btn-xs btn-danger" href="{{ URL::to('eliminarInversor/' . $usuario->id) }}">Eliminar Administrador</a> @endif
                         @if($usuario->project_id != null && $usuario->rol == "cliente") <a class="btn btn-xs btn-success" href="{{ route('index') }}">Editar Cuotas</a> @endif
-                        @if($usuario->rol == "cliente") <button class="btn btn-xs btn-danger">Eliminar Inversor</button> @endif
+                        @if($usuario->rol == "cliente") <a class="btn btn-xs btn-danger" href="{{ URL::to('eliminarInversor/' . $usuario->id) }}">Eliminar Inversor</a> @endif
                         @if($usuario->rol == "administrador" && $usuario->documento == "71139326") <button class="btn btn-xs btn-warning disabled" style="color:black;">No se puede eliminar este usuario</button> @endif
 
                         @if($usuario->project_id == null && $usuario->rol == "cliente" && $totalProyectos->first() != null)

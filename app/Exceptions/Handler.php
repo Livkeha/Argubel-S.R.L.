@@ -4,6 +4,9 @@ namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Redirect;
+use Session;
+use URL;
 
 class Handler extends ExceptionHandler
 {
@@ -26,6 +29,32 @@ class Handler extends ExceptionHandler
         'password_confirmation',
     ];
 
+
+        /**
+         * Render an exception into an HTTP response.
+         *
+         * @param  \Illuminate\Http\Request  $request
+         * @param  \Exception  $exception
+         * @return \Illuminate\Http\Response
+         */
+         public function render($request, Exception $exception)
+         {
+
+             if ($exception instanceof \Illuminate\Http\Exceptions\PostTooLargeException)
+
+              {
+
+                $errorPeso = ("El peso de cada foto no debe superar los 10MB.");
+
+                 Session::flash('pesoMaximo', "El peso de cada foto no debe superar los 10MB.");
+
+                 return redirect()->back()->withErrors(compact('errorPeso'));
+
+              }
+
+             return parent::render($request, $exception);
+         }
+
     /**
      * Report or log an exception.
      *
@@ -34,20 +63,12 @@ class Handler extends ExceptionHandler
      * @param  \Exception  $exception
      * @return void
      */
+
+
+
     public function report(Exception $exception)
     {
         parent::report($exception);
     }
 
-    /**
-     * Render an exception into an HTTP response.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Exception  $exception
-     * @return \Illuminate\Http\Response
-     */
-    public function render($request, Exception $exception)
-    {
-        return parent::render($request, $exception);
-    }
 }

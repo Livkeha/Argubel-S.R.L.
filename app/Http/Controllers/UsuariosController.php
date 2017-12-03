@@ -78,4 +78,27 @@ class UsuariosController extends Controller
     // {{dd($usuarioReferido);}}
   }
 
+  public function eliminarInversor($usuarioId)
+  {
+
+    $usuarioReferido = DB::table('users')->where("id", "=", "$usuarioId")->first();
+
+    foreach($usuarioReferido as $clave => $valor) {
+
+    if($valor == "cliente") {
+      Session::flash('usuarioEliminado', "El inversor \"" . $usuarioReferido->nombre . " " . $usuarioReferido->apellido . "\" ha sido eliminado satisfactoriamente.");
+    }
+
+    if($valor == "administrador") {
+      Session::flash('usuarioEliminado', "El administrador \"" . $usuarioReferido->nombre . " " . $usuarioReferido->apellido . "\" ha sido eliminado satisfactoriamente.");
+    }
+
+  }
+
+    $usuarioEliminado = DB::table('users')->where("id", "=", "$usuarioId")->delete();
+
+    return redirect()->action('UsuariosController@verLista');
+
+  }
+
 }

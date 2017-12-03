@@ -9,6 +9,7 @@ use App\Project;
 use Redirect;
 use DB;
 use Auth;
+use File;
 
 class RegistrarProyectoController extends Controller
 {
@@ -231,6 +232,10 @@ class RegistrarProyectoController extends Controller
       $listaProyectos[$inversor->project_id] = ($nombreProyecto);
     }
 
+
+    $result = File::makeDirectory('imagenesDesarrollos/' . $proyectoNuevo['nombre'] . '/Fotos', 0775, true);
+    $result = File::makeDirectory('imagenesDesarrollos/' . $proyectoNuevo['nombre'] . '/Planos', 0775, true);
+
     // return redirect()->action('PostsUsuarioController@crearPost');
     // {{dd($postSubido);}}
     // return Redirect::route('crearPost')->with($postSubido);
@@ -246,7 +251,8 @@ class RegistrarProyectoController extends Controller
       // {{dd($proyecto);}}
       $file = $proyectoNuevo['imagenPresentacion'];
       // {{dd($file);}}
-      $ext = $file->extension();
+      $ext = 'jpeg';
+      // $ext = $file->extension();
       // {{dd($ext);}}
       // $name = uniqid();
       // $name = ucfirst(($data['username'] . '-perfil'));

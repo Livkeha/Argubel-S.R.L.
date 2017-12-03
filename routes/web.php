@@ -92,6 +92,18 @@ Route::group(['middleware' => ['permission:datos_proyectos']], function () {
     Route::get('/miDesarrollo/{nombreProyecto}/fotos', 'ProyectosController@fotosMiDesarrollo')->name('fotosMiDesarrollo');
 });
 
+Route::group(['middleware' => ['permission:datos_proyectos']], function () {
+    Route::get('/miDesarrollo/{nombreProyecto}/fotos/eliminarFoto/{foto}', 'ProyectosController@eliminarFoto')->name('eliminarFoto');
+});
+
+Route::group(['middleware' => ['permission:datos_proyectos']], function () {
+    Route::get('/miDesarrollo/{nombreProyecto}/planos', 'ProyectosController@planosMiDesarrollo')->name('planosMiDesarrollo');
+});
+
+Route::group(['middleware' => ['permission:datos_proyectos']], function () {
+    Route::get('/miDesarrollo/{nombreProyecto}/planos/eliminarPlano/{plano}', 'ProyectosController@eliminarPlano')->name('eliminarPlano');
+});
+
 
 
 
@@ -104,8 +116,23 @@ Route::group(['middleware' => ['permission:editar_clientes']], function () {
     Route::post('/ingresarEnDesarrollo/{usuarioId}', 'UsuariosController@ingresarEnDesarrollo')->name('ingresarEnDesarrollo');
 });
 
+Route::group(['middleware' => ['permission:editar_clientes']], function () {
+    Route::get('/eliminarInversor/{usuarioId}', 'UsuariosController@eliminarInversor')->name('eliminarInversor');
+});
+
 Route::group(['middleware' => ['permission:lista_clientes']], function () {
     Route::get('/listaUsuarios', 'UsuariosController@verLista')->name('listaUsuarios');
+});
+
+
+
+
+Route::group(['middleware' => ['permission:editar_desarrollos']], function () {
+    Route::post('/validarFotos', 'FotosProyectosController@validarFotos')->name('validarFotos');
+});
+
+Route::group(['middleware' => ['permission:editar_desarrollos']], function () {
+    Route::post('/validarPlanos', 'PlanosProyectosController@validarPlanos')->name('validarPlanos');
 });
 
 
