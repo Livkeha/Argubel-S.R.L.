@@ -52,8 +52,8 @@
                       <td>
                         @if($inversores->all() != null) <a class="btn btn-xs btn-success" href="{{ URL::to('agregarInversor/' . $proyecto->id) }}">Añadir Inversor</a> @endif
                         @if($inversores->all() == null) <a class="btn btn-xs btn-success disabled">Añadir Inversor</a> @endif
-                        <a class="btn btn-xs btn-primary" href="{{ URL::to('miDesarrollo/' . strtolower($proyecto->nombre)) . '/fotos' }}">Añadir Fotos</a>
-                        <a class="btn btn-xs btn-primary" href="{{ URL::to('miDesarrollo/' . strtolower($proyecto->nombre)) . '/planos' }}">Añadir Planos</a>
+                        <a class="btn btn-xs btn-primary" href="{{ URL::to('miDesarrollo/' . strtolower($proyecto->id)) . '/fotos' }}">Añadir Fotos</a>
+                        <a class="btn btn-xs btn-primary" href="{{ URL::to('miDesarrollo/' . strtolower($proyecto->id)) . '/planos' }}">Añadir Planos</a>
                         <a class="btn btn-xs btn-danger" href="{{ URL::to('eliminarDesarrollo/' . $proyecto->id) }}">Eliminar Desarrollo</a>
                       </td>
                     <tr>

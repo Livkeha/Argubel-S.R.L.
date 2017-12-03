@@ -85,23 +85,23 @@ Route::group(['middleware' => ['permission:editar_desarrollos']], function () {
 });
 
 Route::group(['middleware' => ['permission:datos_proyectos']], function () {
-    Route::get('/miDesarrollo/{nombreProyecto}', 'ProyectosController@miDesarrollo')->name('miDesarrollo');
+    Route::get('/miDesarrollo/{idProyecto}', 'ProyectosController@miDesarrollo')->name('miDesarrollo');
 });
 
 Route::group(['middleware' => ['permission:datos_proyectos']], function () {
-    Route::get('/miDesarrollo/{nombreProyecto}/fotos', 'ProyectosController@fotosMiDesarrollo')->name('fotosMiDesarrollo');
+    Route::get('/miDesarrollo/{idProyecto}/fotos', 'ProyectosController@fotosMiDesarrollo')->name('fotosMiDesarrollo');
 });
 
 Route::group(['middleware' => ['permission:datos_proyectos']], function () {
-    Route::get('/miDesarrollo/{nombreProyecto}/fotos/eliminarFoto/{foto}', 'ProyectosController@eliminarFoto')->name('eliminarFoto');
+    Route::get('/miDesarrollo/{idProyecto}/fotos/eliminarFoto/{foto}', 'ProyectosController@eliminarFoto')->name('eliminarFoto');
 });
 
 Route::group(['middleware' => ['permission:datos_proyectos']], function () {
-    Route::get('/miDesarrollo/{nombreProyecto}/planos', 'ProyectosController@planosMiDesarrollo')->name('planosMiDesarrollo');
+    Route::get('/miDesarrollo/{idProyecto}/planos', 'ProyectosController@planosMiDesarrollo')->name('planosMiDesarrollo');
 });
 
 Route::group(['middleware' => ['permission:datos_proyectos']], function () {
-    Route::get('/miDesarrollo/{nombreProyecto}/planos/eliminarPlano/{plano}', 'ProyectosController@eliminarPlano')->name('eliminarPlano');
+    Route::get('/miDesarrollo/{idProyecto}/planos/eliminarPlano/{plano}', 'ProyectosController@eliminarPlano')->name('eliminarPlano');
 });
 
 

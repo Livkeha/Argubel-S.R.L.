@@ -117,10 +117,12 @@ class ProyectosController extends Controller
 
   }
 
-  public function miDesarrollo($nombreProyecto)
+  public function miDesarrollo($idProyecto)
   {
 
-    $proyectoReferido = DB::table('projects')->where('nombre', "=", "$nombreProyecto")->first();
+    $nombreProyecto = DB::table('projects')->where('id', "=", "$idProyecto")->first();
+
+    $proyectoReferido = DB::table('projects')->where('nombre', "=", "$nombreProyecto->nombre")->first();
 
     if(Auth::user()->rol != "administrador" && $proyectoReferido == null || Auth::user()->rol == "cliente" && $proyectoReferido->id != Auth::user()->project_id)
     {
@@ -132,10 +134,18 @@ class ProyectosController extends Controller
 
   }
 
-  public function fotosMiDesarrollo($nombreProyecto)
+  public function fotosMiDesarrollo($idProyecto)
   {
 
-    $proyectoReferido = DB::table('projects')->where('nombre', "=", "$nombreProyecto")->first();
+    // {{dd($idProyecto);}}
+
+    $nombreProyecto = DB::table('projects')->where('id', "=", "$idProyecto")->first();
+
+    // {{dd($nombreProyecto);}}
+
+    $proyectoReferido = DB::table('projects')->where('nombre', "=", "$nombreProyecto->nombre")->first();
+
+    // {{dd($proyectoReferido);}}
 
     $existePresentacion = public_path('imagenesDesarrollos/' . $proyectoReferido->nombre . "/" . 'Presentacion.jpeg');
     $existeUbicacion = public_path('imagenesDesarrollos/' . $proyectoReferido->nombre . "/" . 'Ubicacion.jpeg');
@@ -168,7 +178,7 @@ class ProyectosController extends Controller
 
   }
 
-  public function eliminarFoto($nombreProyecto, $foto)
+  public function eliminarFoto($idProyecto, $foto)
   {
 
     $limpiarFoto = explode(".", $foto);
@@ -177,9 +187,11 @@ class ProyectosController extends Controller
 
     // {{dd($nombreFoto);}}
 
-    $fotoReferida = DB::table('project_pictures')->where('nombre', "=", "$nombreFoto")->first();
+    $fotoReferida = DB::table('project_pictures')->where('nombre', "=", "$nombreFoto")->where('project_id', '=', "$idProyecto")->first();
 
-    // {{dd($fotoReferida);}}
+    $nombreProyecto = DB::table('projects')->where('id', "=", "$idProyecto")->first();
+
+    // {{dd($nombreProyecto);}}
 
     if(Auth::user()->rol != "administrador" && $fotoReferida == null || Auth::user()->rol == "cliente" && $fotoReferida->id != Auth::user()->project_id)
     {
@@ -187,24 +199,26 @@ class ProyectosController extends Controller
       return Redirect::route('index');
     }
 
-    $fotoReferida = DB::table('project_pictures')->where('nombre', "=", "$nombreFoto")->delete();
+    $fotoReferida = DB::table('project_pictures')->where('nombre', "=", "$nombreFoto")->where('project_id', '=', "$idProyecto")->delete();
 
-    $eliminarArchivos = File::delete(public_path('imagenesDesarrollos/' . $nombreProyecto . "/" . 'Fotos/' . $foto));
+    $eliminarArchivos = File::delete(public_path('imagenesDesarrollos/' . $nombreProyecto->nombre . "/" . 'Fotos/' . $foto));
 
     Session::flash('fotoEliminada', "La foto seleccionada ha sido eliminada correctamente.");
 
     return redirect()->action(
-    'ProyectosController@fotosMiDesarrollo', ['nombreProyecto' => $nombreProyecto]
+    'ProyectosController@fotosMiDesarrollo', ['idProyecto' => $nombreProyecto->id]
     );
 
   }
 
 
 
-  public function planosMiDesarrollo($nombreProyecto)
+  public function planosMiDesarrollo($idProyecto)
   {
 
-    $proyectoReferido = DB::table('projects')->where('nombre', "=", "$nombreProyecto")->first();
+    $nombreProyecto = DB::table('projects')->where('id', "=", "$idProyecto")->first();
+
+    $proyectoReferido = DB::table('projects')->where('nombre', "=", "$nombreProyecto->nombre")->first();
 
     if(Auth::user()->rol != "administrador" && $proyectoReferido == null || Auth::user()->rol == "cliente" && $proyectoReferido->id != Auth::user()->project_id)
     {
@@ -235,14 +249,16 @@ class ProyectosController extends Controller
   }
 
 
-    public function eliminarPlano($nombreProyecto, $plano)
+    public function eliminarPlano($idProyecto, $plano)
     {
 
       $limpiarPlano = explode(".", $plano);
 
       $nombrePlano = $limpiarPlano['0'];
 
-      $planoReferido = DB::table('project_blueprints')->where('nombre', "=", "$nombrePlano")->first();
+      $planoReferido = DB::table('project_blueprints')->where('nombre', "=", "$nombrePlano")->where('project_id', '=', "$idProyecto")->first();
+
+      $nombreProyecto = DB::table('projects')->where('id', "=", "$idProyecto")->first();
 
       if(Auth::user()->rol != "administrador" && $planoReferido == null || Auth::user()->rol == "cliente" && $planoReferido->id != Auth::user()->project_id)
       {
@@ -250,14 +266,14 @@ class ProyectosController extends Controller
         return Redirect::route('index');
       }
 
-      $planoReferido = DB::table('project_blueprints')->where('nombre', "=", "$nombrePlano")->delete();
+      $planoReferido = DB::table('project_blueprints')->where('nombre', "=", "$nombrePlano")->where('project_id', '=', "$idProyecto")->delete();
 
-      $eliminarArchivos = File::delete(public_path('imagenesDesarrollos/' . $nombreProyecto . "/" . 'Planos/' . $plano));
+      $eliminarArchivos = File::delete(public_path('imagenesDesarrollos/' . $nombreProyecto->nombre . "/" . 'Planos/' . $plano));
 
       Session::flash('planoEliminado', "El plano seleccionado ha sido eliminado correctamente.");
 
       return redirect()->action(
-      'ProyectosController@planosMiDesarrollo', ['nombreProyecto' => $nombreProyecto]
+      'ProyectosController@planosMiDesarrollo', ['idProyecto' => $nombreProyecto->id]
       );
 
     }

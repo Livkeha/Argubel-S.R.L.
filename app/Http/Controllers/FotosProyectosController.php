@@ -388,67 +388,25 @@ class FotosProyectosController extends Controller
     public function subirFotos($fotosASubir, $idProyecto, $nombreProyecto, $cantidadFotos)
     {
 
-
-      // {{dd($cantidadFotos);}}
-
-      // $fotosSubidas = DB::table('project_pictures')->where("picture_number", "!=", null)->first();
-
-      $fotosSubidas = DB::table('project_pictures')->where("picture_number", "!=", null)->get();
-
-      // {{dd($fotosSubidas);}}
+      $fotosSubidas = DB::table('project_pictures')->where("picture_number", "!=", null)->where("project_id", "=", "$idProyecto")->get();
 
       $implode = $fotosSubidas->implode('picture_number', ",");
-      // {{dd($implode);}}
-      //
-      $fotosEnDB = explode(",", $implode);   //TRAE TODOS LOS NÚMEROS DE FOTO DE CADA ARCHIVO SUBIDO
 
-      // {{dd($fotosEnDB);}}
+      $fotosEnDB = explode(",", $implode);   //TRAE TODOS LOS NÚMEROS DE PLANO DE CADA ARCHIVO SUBIDO
 
-
-      // // $tres = explode(", ", $fotosEnDB);
-      //
-      // {{dd($fotosEnDB);}}
-
-      // if($fotosEnDB['0'] == "")
-      // {
-      //   var_dump("Si, es null!");exit;
-      // }else {
-      //   var_dump("No, no es null!");exit;
-      // }
-
-      // // {{dd($fotosEnDB);}}
-      //
-      // foreach ($fotosEnDB as $numero) {
-      //   var_dump($numero);
-      // };exit;
-
-      // {{dd($numeroFoto);}}
-
-      // for ($i=0; $i < ; $i++) {
-      //   # code...
-      // }
-
-
+      $numeroFoto = end($fotosEnDB);
 
         foreach ($fotosASubir as $fotoASubir) {   // POR CADA FOTO QUE ESTOY QUERIENDO SUBIR
-          // {{dd($fotosASubir);}}
 
-        if($fotosEnDB['0'] == "" && !isset($numeroFoto))
-        {
-          $numeroFoto = 1;  //SI NO HAY NINGUNA FOTO SUBIDA, ESTA ES LA PRIMERA
-        }
+          foreach ($fotosEnDB as $fotoEnDB) {
 
-        foreach($fotosEnDB as $fotoEnDB) {  // POR CADA FOTO QUE HAY EN LA BASE DE DATOS
+            while ($numeroFoto == $fotoEnDB) {
+              if($numeroFoto == "") $numeroFoto = 0;
+              $numeroFoto = $numeroFoto + 1;
+              break;
+            };
 
-          for ($i=1; $i < 11; $i++) { //COMPARAR CADA NUMERO DE FOTO A VER SI HAY HUECOS
-
-          if($fotoEnDB == $i) { // SI LA FOTO ES IGUAL AL FOR CONTINUA
-            continue;
-          } elseif($fotoEnDB != $i) { // SI LA FOTO NO ES IGUAL AL I, SIGNIFICA QUE ESE ESPACIO ESTÁ HUECO
-
-            var_dump($fotoEnDB, $i);
-
-            $numeroFoto = $i;
+          }
 
             $proyecto = ($nombreProyecto . "/" . "Fotos");
 
@@ -466,43 +424,7 @@ class FotosProyectosController extends Controller
 
             $file->storeAs($proyecto, $name.'.'.$ext);
 
-            break;
-
-          }
-
-
-          }
-
-        }
-
-        // $proyecto = $nombreProyecto;
-        // // {{dd($proyecto);}}
-        // $file = $fotoASubir;
-        // // {{dd($file);}}
-        // $ext = 'jpeg';
-        // // $ext = $file->extension();
-        // // {{dd($ext);}}
-        // // $name = uniqid();
-        // // $name = ucfirst(($data['username'] . '-perfil'));
-        //
-        // $name = ('Foto-' . $numeroFoto);
-        // // {{dd($name);}}
-        //
-        // // $file->storeAs($user, $name.'.'.$ext);
-        //
-        // // $image = new \App\Image(['src' => $name.'.'.$ext]);
-        //
-        // // $image = $name . '.' . $ext;
-        // // var_dump($numeroFoto);exit;
-        //     ProjectPictures::create([
-        //         'nombre' => $name,
-        //         'project_id' => $idProyecto,
-        //         'picture_number' => $numeroFoto,
-        //     ]);
-        //
-        // $numeroFoto = $numeroFoto + 1;
-        //
-        // $file->storeAs($proyecto, $name.'.'.$ext);
+            $numeroFoto = $numeroFoto + 1;
 
       }
 

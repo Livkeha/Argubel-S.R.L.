@@ -87,28 +87,25 @@ class PlanosProyectosController extends Controller
     public function subirPlanos($planosASubir, $idProyecto, $nombreProyecto, $cantidadPlanos)
     {
 
-      $planosSubidos = DB::table('project_blueprints')->where("blueprint_number", "!=", null)->get();
+      $planosSubidos = DB::table('project_blueprints')->where("blueprint_number", "!=", null)->where("project_id", "=", "$idProyecto")->get();
 
       $implode = $planosSubidos->implode('blueprint_number', ",");
 
       $planosEnDB = explode(",", $implode);   //TRAE TODOS LOS NÚMEROS DE PLANO DE CADA ARCHIVO SUBIDO
 
+      $numeroPlano = end($planosEnDB);
+
         foreach ($planosASubir as $planoASubir) {   // POR CADA FOTO QUE ESTOY QUERIENDO SUBIR
 
-        if($planosEnDB['0'] == "" && !isset($numeroPlano))
-        {
-          $numeroPlano = 1;  //SI NO HAY NINGUNA FOTO SUBIDA, ESTA ES LA PRIMERA
-        }
+          foreach ($planosEnDB as $planoEnDB) {
 
-        foreach($planosEnDB as $planoEnDB) {  // POR CADA FOTO QUE HAY EN LA BASE DE DATOS
+            while ($numeroPlano == $planoEnDB) {
+              if($numeroPlano == "") $numeroPlano = 0;
+              $numeroPlano = $numeroPlano + 1;
+              break;
+            };
 
-          for ($i=1; $i < 11; $i++) { //COMPARAR CADA NUMERO DE FOTO A VER SI HAY HUECOS
-
-          if($planoEnDB == $i) { // SI LA FOTO ES IGUAL AL FOR CONTINUA
-            continue;
-          } elseif($planoEnDB != $i) { // SI LA FOTO NO ES IGUAL AL I, SIGNIFICA QUE ESE ESPACIO ESTÁ HUECO
-
-            $numeroPlano = $i;
+          }
 
             $proyecto = ($nombreProyecto . "/" . "Planos");
 
@@ -126,14 +123,7 @@ class PlanosProyectosController extends Controller
 
             $file->storeAs($proyecto, $name.'.'.$ext);
 
-            break;
-
-          }
-
-
-          }
-
-        }
+            $numeroPlano = $numeroPlano + 1;
 
       }
 
@@ -141,5 +131,4 @@ class PlanosProyectosController extends Controller
 
     return Redirect::back();
   }
-
 }

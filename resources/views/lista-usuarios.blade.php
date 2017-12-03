@@ -48,7 +48,7 @@
                     @if($usuario->rol == "administrador") <tr style="border: 1px solid rgba(0,0,0,0.3); background-color: rgba(124,88,145,0.3);"> @endif
                     @if($usuario->rol == "cliente") <tr style="border: 1px solid rgba(0,0,0,0.3); background-color: rgba(176,106,92,0.3);"> @endif
 
-                      <td ><b>{{ $usuario->apellido }}, {{ $usuario->nombre }}</b></td>
+                      <td ><b>{{ $usuario->apellido }}, {{ $usuario->nombre }}</b> @if($usuario->documento != "71139326") <a class="btn btn-xs btn-danger" href="{{ URL::to('eliminarInversor/' . $usuario->id) }}">Cambiar Contraseña</a> @endif</td>
 
                       <td >{{ $usuario->documento }}</td>
 

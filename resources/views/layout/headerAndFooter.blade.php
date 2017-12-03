@@ -22,9 +22,10 @@
 
        @role('Administrador') @if (Auth::check()) <?php $proyectos = DB::table('projects')->orderBy('nombre', 'asc')->first(); ?> @endif @endrole
 
+       @role('Cliente') @if (Auth::check()) <?php $idProyecto = DB::table('projects')->where("id", "=", Auth::user()->project_id)->value('id'); ?> @endif @endrole
        @role('Cliente') @if (Auth::check()) <?php $nombreProyecto = DB::table('projects')->where("id", "=", Auth::user()->project_id)->value('nombre'); ?> @endif @endrole
 
-       @role('Cliente') @if (Auth::check()) <?php $proyectoReferido = DB::table('projects')->where("nombre", "=", "$nombreProyecto")->first(); ?> @endif @endrole
+       @role('Cliente') @if (Auth::check()) <?php $proyectoReferido = DB::table('projects')->where("id", "=", "$idProyecto")->first(); ?> @endif @endrole
 
 <header id="header" class="interior">
 
@@ -68,9 +69,9 @@
 	    @if (!Auth::check()) <li><a href="{{ url('/servicios') }}">SERVICIOS</a></li> @endif
       @if (!Auth::check()) <li><a href="{{ url('/empresa') }}">EMPRESA</a></li> @endif
       @role('Cliente') @if ($nombreProyecto) <li><a href="{{ url('/') }}">CUOTAS</a></li> @endif @endrole
-      @role('Cliente') @if ($nombreProyecto) <li><a href="{{ URL::to('miDesarrollo/' . strtolower($nombreProyecto)) . '/fotos' }}">FOTOS</a></li> @endif @endrole
-      @role('Cliente') @if ($nombreProyecto) <li><a href="{{ URL::to('miDesarrollo/' . strtolower($nombreProyecto)) . '/planos' }}">PLANOS</a></li> @endif @endrole
-      @role('Cliente') @if ($nombreProyecto) <li style="text-decoration: underline"><a href="{{ URL::to('miDesarrollo/' . strtolower($nombreProyecto)) }}"><b>{{ $nombreProyecto }}</b></a></li> @endif @endrole
+      @role('Cliente') @if ($nombreProyecto) <li><a href="{{ URL::to('/') }}/miDesarrollo/{{$idProyecto}}/fotos">FOTOS</a></li> @endif @endrole
+      @role('Cliente') @if ($nombreProyecto) <li><a href="{{ URL::to('/') }}/miDesarrollo/{{$idProyecto}}/planos">PLANOS</a></li> @endif @endrole
+      @role('Cliente') @if ($nombreProyecto) <li style="text-decoration: underline"><a href="{{ URL::to('/') }}/miDesarrollo/{{$idProyecto}}"><b>{{ $nombreProyecto }}</b></a></li> @endif @endrole
 	</ul>
   </div>
 </nav>

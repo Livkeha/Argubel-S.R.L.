@@ -8,14 +8,9 @@ Agregar al form de crear proyecto un input de foto principal, un input de foto u
 
 Si un user NO tiene proyecto, que aparezca un select con todos los proyectos, y al lado el boton "Aniadir".    HECHO
 
+La vista de fotos, cuotas y planos es la misma para ambos. Si sos administrador, te aparece la opcion para agregar contenido.    HECHO
+
 --------------------------------------------------------------------------------------------------------------------------------------------
-
-
-
-Analizar poner Bootstrap Dropdown para agregar proyecto a un usuario.    ÚLTIMA PRIORIDAD
-
-La vista de fotos, cuotas y planos es la misma para ambos. Si sos administrador, te aparece la opcion para agregar contenido.
-
 
 
 Cambiar contraseña de X usuario en la lista de usuarios.

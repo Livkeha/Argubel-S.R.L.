@@ -62,19 +62,19 @@
 
 <img src="{{ URL::to('/') }}/imagenesDesarrollos/{{$proyectoReferido->nombre}}/{{$proyectoReferido->imagenPresentacion}}" alt="{{$proyectoReferido->imagenPresentacion}}" class="profileImage" style='height:300px'>
 
-<!-- @role('Administrador') <a class="btn btn-xs btn-danger" href="{{ URL::to('miDesarrollo/' . strtolower($proyectoReferido->nombre)) . '/fotos' . '/eliminarFoto/' . $proyectoReferido->imagenPresentacion }}">Eliminar Foto</a> @endif @endrole -->
+<!-- @role('Administrador') <a class="btn btn-xs btn-danger" href="{{ URL::to('miDesarrollo/' . strtolower($proyectoReferido->id)) . '/fotos' . '/eliminarFoto/' . $proyectoReferido->imagenPresentacion }}">Eliminar Foto</a> @endif @endrole -->
 
 @if(file_exists($existeUbicacion)) <h1 style="color:red;">Ubicación:</h1>
 
 <img src="{{ URL::to('/') }}/imagenesDesarrollos/{{$proyectoReferido->nombre}}/{{$proyectoReferido->imagenUbicacion}}" alt="{{$proyectoReferido->imagenUbicacion}}" class="profileImage" style='height:300px'>
 
-<!-- @role('Administrador') <a class="btn btn-xs btn-danger" href="{{ URL::to('miDesarrollo/' . strtolower($proyectoReferido->nombre)) . '/fotos' . '/eliminarFoto/' . $proyectoReferido->imagenUbicacion }}">Eliminar Foto</a> @endif @endrole -->
+<!-- @role('Administrador') <a class="btn btn-xs btn-danger" href="{{ URL::to('miDesarrollo/' . strtolower($proyectoReferido->id)) . '/fotos' . '/eliminarFoto/' . $proyectoReferido->imagenUbicacion }}">Eliminar Foto</a> @endif @endrole -->
 
 <h1 style="color:red;">Fotos:</h1>
 
 @foreach($fotosProyecto as $foto)
 <img src="{{ URL::to('/') }}/imagenesDesarrollos/{{$proyectoReferido->nombre}}/Fotos/{{$foto}}" alt="{{$foto}}" class="profileImage" style='height:300px'>
-@role('Administrador') <a class="btn btn-xs btn-danger" href="{{ URL::to('miDesarrollo/' . strtolower($proyectoReferido->nombre)) . '/fotos' . '/eliminarFoto/' . $foto }}">Eliminar Foto</a> @endrole
+@role('Administrador') <a class="btn btn-xs btn-danger" href="{{ URL::to('miDesarrollo/' . strtolower($proyectoReferido->id)) . '/fotos' . '/eliminarFoto/' . $foto }}">Eliminar Foto</a> @endrole
 @endforeach
 
 @endsection
