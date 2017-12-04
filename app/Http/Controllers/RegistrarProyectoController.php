@@ -295,7 +295,7 @@ class RegistrarProyectoController extends Controller
       // {{dd($proyecto);}}
       $file = $proyectoNuevo['imagenUbicacion'];
       // {{dd($file);}}
-      $ext = $file->extension();
+      $ext = 'jpeg';
       // {{dd($ext);}}
       // $name = uniqid();
       // $name = ucfirst(($data['username'] . '-perfil'));
