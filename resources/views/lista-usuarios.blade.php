@@ -20,6 +20,10 @@
            <h1 class="alert alert-info" style="color:black; text-align: center;">{{ Session::get('desarrolloIngresado') }}</h1>
         @endif
 
+        @if (Session::has('passwordModificada'))
+           <h1 class="alert alert-info" style="color:black; text-align: center;">{{ Session::get('passwordModificada') }}</h1>
+        @endif
+
         @if (Session::has('usuarioEliminado'))
            <h1 class="alert alert-info" style="color:black; text-align: center;">{{ Session::get('usuarioEliminado') }}</h1>
         @endif
@@ -48,7 +52,7 @@
                     @if($usuario->rol == "administrador") <tr style="border: 1px solid rgba(0,0,0,0.3); background-color: rgba(124,88,145,0.3);"> @endif
                     @if($usuario->rol == "cliente") <tr style="border: 1px solid rgba(0,0,0,0.3); background-color: rgba(176,106,92,0.3);"> @endif
 
-                      <td ><b>{{ $usuario->apellido }}, {{ $usuario->nombre }}</b> @if($usuario->documento != "71139326") <a class="btn btn-xs btn-danger" href="{{ URL::to('eliminarInversor/' . $usuario->id) }}">Cambiar Contraseña</a> @endif</td>
+                      <td ><b>{{ $usuario->apellido }}, {{ $usuario->nombre }}</b> @if($usuario->documento != "71139326") <a class="btn btn-xs btn-primary" href="{{ URL::to('cambiarPassword/' . $usuario->id) }}">Cambiar Contraseña</a> @endif</td>
 
                       <td >{{ $usuario->documento }}</td>
 

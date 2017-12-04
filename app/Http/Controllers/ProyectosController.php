@@ -114,6 +114,30 @@ class ProyectosController extends Controller
 
   return redirect()->action('ProyectosController@verLista');
 
+  }
+
+  public function modificarMontoEstablecido($idProyecto)
+  {
+
+    $proyectoReferido = DB::table('projects')->where("id", "=", "$idProyecto")->first();
+
+    return view('modificar-monto-establecido', compact('proyectoReferido'));
+  }
+
+  public function montoEstablecidoModificado($idProyecto)
+  {
+
+        $nuevoMonto = $_POST["cuota"];
+
+        $proyectoReferido = DB::table('projects')->where("id", "=", "$idProyecto")->first();
+
+        $proyectoAfectado = DB::table('projects')->where("id", "=", "$idProyecto")->select('monto_establecido')->update(
+          ['monto_establecido' => $nuevoMonto]
+        );
+
+        Session::flash('montoEstablecidoModificado', "El monto de cuota establecido para \"" . $proyectoReferido->nombre . "\" ha sido modificado satisfactoriamente.");
+
+        return redirect()->action('ProyectosController@verLista');
 
   }
 
@@ -251,6 +275,8 @@ class ProyectosController extends Controller
 
     public function eliminarPlano($idProyecto, $plano)
     {
+
+      // {{dd($idProyecto, $plano);}}
 
       $limpiarPlano = explode(".", $plano);
 

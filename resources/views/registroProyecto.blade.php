@@ -55,6 +55,11 @@
     </div>
 
     <div class="form-group">
+      <label class="control-label col-sm-4"> Monto inicial de cuota establecido </label>
+      <input class="form-control" type='number' name="monto_establecido" required  @if ($inversoresNuevos->all() == null) disabled @endif>
+    </div>
+
+    <div class="form-group">
       <label class="control-label col-md-2" for="">Imagen de presentación:</label>
       <input type="file" name="imagenPresentacion" class="file" value="" @if ($inversoresNuevos->all() == null) disabled @endif>
       <span class="error-imgPresentacion"></span>

@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use App\Balance;
 use DB;
 use Session;
+use Auth;
+use Redirect;
 
 class UsuariosController extends Controller
 {
@@ -16,10 +19,6 @@ class UsuariosController extends Controller
       $usuarios = DB::table('users')->orderBy('apellido', 'asc')->get();
       $totalProyectos = DB::table('projects')->orderBy('nombre', 'asc')->get();
 
-      // {{dd($totalProyectos);}}
-
-      // $inversoresOcupados = DB::table('users')->orderBy('apellido', 'asc')->where('project_id', '!=', null)->get();
-
       $listaProyectos = [];
 
       foreach ($usuarios as $usuario) {
@@ -27,13 +26,32 @@ class UsuariosController extends Controller
         $listaProyectos[$usuario->project_id] = ($nombreProyecto);
       }
 
-      // $proyectosUsers = $usuarios->project_id;
-
-      // $proyectos = DB::table('projects')->where()
-      // {{dd($posts);}}
-
         return view('lista-usuarios', compact('usuarios', 'listaProyectos', 'totalProyectos'));
 
+  }
+
+  public function cambiarPassword($usuarioId)
+  {
+
+    $usuarioReferido = DB::table('users')->where("id", "=", "$usuarioId")->first();
+
+    return view('cambiar-password', compact('usuarioReferido'));
+  }
+
+  public function passwordModificada($usuarioId)
+  {
+
+    $nuevoPassword = $_POST["password"];
+
+    $usuarioReferido = DB::table('users')->where("id", "=", "$usuarioId")->first();
+
+    $usuarioAfectado = DB::table('users')->where("id", "=", "$usuarioId")->select('password')->update(
+      ['password' => bcrypt($nuevoPassword)]
+    );
+
+    Session::flash('passwordModificada', "La contraseña de \"" . $usuarioReferido->nombre . " " . $usuarioReferido->apellido . "\" ha sido modificada satisfactoriamente.");
+
+    return redirect()->action('UsuariosController@verLista');
   }
 
   public function ingresarEnDesarrollo($usuarioId)
@@ -54,6 +72,25 @@ class UsuariosController extends Controller
     Session::flash('desarrolloIngresado', "\"" . $usuarioReferido->nombre . " " . $usuarioReferido->apellido . "\" ingresó al desarrollo \"" . $desarrolloAfectado . "\" satisfactoriamente.");
 
     return redirect()->action('UsuariosController@verLista');
+
+  }
+
+  public function misCuotas($proyectoId, $usuarioId)
+  {
+
+    if(Auth::user()->rol == "cliente" && $proyectoId != Auth::user()->project_id)
+      {
+        Session::flash('permisoDenegado', "Usted no tiene permisos para acceder a esa ruta.");
+        return Redirect::route('index');
+      }
+
+    $cuotas = DB::table('balances')->where('project_id', '=', "$proyectoId")->where('user_id', '=', "$usuarioId")->orderBy('fecha_pagado', 'asc')->first();
+
+    if($cuotas == null)
+    {
+      Session::flash('sinPagos', "Usted aun no registra pagos realizados.");
+      return redirect()->route('miDesarrollo', ['idProyecto' => $proyectoId]);
+    }
 
   }
 

@@ -18,9 +18,15 @@
            <h2 class="alert alert-info" style="color:red; text-align: center;">{{ Session::get('proyectoActualizado') }}</h2>
         @endif
 
+        @if (Session::has('montoEstablecidoModificado'))
+           <h2 class="alert alert-info" style="color:red; text-align: center;">{{ Session::get('montoEstablecidoModificado') }}</h2>
+        @endif
+
         @if (Session::has('desarrolloEliminado'))
            <h1 class="alert alert-info" style="color:black; text-align: center;">{{ Session::get('desarrolloEliminado') }}</h1>
         @endif
+
+
 
         <h2 class="form-titulo" style="color: blue; text-align:center;">Lista de desarrollos</h2>
 
@@ -35,6 +41,7 @@
                     <th>Proyecto</th>
                     <th>Dirección</th>
                     <th>Inicio de Desarrollo</th>
+                    <th>Monto de cuota establecido</th>
                     <th>Acciones</th>
                   <tr>
                 </thead>
@@ -48,7 +55,10 @@
                       {{-- {{dd($proyecto->id)}} --}}
                       <td><b>{{ $proyecto->nombre }}</b></td>
                       <td class="contenidoPost">{{ $proyecto->calle }} {{$proyecto->altura}}</td>
-                      <td>{{ $proyecto->created_at}}</td>
+                      <td>{{ Carbon\Carbon::parse($proyecto->created_at)->format('d-m-Y') }}</td>
+                      <td>{{ $proyecto->monto_establecido }}
+                      <a class="btn btn-xs btn-primary" href="{{ URL::to('modificarMontoEstablecido/' . $proyecto->id) }}">Modificar Monto</a>
+                      </td>
                       <td>
                         @if($inversores->all() != null) <a class="btn btn-xs btn-success" href="{{ URL::to('agregarInversor/' . $proyecto->id) }}">Añadir Inversor</a> @endif
                         @if($inversores->all() == null) <a class="btn btn-xs btn-success disabled">Añadir Inversor</a> @endif

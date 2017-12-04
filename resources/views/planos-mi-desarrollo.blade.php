@@ -63,7 +63,7 @@
 
 @foreach($planosProyecto as $plano)
 <img src="{{ URL::to('/') }}/imagenesDesarrollos/{{$proyectoReferido->nombre}}/Planos/{{$plano}}" alt="{{$plano}}" class="profileImage" style='height:300px'>
-@role('Administrador') <a class="btn btn-xs btn-danger" href="{{ URL::to('miDesarrollo/' . strtolower($proyectoReferido->nombre)) . '/planos' . '/eliminarPlano/' . $plano }}">Eliminar Plano</a> @endrole
+@role('Administrador') <a class="btn btn-xs btn-danger" href="{{ URL::to('miDesarrollo/' . strtolower($proyectoReferido->id)) . '/planos' . '/eliminarPlano/' . $plano }}">Eliminar Plano</a> @endrole
 @endforeach
 
 @endsection

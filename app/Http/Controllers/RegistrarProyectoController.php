@@ -70,6 +70,7 @@ class RegistrarProyectoController extends Controller
         'nombre' => 'required|string|min:2|unique:projects',
         'calle' => 'required|string|min:2',
         'altura' => 'required|string|min:2',
+        'monto_establecido' => 'required|string|min:2',
         'imagenPresentacion' => 'required|image|mimes:jpeg,png,jpg|dimensions:min_width=640,min_height=480',
         'imagenUbicacion' => 'required|image|mimes:jpeg,png,jpg|dimensions:min_width=640,min_height=480',
         'descripcion' => 'required|string|min:10|max:3000',
@@ -122,6 +123,16 @@ class RegistrarProyectoController extends Controller
       if(isset($failedRules['altura']['Required']))
        {
          $errors['alturaRequired'] = ("El campo de la altura es obligatorio.");
+       }
+
+      if(isset($failedRules['monto_establecido']['Min']))
+       {
+         $errors['monto_establecidoMin'] = ("El monto inicial de cuota establecido debe poseer un mínimo de 1 caracter.");
+       }
+
+      if(isset($failedRules['monto_establecido']['Required']))
+       {
+         $errors['monto_establecidoRequired'] = ("El campo del monto inicial de cuota establecido es obligatorio.");
        }
 
       if(isset($failedRules['imagenPresentacion']['Required']))
@@ -198,6 +209,7 @@ class RegistrarProyectoController extends Controller
       'nombre' => $proyectoNuevo['nombre'],
       'calle' => $proyectoNuevo['calle'],
       'altura' => $proyectoNuevo['altura'],
+      'monto_establecido' => $proyectoNuevo['monto_establecido'],
       'imagenPresentacion' => $this->subirImagenPresentacion($proyectoNuevo),
       'imagenUbicacion' => $this->subirImagenUbicacion($proyectoNuevo),
       'descripcion' => $proyectoNuevo['descripcion'],

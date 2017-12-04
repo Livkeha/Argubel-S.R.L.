@@ -18,6 +18,7 @@ class CreateProjectsTable extends Migration
             $table->string('nombre')->unique();
             $table->string('calle');
             $table->string('altura');
+            $table->string('monto_establecido');
             $table->string('imagenPresentacion');
             $table->string('imagenUbicacion');
             $table->text('descripcion');

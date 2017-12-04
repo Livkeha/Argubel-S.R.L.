@@ -6,6 +6,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Permission\Traits\HasRoles;
 use App\Project;
+use App\Balance;
 
 class User extends Authenticatable
 {
@@ -32,6 +33,11 @@ class User extends Authenticatable
     public function projects()
     {
       return $this->belongsTo(Project::class);
+    }
+
+    public function balances()
+    {
+      return $this->belongsTo(Balance::class);
     }
 
     public function isAdministrator()

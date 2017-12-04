@@ -68,7 +68,7 @@
 	    @if (!Auth::check()) <li><a href="{{ url('/obra-publica') }}">OBRA PÚBLICA</a></li> @endif
 	    @if (!Auth::check()) <li><a href="{{ url('/servicios') }}">SERVICIOS</a></li> @endif
       @if (!Auth::check()) <li><a href="{{ url('/empresa') }}">EMPRESA</a></li> @endif
-      @role('Cliente') @if ($nombreProyecto) <li><a href="{{ url('/') }}">CUOTAS</a></li> @endif @endrole
+      @role('Cliente') @if ($nombreProyecto) <li><a href="{{ URL::to('/') }}/misCuotas/{{$idProyecto}}/{{Auth::user()->id}}">CUOTAS</a></li> @endif @endrole
       @role('Cliente') @if ($nombreProyecto) <li><a href="{{ URL::to('/') }}/miDesarrollo/{{$idProyecto}}/fotos">FOTOS</a></li> @endif @endrole
       @role('Cliente') @if ($nombreProyecto) <li><a href="{{ URL::to('/') }}/miDesarrollo/{{$idProyecto}}/planos">PLANOS</a></li> @endif @endrole
       @role('Cliente') @if ($nombreProyecto) <li style="text-decoration: underline"><a href="{{ URL::to('/') }}/miDesarrollo/{{$idProyecto}}"><b>{{ $nombreProyecto }}</b></a></li> @endif @endrole

@@ -81,6 +81,14 @@ Route::group(['middleware' => ['permission:editar_desarrollos']], function () {
 });
 
 Route::group(['middleware' => ['permission:editar_desarrollos']], function () {
+    Route::get('/modificarMontoEstablecido/{id}', 'ProyectosController@modificarMontoEstablecido')->name('modificarMontoEstablecido');
+});
+
+Route::group(['middleware' => ['permission:editar_desarrollos']], function () {
+    Route::post('/montoEstablecidoModificado/{id}', 'ProyectosController@montoEstablecidoModificado')->name('montoEstablecidoModificado');
+});
+
+Route::group(['middleware' => ['permission:editar_desarrollos']], function () {
     Route::post('/validarInversorAgregado', 'ProyectosController@validarInversorAgregado')->name('validarInversorAgregado');
 });
 
@@ -119,6 +127,16 @@ Route::group(['middleware' => ['permission:editar_clientes']], function () {
 Route::group(['middleware' => ['permission:editar_clientes']], function () {
     Route::get('/eliminarInversor/{usuarioId}', 'UsuariosController@eliminarInversor')->name('eliminarInversor');
 });
+
+Route::group(['middleware' => ['permission:editar_clientes']], function () {
+    Route::get('/cambiarPassword/{usuarioId}', 'UsuariosController@cambiarPassword')->name('cambiarPassword');
+});
+
+Route::group(['middleware' => ['permission:editar_clientes']], function () {
+    Route::post('/passwordModificada/{usuarioId}', 'UsuariosController@passwordModificada')->name('passwordModificada');
+});
+
+Route::get('/misCuotas/{proyectoId}/{usuarioId}', 'UsuariosController@misCuotas')->name('misCuotas');
 
 Route::group(['middleware' => ['permission:lista_clientes']], function () {
     Route::get('/listaUsuarios', 'UsuariosController@verLista')->name('listaUsuarios');
