@@ -92,9 +92,11 @@ class UsuariosController extends Controller
       return redirect()->route('miDesarrollo', ['idProyecto' => $proyectoId]);
     }
 
+    $proyectoReferido = DB::table('projects')->where('id', '=', "$proyectoId")->first();
+
     $balance = DB::table('balances')->where('project_id', '=', "$proyectoId")->where('user_id', '=', "$usuarioId")->orderBy('fecha_pagado', 'asc')->get();
 
-    return view('mi-balance', compact('balance', 'proyectoId', 'usuarioId'));
+    return view('mi-balance', compact('balance', 'proyectoReferido', 'usuarioId'));
 
   }
 

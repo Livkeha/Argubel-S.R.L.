@@ -8,6 +8,8 @@ use App\Project;
 
 class Project extends Model
 {
+
+
      protected $guarded = [];
 
      public function users()
@@ -19,7 +21,7 @@ class Project extends Model
      {
        return $this->hasMany(Project::class);
      }
-     
+
      public function getCreatedAtAttribute($date)
      {
        return Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('d-m-Y');

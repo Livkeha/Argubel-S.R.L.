@@ -27,7 +27,7 @@
            <h1 class="alert alert-info" style="color:black; text-align: center;">{{ Session::get('desarrolloEliminado') }}</h1>
         @endif
 
-
+        {{-- {{dd($proyectoReferido)}} --}}
 
         <h2 class="form-titulo" style="color: blue; text-align:center;">Lista de desarrollos</h2>
 
@@ -39,11 +39,12 @@
             <table class="table table-hover" style="table-layout: fixed; width: 100%; height:100px;">
                 <thead>
                   <tr>
-                    <th>Proyecto</th>
-                    <th>Dirección</th>
-                    <th>Inicio de Desarrollo</th>
-                    <th>Monto de cuota establecido</th>
-                    <th>Acciones</th>
+                    <th>Año</th>
+                    <th>Monto Estipulado</th>
+                    <th>Fecha de Vencimiento</th>
+                    <th>Monto Pagado</th>
+                    <th>Fecha Pagado</th>
+                    <th>Balance</th>
                   <tr>
                 </thead>
 
@@ -54,7 +55,7 @@
                     @if ($color % 2 == 0) <tr style="background-color:rgba(176,106,92,0.3); border: 1px solid rgba(0,0,0,0.3);"> @endif
                     @if ($color % 2 != 0) <tr style="background-color:rgba(124,88,145,0.3); border: 1px solid rgba(0,0,0,0.3);"> @endif
                       {{-- {{dd($proyecto->id)}} --}}
-                      <td><b>{{ $proyecto->nombre }}</b></td>
+                      <td><b>{{ $proyectoReferido->nombre }}</b></td>
                       <td class="contenidoPost">{{ $proyecto->calle }} {{$proyecto->altura}}</td>
                       <td>{{ Carbon\Carbon::parse($proyecto->created_at)->format('d-m-Y') }}</td>
                       <td>$ {{ $proyecto->monto_establecido }}

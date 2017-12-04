@@ -8,6 +8,7 @@
 
         <section class="postsPaginados">
 
+
         @if ($proyectos->first() != null)
 
         {{--  {{dd($proyectos->first())}} --}}
@@ -49,13 +50,14 @@
                 <tbody>
                   <?php $color = 0; ?>
                   @foreach($proyectos as $proyecto)
+
                     {{-- {{dd($users)}} --}}
                     @if ($color % 2 == 0) <tr style="background-color:rgba(176,106,92,0.3); border: 1px solid rgba(0,0,0,0.3);"> @endif
                     @if ($color % 2 != 0) <tr style="background-color:rgba(124,88,145,0.3); border: 1px solid rgba(0,0,0,0.3);"> @endif
                       {{-- {{dd($proyecto->id)}} --}}
                       <td><b>{{ $proyecto->nombre }}</b></td>
                       <td class="contenidoPost">{{ $proyecto->calle }} {{$proyecto->altura}}</td>
-                      <td>{{ Carbon\Carbon::parse($proyecto->created_at)->format('d-m-Y') }}</td>
+                      <td>{{ Carbon\Carbon::parse($proyecto->created_at)->format('l d-m-Y') }}</td>
                       <td>$ {{ $proyecto->monto_establecido }}
                       <a class="btn btn-xs btn-primary" href="{{ URL::to('modificarMontoEstablecido/' . $proyecto->id) }}">Modificar Monto</a>
                       </td>
