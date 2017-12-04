@@ -8,9 +8,10 @@
 
         <section class="postsPaginados">
 
-        @if ($proyectos->first() != null)
+        {{--    {{dd($balance->first())}} --}}
 
-        {{--  {{dd($proyectos->first())}} --}}
+        {{-- @if ($balance->first() != null) --}}
+
 
         {{--  {{dd($inversores->all())}} --}}
 
@@ -30,7 +31,7 @@
 
         <h2 class="form-titulo" style="color: blue; text-align:center;">Lista de desarrollos</h2>
 
-        @if($inversores->all() == null) <h4 style="color: red; text-align:center;"><b>No hay inversores disponibles sin desarrollo asignado.</b></h4> @endif
+        @if($balance->all() == null) <h4 style="color: red; text-align:center;"><b>No hay inversores disponibles sin desarrollo asignado.</b></h4> @endif
 
         <div class="container" style="height:502px; width:100%;">
           <div class="responsive-table">
@@ -48,7 +49,7 @@
 
                 <tbody>
                   <?php $color = 0; ?>
-                  @foreach($proyectos as $proyecto)
+                  @foreach($balance as $cuota)
                     {{-- {{dd($users)}} --}}
                     @if ($color % 2 == 0) <tr style="background-color:rgba(176,106,92,0.3); border: 1px solid rgba(0,0,0,0.3);"> @endif
                     @if ($color % 2 != 0) <tr style="background-color:rgba(124,88,145,0.3); border: 1px solid rgba(0,0,0,0.3);"> @endif
@@ -60,8 +61,8 @@
                       <a class="btn btn-xs btn-primary" href="{{ URL::to('modificarMontoEstablecido/' . $proyecto->id) }}">Modificar Monto</a>
                       </td>
                       <td>
-                        @if($inversores->all() != null) <a class="btn btn-xs btn-success" href="{{ URL::to('agregarInversor/' . $proyecto->id) }}">Añadir Inversor</a> @endif
-                        @if($inversores->all() == null) <a class="btn btn-xs btn-success disabled">Añadir Inversor</a> @endif
+                        @if($balance->all() != null) <a class="btn btn-xs btn-success" href="{{ URL::to('agregarInversor/' . $proyecto->id) }}">Añadir Inversor</a> @endif
+                        @if($balance->all() == null) <a class="btn btn-xs btn-success disabled">Añadir Inversor</a> @endif
                         <a class="btn btn-xs btn-primary" href="{{ URL::to('miDesarrollo/' . strtolower($proyecto->id)) . '/fotos' }}">Añadir Fotos</a>
                         <a class="btn btn-xs btn-primary" href="{{ URL::to('miDesarrollo/' . strtolower($proyecto->id)) . '/planos' }}">Añadir Planos</a>
                         <a class="btn btn-xs btn-danger" href="{{ URL::to('eliminarDesarrollo/' . $proyecto->id) }}">Eliminar Desarrollo</a>
@@ -76,20 +77,8 @@
           </div>
         </div>
 
+    {{--  @endif --}}
       @endif
-
-      {{-- @if ($proyectos->first() == null)
-        <php
-        header('refresh:0; url=/index');
-        ?>
-         @endif --}}
-
-
       </section>
 
 @endsection
-      @else
-      <php
-      header('refresh:0; url=/index');
-      ?>
-      @endif

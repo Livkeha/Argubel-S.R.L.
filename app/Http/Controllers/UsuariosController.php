@@ -86,11 +86,15 @@ class UsuariosController extends Controller
 
     $cuotas = DB::table('balances')->where('project_id', '=', "$proyectoId")->where('user_id', '=', "$usuarioId")->orderBy('fecha_pagado', 'asc')->first();
 
-    if($cuotas == null)
+    if($cuotas == null && Auth::user()->rol == "cliente")
     {
       Session::flash('sinPagos', "Usted aun no registra pagos realizados.");
       return redirect()->route('miDesarrollo', ['idProyecto' => $proyectoId]);
     }
+
+    $balance = DB::table('balances')->where('project_id', '=', "$proyectoId")->where('user_id', '=', "$usuarioId")->orderBy('fecha_pagado', 'asc')->get();
+
+    return view('mi-balance', compact('balance', 'proyectoId', 'usuarioId'));
 
   }
 

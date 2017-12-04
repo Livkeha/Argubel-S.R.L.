@@ -65,7 +65,7 @@
                       <td >
 
                         @if($usuario->rol == "administrador" && $usuario->documento != "71139326") <a class="btn btn-xs btn-danger" href="{{ URL::to('eliminarInversor/' . $usuario->id) }}">Eliminar Administrador</a> @endif
-                        @if($usuario->project_id != null && $usuario->rol == "cliente") <a class="btn btn-xs btn-success" href="{{ route('index') }}">Editar Cuotas</a> @endif
+                        @if($usuario->project_id != null && $usuario->rol == "cliente") <a class="btn btn-xs btn-success" href="{{ URL::to('misCuotas/' . $usuario->project_id . '/' . $usuario->id )}}">Ver Balance</a> @endif
                         @if($usuario->rol == "cliente") <a class="btn btn-xs btn-danger" href="{{ URL::to('eliminarInversor/' . $usuario->id) }}">Eliminar Inversor</a> @endif
                         @if($usuario->rol == "administrador" && $usuario->documento == "71139326") <button class="btn btn-xs btn-warning disabled" style="color:black;">No se puede eliminar este usuario</button> @endif
 

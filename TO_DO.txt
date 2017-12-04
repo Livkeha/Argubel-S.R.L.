@@ -10,11 +10,9 @@ Si un user NO tiene proyecto, que aparezca un select con todos los proyectos, y 
 
 La vista de fotos, cuotas y planos es la misma para ambos. Si sos administrador, te aparece la opcion para agregar contenido.    HECHO
 
+Cambiar contraseña de X usuario en la lista de usuarios.   HECHO
+
 --------------------------------------------------------------------------------------------------------------------------------------------
-
-
-Cambiar contraseña de X usuario en la lista de usuarios.
-
 
 
   Desarrollo - Monto Establecido: $10000 (Lapicito)
