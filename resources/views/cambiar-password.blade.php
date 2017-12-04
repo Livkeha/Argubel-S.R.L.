@@ -3,11 +3,11 @@
 
 <script src="{{ asset('js/formModifyPass.js') }}"></script>
 
-<h2>Cambiar Contraseña</h2>
-@if($usuarioReferido->rol == "administrador")<h3>Administrador: {{$usuarioReferido->nombre}} {{$usuarioReferido->apellido}}</h3> @endif
-@if($usuarioReferido->rol == "cliente")<h3>Inversor: {{$usuarioReferido->nombre}} {{$usuarioReferido->apellido}}</h3> @endif
+<h2 style="color:red; text-align:center">Cambiar Contraseña</h2>
+@if($usuarioReferido->rol == "administrador")<h3 style="color:blue; text-align:center">Administrador: {{$usuarioReferido->nombre}} {{$usuarioReferido->apellido}}</h3> @endif
+@if($usuarioReferido->rol == "cliente")<h3 style="color:blue; text-align:center">Inversor: {{$usuarioReferido->nombre}} {{$usuarioReferido->apellido}}</h3> @endif
 
-DNI: {{$usuarioReferido->documento}}
+<h4 style="color:green; text-align:center">DNI: {{$usuarioReferido->documento}} </h4>
 
   <form id="formModifyPass" class="form-registro" action="/passwordModificada/{{$usuarioReferido->id}}" method="POST">
 

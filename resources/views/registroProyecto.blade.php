@@ -39,28 +39,28 @@
     {{ csrf_field() }}
 
     <div class="form-group">
-      <label class="control-label col-md-2 bg-info"> Nombre de Desarrollo </label>
+      <label class="control-label col-md-2 bg-info"> Nombre de Desarrollo: </label>
       <input class="form-control" type="text" name="nombre" required @if ($inversoresNuevos->all() == null) disabled @endif>
       <span class="erroresPost"><?php isset($error) ?></span>
     </div>
 
     <div class="form-group">
-      <label class="control-label col-sm-2"> Calle </label>
+      <label class="control-label col-sm-2"> Calle: </label>
       <input class="form-control" type="text" name="calle" required @if ($inversoresNuevos->all() == null) disabled @endif>
     </div>
 
     <div class="form-group">
-      <label class="control-label col-sm-2"> Altura </label>
+      <label class="control-label col-sm-2"> Altura: </label>
       <input class="form-control" type='number' name="altura" required  @if ($inversoresNuevos->all() == null) disabled @endif>
     </div>
 
     <div class="form-group">
-      <label class="control-label col-sm-4"> Monto inicial de cuota establecido </label>
+      <label class="control-label col-sm-4"> Monto inicial de cuota establecido: </label>
       <input class="form-control" type='number' name="monto_establecido" required  @if ($inversoresNuevos->all() == null) disabled @endif>
     </div>
 
     <div class="form-group">
-      <label class="control-label col-md-2" for="">Imagen de presentación:</label>
+      <label class="control-label col-md-3" for="">Imagen de presentación:</label>
       <input type="file" name="imagenPresentacion" class="file" value="" @if ($inversoresNuevos->all() == null) disabled @endif>
       <span class="error-imgPresentacion"></span>
     </div>
@@ -72,12 +72,12 @@
     </div>
 
     <div class="form-group">
-      <label class="control-label col-md-2"> Descripción </label>
+      <label class="control-label col-md-2"> Descripción: </label>
       <textarea type='textarea' name="descripcion" required @if ($inversoresNuevos->all() == null) disabled @endif></textarea>
     </div>
 
 
-    <label class="control-label col-sm-2"> Inversor </label>
+    <label class="control-label col-sm-2"> Inversor: </label>
 
     <?php $numeroInversor = 0; ?>
 
