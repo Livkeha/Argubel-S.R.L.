@@ -8,7 +8,7 @@
 
         <section class="postsPaginados">
 
-        {{--    {{dd($balance->first())}} --}}
+        {{-- {{dd($balance->first())}} --}}
 
         {{-- @if ($balance->first() != null) --}}
 
@@ -45,34 +45,31 @@
                     <th>Monto Pagado</th>
                     <th>Fecha Pagado</th>
                     <th>Balance</th>
+                    @role('Administrador') @if (Auth::check()) <th>Acciones</th> @endif @endrole
                   <tr>
                 </thead>
 
                 <tbody>
                   <?php $color = 0; ?>
                   @foreach($balance as $cuota)
-                    {{-- {{dd($users)}} --}}
+
                     @if ($color % 2 == 0) <tr style="background-color:rgba(176,106,92,0.3); border: 1px solid rgba(0,0,0,0.3);"> @endif
                     @if ($color % 2 != 0) <tr style="background-color:rgba(124,88,145,0.3); border: 1px solid rgba(0,0,0,0.3);"> @endif
-                      {{-- {{dd($proyecto->id)}} --}}
-                      <td><b>{{ $proyectoReferido->nombre }}</b></td>
-                      <td class="contenidoPost">{{ $proyecto->calle }} {{$proyecto->altura}}</td>
-                      <td>{{ Carbon\Carbon::parse($proyecto->created_at)->format('d-m-Y') }}</td>
-                      <td>$ {{ $proyecto->monto_establecido }}
-                      <a class="btn btn-xs btn-primary" href="{{ URL::to('modificarMontoEstablecido/' . $proyecto->id) }}">Modificar Monto</a>
-                      </td>
-                      <td>
-                        @if($balance->all() != null) <a class="btn btn-xs btn-success" href="{{ URL::to('agregarInversor/' . $proyecto->id) }}">Añadir Inversor</a> @endif
-                        @if($balance->all() == null) <a class="btn btn-xs btn-success disabled">Añadir Inversor</a> @endif
-                        <a class="btn btn-xs btn-primary" href="{{ URL::to('miDesarrollo/' . strtolower($proyecto->id)) . '/fotos' }}">Añadir Fotos</a>
-                        <a class="btn btn-xs btn-primary" href="{{ URL::to('miDesarrollo/' . strtolower($proyecto->id)) . '/planos' }}">Añadir Planos</a>
-                        <a class="btn btn-xs btn-danger" href="{{ URL::to('eliminarDesarrollo/' . $proyecto->id) }}">Eliminar Desarrollo</a>
-                      </td>
+                      <td>Año</td>
+                      <td>$ {{ $cuota->monto_establecido }}</td>
+                      <td class="contenidoPost">Fecha de Vencimiento</td>
+                      @if($cuota->monto_pagado != null) <td>$ Monto Pagado</td> @endif
+                      @if($cuota->monto_pagado == null) <td><input class="form-control" type='number' name="altura" required> </td> @endif
+                      <td>Fecha pagado</td>
+                      <td>Balance</td>
+                      @role('Administrador') @if (Auth::check()) <td><a class="btn btn-xs btn-success" href="">Ingresar Pago</a></td> @endif @endrole
                     <tr>
                       <?php $color = $color + 1; ?>
                   @endforeach
                 </tbody>
             </table>
+            {{  $balance->links() }}
+            {{  $balance->render() }}
             {{-- $proyectos->links() --}}
             {{-- {{ $proyectos->render() }} --}}
           </div>

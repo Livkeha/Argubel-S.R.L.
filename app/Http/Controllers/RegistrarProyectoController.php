@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\User;
 use App\Project;
+use App\Balance;
 use Redirect;
 use DB;
 use Auth;
@@ -205,7 +206,7 @@ class RegistrarProyectoController extends Controller
 
     // var_dump($proyectoNuevo);exit;
 
-    $nuevoPost = Project::create([
+    $nuevoProyecto = Project::create([
       'nombre' => $proyectoNuevo['nombre'],
       'calle' => $proyectoNuevo['calle'],
       'altura' => $proyectoNuevo['altura'],
@@ -215,21 +216,33 @@ class RegistrarProyectoController extends Controller
       'descripcion' => $proyectoNuevo['descripcion'],
       ]);
 
-      $idProyecto = $nuevoPost["id"];
+      $idProyecto = $nuevoProyecto["id"];
 
           foreach ($proyectoNuevo as $inversor => $idInversor) {  // ESTE VALUE ES EL ID DEL USUARIO QUE VA A TENER EL PROYECTO
-
-            // var_dump($inversor, $idInversor);
 
             $hayInversor = substr_compare("inversor", $inversor, 0, 8);
 
             // var_dump($inversor, $hayInversor);
 
-            if($hayInversor == 0)
+            if($hayInversor == 0) // SI ENCUENTRA UN INVERSOR
             {
               $inversores = DB::table('users')->where("id", "=", "$idInversor")->select("project_id")->update( ['project_id' => $idProyecto] );
+
+              $usuarioAsignado = DB::table('users')->where("id", "=", "$idInversor")->where("project_id", '=', "$idProyecto")->first();
+
+              $balanceInicial = Balance::create([
+                'monto_establecido' => $proyectoNuevo['monto_establecido'],
+                'monto_pagado' => null,
+                'fecha_pagado' => null,
+                'balance' => 0,
+                'user_id' => $idInversor,
+                'project_id' => $idProyecto,
+              ]);
+
             }
+
           }
+
 
     $proyectoCreado = ("El nuevo desarrollo se ha subido correctamente.");
 

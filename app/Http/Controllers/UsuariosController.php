@@ -59,17 +59,24 @@ class UsuariosController extends Controller
 
     $idDelProyecto = $_POST["desarrollo"];
 
-    // {{dd($usuarioId, $idDelProyecto);}}
-
     $usuarioReferido = DB::table('users')->where("id", "=", "$usuarioId")->first();
 
     $usuarioAfectado = DB::table('users')->where("id", "=", "$usuarioId")->select('project_id')->update(
       ['project_id' => $idDelProyecto]
     );
 
-    $desarrolloAfectado = DB::table('projects')->where("id", "=", "$idDelProyecto")->value('nombre');
+    $desarrolloAfectado = DB::table('projects')->where("id", "=", "$idDelProyecto")->first();
 
-    Session::flash('desarrolloIngresado', "\"" . $usuarioReferido->nombre . " " . $usuarioReferido->apellido . "\" ingresó al desarrollo \"" . $desarrolloAfectado . "\" satisfactoriamente.");
+    $balanceInicial = Balance::create([
+      'monto_establecido' => $desarrolloAfectado->monto_establecido,
+      'monto_pagado' => null,
+      'fecha_pagado' => null,
+      'balance' => 0,
+      'user_id' => $usuarioId,
+      'project_id' => $idDelProyecto,
+      ]);
+
+    Session::flash('desarrolloIngresado', "\"" . $usuarioReferido->nombre . " " . $usuarioReferido->apellido . "\" ingresó al desarrollo \"" . $desarrolloAfectado->nombre . "\" satisfactoriamente.");
 
     return redirect()->action('UsuariosController@verLista');
 
@@ -94,7 +101,7 @@ class UsuariosController extends Controller
 
     $proyectoReferido = DB::table('projects')->where('id', '=', "$proyectoId")->first();
 
-    $balance = DB::table('balances')->where('project_id', '=', "$proyectoId")->where('user_id', '=', "$usuarioId")->orderBy('fecha_pagado', 'asc')->get();
+    $balance = DB::table('balances')->where('project_id', '=', "$proyectoId")->where('user_id', '=', "$usuarioId")->orderBy('fecha_pagado', 'asc')->paginate(1);
 
     return view('mi-balance', compact('balance', 'proyectoReferido', 'usuarioId'));
 
@@ -112,6 +119,14 @@ class UsuariosController extends Controller
     $usuarioReferido = DB::table('users')->where('id', "=", "$usuarioId")->first();
 
     $desarrolloAfectado = DB::table('projects')->where("id", "=", "$proyectoId")->value('nombre');
+
+    $balancesComprometidos = DB::table('balances')->where('user_id', '=', "$usuarioId")->get();
+
+    if($balancesComprometidos != null) {
+
+      $balancesComprometidos = DB::table('balances')->where('user_id', '=', "$usuarioId")->delete();
+
+    }
 
     // {{dd($usuarioReferido->nombre);}}
 
@@ -137,6 +152,14 @@ class UsuariosController extends Controller
     }
 
   }
+
+      $balancesComprometidos = DB::table('balances')->where('user_id', '=', "$usuarioId")->get();
+
+      if($balancesComprometidos != null) {
+
+        $balancesComprometidos = DB::table('balances')->where('user_id', '=', "$usuarioId")->delete();
+
+      }
 
     $usuarioEliminado = DB::table('users')->where("id", "=", "$usuarioId")->delete();
 

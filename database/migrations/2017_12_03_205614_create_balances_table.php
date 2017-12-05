@@ -20,8 +20,8 @@ class CreateBalancesTable extends Migration
         Schema::create('balances', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('monto_establecido');
-            $table->integer('monto_pagado');
-            $table->integer('fecha_pagado');
+            $table->integer('monto_pagado')->nullable();
+            $table->integer('fecha_pagado')->nullable();
             $table->integer('balance');
             $table->integer('user_id')->unsigned()->nullable();
             $table->foreign('user_id')->references('id')->on('users');

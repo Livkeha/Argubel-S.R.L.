@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Project;
+use App\Balance;
 use Redirect;
 use Session;
 use DB;
@@ -100,6 +101,17 @@ class ProyectosController extends Controller
       if($hayInversor == 0)
       {
         $inversores = DB::table('users')->where("id", "=", "$idInversor")->select("project_id")->update( ['project_id' => $idProyecto] );
+
+        $proyectoReferido = DB::table('projects')->where('id', "=", "$idProyecto")->first();
+
+        $balanceInicial = Balance::create([
+          'monto_establecido' => $proyectoReferido->monto_establecido,
+          'monto_pagado' => null,
+          'fecha_pagado' => null,
+          'balance' => 0,
+          'user_id' => $idInversor,
+          'project_id' => $idProyecto,
+        ]);
       }
   }
 
@@ -134,6 +146,25 @@ class ProyectosController extends Controller
         $proyectoAfectado = DB::table('projects')->where("id", "=", "$idProyecto")->select('monto_establecido')->update(
           ['monto_establecido' => $nuevoMonto]
         );
+
+
+        $listaBalances = DB::table('balances')->where("project_id", "=", "$idProyecto")->get();
+
+        foreach ($listaBalances as $balanceUsuario) {
+          
+        $contarBalancesPorUsuario = DB::table('balances')->where("project_id", "=", "$idProyecto")->where('user_id', "=", "$balanceUsuario->user_id")->count('user_id');
+
+
+        if($contarBalancesPorUsuario == 1)
+        {
+          $balancesAfectados = DB::table('balances')->where("project_id", "=", "$idProyecto")->select('monto_establecido')->update(
+            ['monto_establecido' => $nuevoMonto]
+          );
+        }
+      }
+
+
+
 
         Session::flash('montoEstablecidoModificado', "El monto de cuota establecido para \"" . $proyectoReferido->nombre . "\" ha sido modificado satisfactoriamente.");
 
@@ -332,6 +363,14 @@ class ProyectosController extends Controller
     if($planosComprometidos != null) {
 
       $planosComprometidos = DB::table('project_blueprints')->where('project_id', '=', "$proyectoReferido->id")->delete();
+
+    }
+
+    $balancesComprometidos = DB::table('balances')->where('project_id', '=', "$proyectoReferido->id")->get();
+
+    if($balancesComprometidos != null) {
+
+      $balancesComprometidos = DB::table('balances')->where('project_id', '=', "$proyectoReferido->id")->delete();
 
     }
 
