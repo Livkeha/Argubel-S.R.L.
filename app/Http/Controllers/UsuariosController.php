@@ -9,6 +9,12 @@ use DB;
 use Session;
 use Auth;
 use Redirect;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Input;
+use DateTime;
+use DateInterval;
+use DatePeriod;
+use Carbon\Carbon;
 
 class UsuariosController extends Controller
 {
@@ -82,7 +88,53 @@ class UsuariosController extends Controller
 
   }
 
+
+
   public function misCuotas($proyectoId, $usuarioId)
+  {
+
+    $anio = 2027;
+
+    $proyectoReferido = DB::table('projects')->where('id', '=', "$proyectoId")->first();
+
+    $creacionDelProyecto = $proyectoReferido->created_at;
+
+    $anioProyecto = Carbon::createFromFormat('Y-m-d H:i:s', $creacionDelProyecto)->year;
+
+    // {{dd($anioProyecto);}}
+
+    $input  = '11/06/' . $anio;
+    $format = 'd/m/Y';
+
+    $date = Carbon::createFromFormat($format, $input);   // LO DE ARRIBA PUEDE LLEGAR A SERVIR PARA PASAR COMO VARIABLE EL AÑO CORRESPONDIENTE.
+
+    $firstDayOfYear = Carbon::now()->startOfYear()->format('d/m/Y');  // ES EL PRIMER DÍA DEL AÑO, RECUPERAR EL MES Y USARLO COMO PRIMER ELEMENTO DELPAGINADOR.
+
+    $example = Carbon::createFromDate($anio, 1, 1); // ¡¡ESTE ES EL START DEL PROYECTO!! HAY QUE EXTRAERLO DEL CREATED_AT Y PASARLO COMO PARAMETRO ACÁ Y DESPUÉS PASARLO A $START.
+
+    $start    = new DateTime(); // Today date   // EL START ES LA FECHA DE CREACIÓN DEL PROYECTO.
+
+    $end      = new DateTime($date->toDateTimeString()); // Create a datetime object from your Carbon object   // EL FINAL ES UN AÑO DESPUÉS (¿O 10?).
+
+    $interval = DateInterval::createFromDateString('1 month'); // 1 month interval  // ESTE ES EL INTERVALO, ESTÁ PERFECTO.
+
+    $period   = new DatePeriod($start, $interval, $end); // Get a set of date beetween the 2 period // HAY QUE PAGINAR CADA 12 ELEMENTOS.
+
+    $months = array();
+
+    foreach ($period as $dt) {
+        $months[] = $dt->format("F Y");
+    }
+
+    {{dd($months);}}
+
+    // return $months;
+    return view('mi-balance', compact('months', 'balance', 'proyectoReferido', 'usuarioId'));
+
+  }
+
+
+  public function misCuotasBACKUP($proyectoId, $usuarioId)
   {
 
     if(Auth::user()->rol == "cliente" && $proyectoId != Auth::user()->project_id)

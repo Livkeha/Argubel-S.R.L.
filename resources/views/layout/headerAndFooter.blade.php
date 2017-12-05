@@ -82,7 +82,7 @@
 <!--FOOTER-->
 <footer>
 	<div class="footer">
-      <div class="interior-footer"><p><strong>Argubel S.R.L.</strong><br>
+      <div class="interior-footer" style="margin-top:300px"><p><strong>Argubel S.R.L.</strong><br>
 		    Tel.: 4443-6740 / 4443-7165 <a href="mailto:info@argubel.com.ar">info@argubel.com.ar</a><br>
         Todos los derechos reservados - 2014
         </p>
