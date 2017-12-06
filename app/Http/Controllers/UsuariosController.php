@@ -16,6 +16,7 @@ use DateTime;
 use DateInterval;
 use DatePeriod;
 use Carbon\Carbon;
+use View;
 
 
 
@@ -106,7 +107,8 @@ class UsuariosController extends Controller
 
     $usuarioReferido = DB::table('users')->where('id', '=', "$usuarioId")->first();
 
-    $cantidadCuotasReferidas = DB::table('balances')->where('project_id', '=', "$proyectoId")->where('user_id', '=', "$usuarioId")->orderBy('fecha_pagado', 'asc')->count();
+    $cantidadCuotasReferidas = DB::table('balances')->where('project_id', '=', "$proyectoId")->where('user_id', '=', "$usuarioId")->orderBy('fecha_pagado', 'asc')->oldest()->first();  // ESTE ES EL PRIMER BALANCE DEL USUARIO (EL MAS VIEJO).
+
     $cuotasReferidas = DB::table('balances')->where('project_id', '=', "$proyectoId")->where('user_id', '=', "$usuarioId")->orderBy('fecha_pagado', 'asc')->get();
 
     // foreach ($cuotasReferidas as $cuota) {
@@ -168,10 +170,12 @@ class UsuariosController extends Controller
 
     $paginatedItems->setPath('/misCuotas/' . $proyectoId . '/' . $usuarioId);
 
+    View::share('proyectoId', $proyectoId);
+
     // return view('mi-balance')->with('periodoTotal', 'paginatedItems');
     return view('mi-balance')->with(['periodoTotal' => $paginatedItems])->with(['cuotasReferidas' => $cuotasReferidas])->with(['proyectoReferido' => $proyectoReferido])->with(['usuarioReferido' => $usuarioReferido]);
 
-    // return $months;
+
 
     // return $months;
     // return view('mi-balance', compact('balance', 'balances', 'proyectoReferido', 'usuarioId'));
