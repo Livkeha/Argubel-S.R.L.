@@ -11,10 +11,13 @@ use Auth;
 use Redirect;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Pagination\LengthAwarePaginator;
 use DateTime;
 use DateInterval;
 use DatePeriod;
 use Carbon\Carbon;
+
+
 
 class UsuariosController extends Controller
 {
@@ -93,43 +96,60 @@ class UsuariosController extends Controller
   public function misCuotas($proyectoId, $usuarioId)
   {
 
-    $anio = 2027;
-
     $proyectoReferido = DB::table('projects')->where('id', '=', "$proyectoId")->first();
 
     $creacionDelProyecto = $proyectoReferido->created_at;
 
     $anioProyecto = Carbon::createFromFormat('Y-m-d H:i:s', $creacionDelProyecto)->year;
 
-    // {{dd($anioProyecto);}}
+    $anioFinProyecto = $anioProyecto + 11;
 
-    $input  = '11/06/' . $anio;
+    $fechaProyecto  = '01/01/' . $anioProyecto;
+    $fechaFinProyecto  = '01/01/' . $anioFinProyecto;
     $format = 'd/m/Y';
 
-    $date = Carbon::createFromFormat($format, $input);   // LO DE ARRIBA PUEDE LLEGAR A SERVIR PARA PASAR COMO VARIABLE EL AÑO CORRESPONDIENTE.
+    $date = DateTime::createFromFormat($format, $fechaProyecto);   // LO DE ARRIBA PUEDE LLEGAR A SERVIR PARA PASAR COMO VARIABLE EL AÑO CORRESPONDIENTE.
+
+
 
     $firstDayOfYear = Carbon::now()->startOfYear()->format('d/m/Y');  // ES EL PRIMER DÍA DEL AÑO, RECUPERAR EL MES Y USARLO COMO PRIMER ELEMENTO DELPAGINADOR.
 
-    $example = Carbon::createFromDate($anio, 1, 1); // ¡¡ESTE ES EL START DEL PROYECTO!! HAY QUE EXTRAERLO DEL CREATED_AT Y PASARLO COMO PARAMETRO ACÁ Y DESPUÉS PASARLO A $START.
+    $example = Carbon::createFromDate($anioProyecto, 1, 1); // ¡¡ESTE ES EL START DEL PROYECTO!! HAY QUE EXTRAERLO DEL CREATED_AT Y PASARLO COMO PARAMETRO ACÁ Y DESPUÉS PASARLO A $START.
 
-    $start    = new DateTime(); // Today date   // EL START ES LA FECHA DE CREACIÓN DEL PROYECTO.
 
-    $end      = new DateTime($date->toDateTimeString()); // Create a datetime object from your Carbon object   // EL FINAL ES UN AÑO DESPUÉS (¿O 10?).
+
+    $start    = DateTime::createFromFormat($format, $fechaProyecto); // Today date   // EL START ES LA FECHA DE CREACIÓN DEL PROYECTO.
+
+    $end      = DateTime::createFromFormat($format, $fechaFinProyecto); // Create a datetime object from your Carbon object   // EL FINAL ES UN AÑO DESPUÉS (¿O 10?).
 
     $interval = DateInterval::createFromDateString('1 month'); // 1 month interval  // ESTE ES EL INTERVALO, ESTÁ PERFECTO.
 
     $period   = new DatePeriod($start, $interval, $end); // Get a set of date beetween the 2 period // HAY QUE PAGINAR CADA 12 ELEMENTOS.
 
-    $months = array();
+    $periodoTotal = array();
 
     foreach ($period as $dt) {
-        $months[] = $dt->format("F Y");
+        $periodoTotal[] = $dt->format("F Y");
     }
 
-    {{dd($months);}}
+    $currentPage = LengthAwarePaginator::resolveCurrentPage();
+
+    $itemCollection = collect($periodoTotal);
+
+    $perPage = 12;
+
+    $currentPageItems = $itemCollection->slice(($currentPage * $perPage) - $perPage, $perPage)->all();
+
+    $paginatedItems = new LengthAwarePaginator($currentPageItems , count($itemCollection), $perPage);
+
+    $paginatedItems->setPath('/misCuotas/' . $proyectoId . '/' . $usuarioId);
+
+    return view('mi-balance', ['periodoTotal' => $paginatedItems]);
 
     // return $months;
-    return view('mi-balance', compact('months', 'balance', 'proyectoReferido', 'usuarioId'));
+
+    // return $months;
+    // return view('mi-balance', compact('balance', 'balances', 'proyectoReferido', 'usuarioId'));
 
   }
 

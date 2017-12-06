@@ -8,7 +8,7 @@
 
         <section class="postsPaginados">
 
-        {{-- {{dd($balance->first())}} --}}
+        {{-- {{dd($perPage}} --}}
 
         {{-- @if ($balance->first() != null) --}}
 
@@ -50,10 +50,11 @@
 
                 <tbody>
                   <?php $color = 0; ?>
-                  @foreach($months as $cuota => $mes)
+                  @foreach($periodoTotal as $cuota => $mes)
 
                     @if ($color % 2 == 0) <tr style="background-color:rgba(176,106,92,0.3); border: 1px solid rgba(0,0,0,0.3);"> @endif
                     @if ($color % 2 != 0) <tr style="background-color:rgba(124,88,145,0.3); border: 1px solid rgba(0,0,0,0.3);"> @endif
+
                       <td>{{$mes}}</td>
                       <td>$ {{-- $cuota->monto_establecido --}}</td>
                       <td class="contenidoPost">Fecha de Vencimiento</td>
@@ -67,8 +68,8 @@
                       @endforeach
                 </tbody>
             </table>
-            {{--  $months->links() --}}
-            {{--  $balance->render() --}}
+            {{  $periodoTotal->links() }}
+            {{--  $months->render() --}}
             {{-- $proyectos->links() --}}
             {{-- {{ $proyectos->render() }} --}}
           </div>
