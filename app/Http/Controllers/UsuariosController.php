@@ -96,7 +96,31 @@ class UsuariosController extends Controller
   public function misCuotas($proyectoId, $usuarioId)
   {
 
+        if(Auth::user()->rol == "cliente" && $proyectoId != Auth::user()->project_id)
+          {
+            Session::flash('permisoDenegado', "Usted no tiene permisos para acceder a esa ruta.");
+            return Redirect::route('index');
+          }
+
     $proyectoReferido = DB::table('projects')->where('id', '=', "$proyectoId")->first();
+
+    $usuarioReferido = DB::table('users')->where('id', '=', "$usuarioId")->first();
+
+    $cantidadCuotasReferidas = DB::table('balances')->where('project_id', '=', "$proyectoId")->where('user_id', '=', "$usuarioId")->orderBy('fecha_pagado', 'asc')->count();
+    $cuotasReferidas = DB::table('balances')->where('project_id', '=', "$proyectoId")->where('user_id', '=', "$usuarioId")->orderBy('fecha_pagado', 'asc')->get();
+
+    // foreach ($cuotasReferidas as $cuota) {
+    //
+    //   $horaCuota = Carbon::createFromFormat('Y-m-d H:i:s', $cuota->created_at);
+    //   $horaProyecto = Carbon::createFromFormat('Y-m-d H:i:s', $proyectoReferido->created_at);
+    //
+    //   echo "<pre>";
+    //
+    //   var_dump($horaProyecto, $horaCuota);
+    //   var_dump($horaProyecto->diffInMinutes($horaCuota));
+    //
+    // }exit;
+
 
     $creacionDelProyecto = $proyectoReferido->created_at;
 
@@ -144,12 +168,18 @@ class UsuariosController extends Controller
 
     $paginatedItems->setPath('/misCuotas/' . $proyectoId . '/' . $usuarioId);
 
-    return view('mi-balance', ['periodoTotal' => $paginatedItems]);
+    // return view('mi-balance')->with('periodoTotal', 'paginatedItems');
+    return view('mi-balance')->with(['periodoTotal' => $paginatedItems])->with(['cuotasReferidas' => $cuotasReferidas])->with(['proyectoReferido' => $proyectoReferido])->with(['usuarioReferido' => $usuarioReferido]);
 
     // return $months;
 
     // return $months;
     // return view('mi-balance', compact('balance', 'balances', 'proyectoReferido', 'usuarioId'));
+
+  }
+
+  public function modificarFechaVencimiento($proyectoId, $usuarioId)
+  {
 
   }
 
