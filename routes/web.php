@@ -138,6 +138,10 @@ Route::group(['middleware' => ['permission:editar_clientes']], function () {
 
 Route::get('/misCuotas/{proyectoId}/{usuarioId}', 'UsuariosController@misCuotas')->name('misCuotas');
 
+Route::get('/crearBalance/{proyectoId}/{usuarioId}', 'UsuariosController@crearBalance')->name('crearBalance');
+
+
+
 Route::group(['middleware' => ['permission:editar_clientes']], function () {
   Route::post('/modificarFechaVencimiento/{proyectoId}/{usuarioId}', 'UsuariosController@modificarFechaVencimiento')->name('modificarFechaVencimiento');
 });

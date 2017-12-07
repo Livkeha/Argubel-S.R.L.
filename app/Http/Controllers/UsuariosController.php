@@ -110,7 +110,7 @@ class UsuariosController extends Controller
 
     $cantidadCuotasReferidas = DB::table('balances')->where('project_id', '=', "$proyectoId")->where('user_id', '=', "$usuarioId")->orderBy('fecha_pagado', 'asc')->oldest()->first();  // ESTE ES EL PRIMER BALANCE DEL USUARIO (EL MAS VIEJO).
 
-    $cuotasReferidas = DB::table('balances')->where('project_id', '=', "$proyectoId")->where('user_id', '=', "$usuarioId")->orderBy('created_at', 'asc')->get();
+    $cuotasReferidas = DB::table('balances')->where('project_id', '=', "$proyectoId")->where('user_id', '=', "$usuarioId")->orderBy('id', 'asc')->get();
 
     // foreach ($cuotasReferidas as $cuota) {
     //
@@ -181,6 +181,23 @@ class UsuariosController extends Controller
     // return $months;
     // return view('mi-balance', compact('balance', 'balances', 'proyectoReferido', 'usuarioId'));
 
+  }
+
+  public function crearBalance($proyectoId, $usuarioId)
+  {
+    $balanceCreado = Balance::create([
+      'monto_establecido' => 500,
+      'fecha_vencimiento' => null,
+      'monto_pagado' => null,
+      'fecha_pagado' => null,
+      'balance' => 0,
+      'user_id' => $usuarioId,
+      'project_id' => $proyectoId,
+      ]);
+
+      return redirect()->action(
+        'UsuariosController@misCuotas', ['proyectoId' => $proyectoId, '$usuarioId' => $usuarioId]
+      );
   }
 
   public function modificarFechaVencimiento($proyectoId, $usuarioId)
