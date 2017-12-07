@@ -57,7 +57,7 @@
                       {{-- {{dd($proyecto->id)}} --}}
                       <td><b>{{ $proyecto->nombre }}</b></td>
                       <td class="contenidoPost">{{ $proyecto->calle }} {{$proyecto->altura}}</td>
-                      <td>{{ Carbon\Carbon::parse($proyecto->created_at)->format('l d-m-Y') }}</td>
+                      <td>{{ Carbon\Carbon::parse($proyecto->created_at)->format('d-m-Y') }}</td>
                       <td>$ {{ $proyecto->monto_establecido }}
                       <a class="btn btn-xs btn-primary" href="{{ URL::to('modificarMontoEstablecido/' . $proyecto->id) }}">Modificar Monto</a>
                       </td>

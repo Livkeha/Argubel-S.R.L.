@@ -79,6 +79,7 @@ class UsuariosController extends Controller
 
     $balanceInicial = Balance::create([
       'monto_establecido' => $desarrolloAfectado->monto_establecido,
+      'fecha_vencimiento' => null,
       'monto_pagado' => null,
       'fecha_pagado' => null,
       'balance' => 0,
@@ -109,7 +110,7 @@ class UsuariosController extends Controller
 
     $cantidadCuotasReferidas = DB::table('balances')->where('project_id', '=', "$proyectoId")->where('user_id', '=', "$usuarioId")->orderBy('fecha_pagado', 'asc')->oldest()->first();  // ESTE ES EL PRIMER BALANCE DEL USUARIO (EL MAS VIEJO).
 
-    $cuotasReferidas = DB::table('balances')->where('project_id', '=', "$proyectoId")->where('user_id', '=', "$usuarioId")->orderBy('fecha_pagado', 'asc')->get();
+    $cuotasReferidas = DB::table('balances')->where('project_id', '=', "$proyectoId")->where('user_id', '=', "$usuarioId")->orderBy('created_at', 'asc')->get();
 
     // foreach ($cuotasReferidas as $cuota) {
     //
@@ -185,6 +186,25 @@ class UsuariosController extends Controller
   public function modificarFechaVencimiento($proyectoId, $usuarioId)
   {
 
+    $fechaVencimiento = $_POST["fecha_vencimiento"];
+
+    $desarrolloAfectado = DB::table('projects')->where("id", "=", "$proyectoId")->first();
+
+    $balanceCreado = Balance::create([
+      'monto_establecido' => null,
+      'fecha_vencimiento' => $fechaVencimiento,
+      'monto_pagado' => null,
+      'fecha_pagado' => null,
+      'balance' => 0,
+      'user_id' => $usuarioId,
+      'project_id' => $proyectoId,
+      ]);
+
+      Session::flash('fechaVencimientoActualizada', "La fecha de vencimiento ha sido actualizada correctamente.");
+
+      return redirect()->action(
+        'UsuariosController@misCuotas', ['proyectoId' => $proyectoId, '$usuarioId' => $usuarioId]
+      );
   }
 
 

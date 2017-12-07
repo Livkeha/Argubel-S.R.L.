@@ -19,8 +19,8 @@ class CreateBalancesTable extends Migration
     {
         Schema::create('balances', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('monto_establecido');
-            $table->integer('fecha_vencimiento')->nullable();
+            $table->integer('monto_establecido')->nullable();
+            $table->datetime('fecha_vencimiento')->nullable();
             $table->integer('monto_pagado')->nullable();
             $table->integer('fecha_pagado')->nullable();
             $table->integer('balance');
