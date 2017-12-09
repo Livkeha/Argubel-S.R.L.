@@ -6,6 +6,16 @@
 
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script>
+        $(document).ready(function(){
+          $("#agregar-pago").click(function(){
+            $(".ocultar").toggle();
+          });
+        });
+      </script>
+
         <section class="postsPaginados">
 
           {{-- dd($cuotasReferidas) --}}
@@ -44,10 +54,20 @@
 
 
         <h2 class="form-titulo" style="color: blue; text-align:center;">Balance - Desarrollo: {{ $proyectoReferido->nombre }}</h2>
+        <h2 class="form-titulo" style="color: green; text-align:center;">Inversor: {{ $usuarioReferido->nombre }} {{ $usuarioReferido->apellido }} - {{ $usuarioReferido->documento }}</h2>
 
       <h4 style="color: red; text-align:center;"><b>Valor de la cuota establecido al día {{ \Carbon\Carbon::now()->format('d/m/Y') }}: ${{ $proyectoReferido->monto_establecido }}.</b></h4>
 
-      <button type="button" name="button" class="btn btn-xs btn-success">Agregar pago</button>
+      <h5 style="color: blue; text-align:center;"><b>Balance actual del inversor: ${{abs($usuarioReferido->balance)}}</b></h5>
+
+      @foreach($cuotasReferidas as $cuota)
+      @if(count($cuotasReferidas) >= 1 && $cuota->anio_pagado != null)
+      <button type="button" name="button" class="btn btn-md btn-primary" id="agregar-pago">Nueva Cuota</button>
+      <?php break; ?>
+      @endif
+      @endforeach
+
+
 
         <div class="container" style="height:502px; width:100%;">
           <div class="responsive-table">
@@ -73,7 +93,7 @@
                     <th style="text-align: center;">Monto Pagado</th>
                     <th style="text-align: center;">Fecha Pagado</th>
                     <th style="text-align: center;">Balance</th>
-                    @role('Administrador') @if (Auth::check()) <th style="text-align: center;">Acciones</th> @endif @endrole
+                    <!-- @role('Administrador') @if (Auth::check()) <th style="text-align: center;">Acciones</th> @endif @endrole -->
                   <tr>
                 </thead>
 
@@ -224,15 +244,15 @@
 
                       <?php echo Form::token(); ?>
 
-                      @role('Administrador') @if (Auth::check() && $cuota->mes_vencimiento != null && $cuota->anio_vencimiento != null && $cuota->monto_pagado == null) <input class="form-control" type='number' name="monto_pagado" required> @endif @endrole
+                      @role('Administrador') @if (Auth::check() && $cuota->mes_vencimiento != null && $cuota->anio_vencimiento != null && $cuota->monto_pagado == null && $cuota->balance_mensual == null) <input class="form-control" type='number' name="monto_pagado" required> @endif @endrole
 
-                      @role('Administrador') @if (Auth::check() && $cuota->mes_vencimiento != null && $cuota->anio_vencimiento != null && $cuota->monto_pagado == null) <button class="btn btn-xs btn-success" type="submit" name="pago-agregado">Ingresar Pago</button> @endif @endrole
+                      @role('Administrador') @if (Auth::check() && $cuota->mes_vencimiento != null && $cuota->anio_vencimiento != null && $cuota->monto_pagado == null && $cuota->balance_mensual == null) <button class="btn btn-xs btn-success" type="submit" name="pago-agregado">Ingresar Pago</button> @endif @endrole
 
                       {{ Form::close() }}
 
                       @endif @endrole
 
-                      @role('Administrador') @if (Auth::check() && $cuota->mes_vencimiento != null && $cuota->anio_vencimiento != null && $cuota->monto_pagado != null)${{ $cuota->monto_pagado }} @endif @endrole
+                      @role('Administrador') @if (Auth::check() && $cuota->mes_vencimiento != null && $cuota->anio_vencimiento != null && $cuota->balance_mensual !== null)${{ $cuota->monto_pagado }} @endif @endrole
 
                     </td>
 
@@ -243,7 +263,7 @@
 
                     <td style="text-align: center; vertical-align: middle;">  <!-- FECHA PAGADO -->
 
-                      @role('Administrador') @if (Auth::check() && $cuota->monto_pagado == null)<i class="btn btn-xs btn-warning disabled" style="color:black;"> Pago aún no ingresado </i> @endif @endrole
+                      @role('Administrador') @if (Auth::check() && $cuota->monto_pagado == null && $cuota->balance_mensual == null)<i class="btn btn-xs btn-warning disabled" style="color:black;"> Pago aún no ingresado </i> @endif @endrole
 
                       @role('Administrador') @if (Auth::check() && $cuota->monto_pagado != null && $cuota->dia_pagado == null)
 
@@ -305,7 +325,7 @@
                     <td style="text-align: center; vertical-align: middle;"> <!-- BALANCE -->
 
                       @role('Administrador') @if (Auth::check() && $cuota->mes_vencimiento == null && $cuota->anio_vencimiento == null && $cuota->monto_pagado === "0")<i class="btn btn-xs btn-warning disabled" style="color:black;"> Ingrese una fecha de vencimiento </i> @endif @endrole
-
+<!--
                       @if($usuarioReferido->balance > 0)
                       <span style="color:green"><b>+ ${{$usuarioReferido->balance}}</b></span>
                       @endif
@@ -316,8 +336,19 @@
 
                       @if($usuarioReferido->balance < 0)
                       <span style="color:red"><b>- ${{abs($usuarioReferido->balance)}}</b></span>
+                      @endif -->
+
+                      @if($cuota->balance_mensual > 0)
+                      <span style="color:green"><b>+ ${{$cuota->balance_mensual}}</b></span>
                       @endif
 
+                      @if($cuota->balance_mensual == 0)
+                      <span style="color:blue"><b>$ 0</b></span>
+                      @endif
+
+                      @if($cuota->balance_mensual < 0)
+                      <span style="color:red"><b>- ${{abs($cuota->balance_mensual)}}</b></span>
+                      @endif
 
                     </td>
 
@@ -326,15 +357,7 @@
 
 
 
-                    <td style="text-align: center; vertical-align: middle;"> <!-- ACCIONES -->
 
-                      @role('Administrador') @if (Auth::check() && $cuota->mes_vencimiento == null && $cuota->anio_vencimiento == null && $cuota->monto_pagado == null)<button class="btn btn-xs btn-warning disabled" style="color:black;">No hay acciones disponibles</button>@endif @endrole
-
-                      @role('Administrador') @if (Auth::check() && $cuota->mes_vencimiento != null && $cuota->anio_vencimiento != null && $cuota->monto_pagado == null)<button class="btn btn-xs btn-danger" type="submit" name="">Declarar Cuota no Pagada</button>@endif @endrole
-
-                      @role('Administrador') @if (Auth::check() && $cuota->mes_vencimiento != null && $cuota->anio_vencimiento != null && $cuota->monto_pagado != null)<button class="btn btn-xs btn-warning disabled" style="color:black;">No hay acciones disponibles</button> @endif @endrole
-
-                   </td>
 
                     <?php $color = $color + 1; ?>
 
@@ -353,7 +376,7 @@
 
 
 
-                  <tbody class="ocultasr">
+                  <tbody class="ocultar">
 
                       {!! Form::open(array('route' => array('agregarCuota', $proyectoReferido->id, $usuarioReferido->id, $cuotaReferida->id))) !!}
                       <!-- {{ Form::open(array('url' => 'www.google.com.ar')) }} -->
@@ -479,14 +502,6 @@
 
                       </td>
 
-
-
-
-                      <td style="text-align: center; vertical-align: middle;"> <!-- BALANCE -->
-
-                        <i>Calculado al ingresar cuota</i>
-
-                          </td>
 
 
                           <td style="text-align: center; vertical-align: middle;"> <!-- ACCIONES -->

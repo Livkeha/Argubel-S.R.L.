@@ -297,14 +297,7 @@ class UsuariosController extends Controller
   public function modificarMontoPagado($proyectoId, $usuarioId, $cuotaId)
   {
 
-    // $diaPagado = $_POST["dia_pagado"];
-    //
-    // $mesPagado = $_POST["mes_pagado"];
-    //
-    // $anioPagado = $_POST["anio_pagado"];
-
     $montoPagado = $_POST["monto_pagado"];
-
 
     $desarrolloAfectado = DB::table('projects')->where("id", "=", "$proyectoId")->first();
 
@@ -312,29 +305,20 @@ class UsuariosController extends Controller
 
     $usuarioAfectado = DB::table('users')->where("id", "=", "$usuarioId")->first();
 
-
     $balanceAfectado = DB::table('balances')->where("project_id", "=", "$proyectoId")->where("user_id", "=", "$usuarioId")->where("id", "=", "$cuotaId")->select('monto_pagado')->update(
       ['monto_pagado' => $montoPagado]
     );
-    //
-    // $balanceAfectado = DB::table('balances')->where("project_id", "=", "$proyectoId")->where("user_id", "=", "$usuarioId")->where("id", "=", "$cuotaId")->select('dia_pagado')->update(
-    //   ['dia_pagado' => $diaPagado]
-    // );
-    //
-    // $balanceAfectado = DB::table('balances')->where("project_id", "=", "$proyectoId")->where("user_id", "=", "$usuarioId")->where("id", "=", "$cuotaId")->select('mes_pagado')->update(
-    //   ['mes_pagado' => $mesPagado]
-    // );
-    //
-    // $balanceAfectado = DB::table('balances')->where("project_id", "=", "$proyectoId")->where("user_id", "=", "$usuarioId")->where("id", "=", "$cuotaId")->select('anio_pagado')->update(
-    //   ['anio_pagado' => $anioPagado]
-    // );
 
     $balanceAfectado = DB::table('balances')->where("id", "=", "$cuotaId")->first();
 
-    $nuevoBalance = ($montoPagado - $balanceAfectado->monto_establecido) + $usuarioAfectado->balance;
+    $nuevoBalance = ($montoPagado - $balanceAfectado->monto_establecido) + ($usuarioAfectado->balance);
 
     $balanceUsuarioAfectado = DB::table('users')->where("project_id", "=", "$proyectoId")->where("id", "=", "$usuarioId")->select('balance')->update(
       ['balance' => $nuevoBalance]
+    );
+
+    $balanceMensualAfectado = DB::table('balances')->where("id", "=", "$cuotaId")->where("project_id", "=", "$proyectoId")->where("user_id", "=", "$usuarioId")->select('balance_mensual')->update(
+      ['balance_mensual' => $nuevoBalance]
     );
 
       Session::flash('montoPagadoActualizado', "El monto pagado ha sido actualizado correctamente.");
@@ -447,7 +431,7 @@ class UsuariosController extends Controller
     $usuarioReferido = DB::table('users')->where('id', '=', "$usuarioId")->first();
 
 
-    $cuotasReferidas = DB::table('balances')->where('project_id', '=', "$proyectoId")->where('user_id', '=', "$usuarioId")->orderBy('created_at', 'asc')->paginate(1);
+    $cuotasReferidas = DB::table('balances')->where('project_id', '=', "$proyectoId")->where('user_id', '=', "$usuarioId")->orderBy('created_at', 'asc')->paginate(12);
 
         View::share('proyectoId', $proyectoId);
 
@@ -487,12 +471,11 @@ class UsuariosController extends Controller
 
     $usuarioAfectado = DB::table('users')->where("id", "=", "$usuarioId")->first();
 
-    $nuevoBalance = ($montoPagado - $montoEstablecido) + $usuarioAfectado->balance;
+    $nuevoBalance = ($montoPagado - $montoEstablecido) + ($usuarioAfectado->balance);
 
     $balanceAnterior = DB::table('users')->where("project_id", "=", "$proyectoId")->where("id", "=", "$usuarioId")->select('balance')->update(
       ['balance' => $nuevoBalance]
     );
-
 
     $desarrolloAfectado = DB::table('projects')->where("id", "=", "$proyectoId")->first();
 
@@ -511,6 +494,7 @@ class UsuariosController extends Controller
       'dia_pagado' => $diaPagado,
       'mes_pagado' => $mesPagado,
       'anio_pagado' => $anioPagado,
+      'balance_mensual' => $nuevoBalance,
       'user_id' => $usuarioId,
       'project_id' => $proyectoId,
     ]);
@@ -532,6 +516,10 @@ class UsuariosController extends Controller
   {
 
     // {{dd($proyectoId, $usuarioId);}}
+
+    $usuarioAfectado = DB::table('users')->where("project_id", "=", "$proyectoId")->where("id", "=", "$usuarioId")->select('balance')->update(
+      ['balance' => null]
+    );
 
     $usuarioAfectado = DB::table('users')->where("project_id", "=", "$proyectoId")->where("id", "=", "$usuarioId")->select('project_id')->update(
       ['project_id' => null]

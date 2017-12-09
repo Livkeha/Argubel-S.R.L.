@@ -29,6 +29,7 @@ class CreateBalancesTable extends Migration
             $table->integer('dia_pagado')->nullable();
             $table->string('mes_pagado')->nullable();
             $table->integer('anio_pagado')->nullable();
+            $table->integer('balance_mensual')->nullable();
             $table->integer('user_id')->unsigned()->nullable();
             $table->foreign('user_id')->references('id')->on('users');
             $table->integer('project_id')->unsigned()->nullable();

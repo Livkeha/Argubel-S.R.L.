@@ -107,7 +107,6 @@ class ProyectosController extends Controller
         $balanceInicial = Balance::create([
           'monto_establecido' => $proyectoReferido->monto_establecido,
           'monto_pagado' => null,
-          'balance' => 0,
           'user_id' => $idInversor,
           'project_id' => $idProyecto,
         ]);
@@ -342,6 +341,10 @@ class ProyectosController extends Controller
     $inversoresComprometidos = DB::table('users')->where('project_id', '=', "$proyectoReferido->id")->get();
 
     if($inversoresComprometidos != null) {
+
+      $inversoresComprometidos = DB::table('users')->where('project_id', '=', "$proyectoReferido->id")->select('balance')->update(
+        ['balance' => null]
+      );
 
       $inversoresComprometidos = DB::table('users')->where('project_id', '=', "$proyectoReferido->id")->select('project_id')->update(
         ['project_id' => null]
