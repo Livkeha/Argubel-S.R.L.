@@ -42,7 +42,7 @@
                   <tr>
 
                     <th style="text-align: center;">Fecha</th>
-                    <th style="text-align: center;">Id</th>
+                    <!-- <th style="text-align: center;">Id</th> -->
                     <th style="text-align: center;">Valor de Cuota</th>
                     <th style="text-align: center;">Fecha de Vencimiento</th>
                     <th style="text-align: center;">Monto Pagado</th>
@@ -72,18 +72,18 @@
                   $fechaDelBalance = Carbon\Carbon::createFromFormat('m-Y', $stringDelBalance, 'America/Argentina/Buenos_Aires');
 
 
-                  // {{dd($fechaDelBalance->gt($fechaDelMes));}}
-
                    ?>
 
                   @if ($color % 2 == 0) <tr style="background-color:rgba(176,106,92,0.3); border: 1px solid rgba(0,0,0,0.3);"> @endif
                   @if ($color % 2 != 0) <tr style="background-color:rgba(124,88,145,0.3); border: 1px solid rgba(0,0,0,0.3);"> @endif
 
 
-                    @if($fechaDelMes->lt($fechaDelBalance) && $cuota->id <= 1) <!-- SI LA FECHA DEL MES ES ANTERIOR A LA FECHA DE BALANCE -->
+
+
+                    @if($fechaDelMes->lt($fechaDelBalance))  <!--  SI LA FECHA DEL MES ES ANTERIOR A LA FECHA DE BALANCE -->
 
                     <td style="text-align: center; vertical-align: middle;"><b>{{$mes}}</b></td>
-                    <td style="text-align: center; vertical-align: middle;"><b>{{$cuota->id}}</b></td>
+                    <!-- <td style="text-align: center; vertical-align: middle;"><b>{{$cuota->id}}</b></td> -->
                     <td style="text-align: center; vertical-align: middle;">--------------------</td>
                     <td style="text-align: center; vertical-align: middle;">--------------------</td>
                     <td style="text-align: center; vertical-align: middle;">--------------------</td>
@@ -91,203 +91,112 @@
                     <td style="text-align: center; vertical-align: middle;">--------------------</td>
                     <td style="text-align: center; vertical-align: middle;">--------------------</td>
 
-                    <?php $color = $color + 1; ?>
-                    <?php continue; ?>
 
                     @endif
 
+                    @if($fechaDelMes->eq($fechaDelBalance) && $cuota->es_visible == true) <!-- SI LA FECHA DEL MES ES IGUAL A LA FECHA DE BALANCE -->
 
-                  @if($fechaDelMes->eq($fechaDelBalance)) <!-- SI LA FECHA DEL MES ES IGUAL A LA FECHA DEL BALANCE -->
+                    <td style="text-align: center; vertical-align: middle;"><b>{{$mes}}</b></td>
+                    <!-- <td style="text-align: center; vertical-align: middle;"><b>{{$cuota->id}}</b></td> -->
+                    <td style="text-align: center; vertical-align: middle;">  <!-- MONTO ESTABLECIDO -->
 
+                      @role('Administrador') @if (Auth::check() && $cuota->fecha_vencimiento == null && $cuota->monto_pagado == null) <i class="btn btn-xs btn-warning disabled" style="color:black;">Ingrese una fecha de vencimiento</i> @endif @endrole
 
-                                      <?php echo "<pre>"; ?>
+                      @role('Administrador') @if (Auth::check() && $cuota->fecha_vencimiento != null && $cuota->monto_pagado == null) <i class="btn btn-xs btn-warning disabled" style="color:black;">Ingrese un pago</i> @endif @endrole
 
-                                      <?php var_dump($fechaDelMes, $fechaDelBalance); ?>
+                      @role('Administrador') @if (Auth::check() && $cuota->fecha_vencimiento != null && $cuota->monto_pagado != null) $ {{ $cuota->monto_establecido }} @endif @endrole
 
-                  <td style="text-align: center; vertical-align: middle;"><b>{{$mes}}</b></td>
-                  <td style="text-align: center; vertical-align: middle;"><b>{{$cuota->id}}</b></td>
-                  <td style="text-align: center; vertical-align: middle;">$ {{ $cuota->monto_establecido  }}</td>
-                  <td style="text-align: center; vertical-align: middle;"><b> {{Carbon\Carbon::parse($cuota->fecha_vencimiento)->format('d-m-Y')}}</b></td>
-                  <td style="text-align: center; vertical-align: middle;">
+                    </td>
 
+                    <td style="text-align: center; vertical-align: middle;">  <!-- FECHA DE VENCIMIENTO -->
 
-                    @role('Administrador') @if (Auth::check() && $cuota->fecha_vencimiento != null && $cuota->monto_pagado == null) <input class="form-control" type='number' name="monto-pagado" required> @endif @endrole
+                      @role('Administrador') @if (Auth::check() && $cuota->fecha_vencimiento == null && $cuota->monto_pagado == null)
 
-                    @role('Administrador') @if (Auth::check() && $cuota->fecha_vencimiento != null && $cuota->monto_pagado == null) <button class="btn btn-xs btn-success" type="submit" name="pago-agregado">Ingresar Pago</button> @endif @endrole
+                      {!! Form::open(array('route' => array('modificarFechaVencimiento', $proyectoReferido->id, $usuarioReferido->id))) !!}
+                      <!-- {{ Form::open(array('url' => 'www.google.com.ar')) }} -->
 
-                    @role('Administrador') @if (Auth::check() && $cuota->fecha_vencimiento != null && $cuota->monto_pagado != null)$ {{ $cuota->monto_pagado }} @endif @endrole
+                      <?php echo Form::token(); ?>
 
-                  </td>
+                        <?php echo Form::date('fecha_vencimiento', ""); ?>
 
-                  <td style="text-align: center; vertical-align: middle;">
+                        @role('Administrador') @if (Auth::check() && $cuota->fecha_vencimiento == null && $cuota->monto_pagado == null) <button class="btn btn-xs btn-primary" type="submit" name="fecha-vencimiento-agregada">Ingresar Fecha de Vencimiento</button> @endif @endrole
 
-                    @role('Administrador') @if (Auth::check() && $cuota->fecha_vencimiento != null && $cuota->monto_pagado == null)<i> Pago aun no ingresado. </i> @endif @endrole
+                        {{ Form::close() }}
 
-                    @role('Administrador') @if (Auth::check() && $cuota->fecha_vencimiento != null && $cuota->monto_pagado != null)<b> {{Carbon\Carbon::parse($cuota->fecha_pagado)->format('d-m-Y')}}</b> @endif @endrole
+                      @endif @endrole
 
-                  </td>
+                      @role('Administrador') @if (Auth::check() && $cuota->fecha_vencimiento != null) <b> {{Carbon\Carbon::parse($cuota->fecha_vencimiento)->format('d-m-Y')}} </b> @endif @endrole
 
+                    </td>
 
-                  <td style="text-align: center; vertical-align: middle;">
+                    <td style="text-align: center; vertical-align: middle;">  <!-- MONTO PAGADO -->
 
-                    @if($cuota->balance > 0)
-                    <span style="color:green"><b>{{$cuota->balance}}</b></span>
-                    @endif
+                      @role('Administrador') @if (Auth::check() && $cuota->fecha_vencimiento == null || $cuota->monto_pagado == null) <i class="btn btn-xs btn-warning disabled" style="color:black;"> Ingrese una fecha de vencimiento </i> @endif @endrole
 
-                    @if($cuota->balance == 0)
-                    <span style="color:blue"><b>{{$cuota->balance}}</b></span>
-                    @endif
+                      @role('Administrador') @if (Auth::check() && $cuota->fecha_vencimiento != null && $cuota->monto_pagado != null)$ {{ $cuota->monto_pagado }} @endif @endrole
 
-                    @if($cuota->balance < 0)
-                    <span style="color:red"><b>{{$cuota->balance}}</b></span>
-                    @endif
+                    </td>
 
+                    <td style="text-align: center; vertical-align: middle;">  <!-- FECHA PAGADO -->
 
-                  </td>
+                      @role('Administrador') @if (Auth::check() && $cuota->fecha_vencimiento == null && $cuota->monto_pagado == null)<i class="btn btn-xs btn-warning disabled" style="color:black;"> Pago aún no ingresado </i> @endif @endrole
 
-                  @role('Administrador') @if (Auth::check() && $cuota->monto_pagado == null)
-                  <td style="text-align: center; vertical-align: middle;">
-                    <button class="btn btn-xs btn-danger" type="submit" name="">Declarar Cuota no Pagada</button>
-                  </td>
-                   @endif @endrole
+                      @role('Administrador') @if (Auth::check() && $cuota->fecha_vencimiento != null && $cuota->monto_pagado == null)<b> {{Carbon\Carbon::parse($cuota->fecha_pagado)->format('d-m-Y')}}</b> @endif @endrole
 
-                   @role('Administrador') @if (Auth::check() && $cuota->monto_pagado != null)
-                  <td style="text-align: center; vertical-align: middle;">
-                    <button class="btn btn-xs btn-warning disabled" style="color:black;">No hay acciones disponibles</button>
-                   </td>
-                  @endif @endrole
+                    </td>
 
 
-                  <?php $color = $color + 1; ?>
+                    <td style="text-align: center; vertical-align: middle;"> <!-- BALANCE -->
 
-                  @endif
+                      @role('Administrador') @if (Auth::check() && $cuota->fecha_vencimiento == null && $cuota->monto_pagado === "0")<i class="btn btn-xs btn-warning disabled" style="color:black;"> Ingrese una fecha de vencimiento </i> @endif @endrole
 
-                  @if($cuota->id == 1 && count($cuotasReferidas) > 1)
-                  <?php continue; ?>
-                  @endif
+                      @if($cuota->balance >= 0)
+                      <span style="color:green"><b>{{$cuota->balance}}</b></span>
+                      @endif
 
-                  @if($idAnterior == $cuota->id && $cuota->fecha_vencimiento != null)
-                  <?php break; ?>
-                  @endif
+                      @if($cuota->balance < 0)
+                      <span style="color:red"><b>{{$cuota->balance}}</b></span>
+                      @endif
 
-                  @if($mesAnterior >= $mes)
-                  <?php $mesAnterior = $periodoMensual[$mes] - 1; ?>
-                  <?php continue; ?>
-                  @endif
 
-                  @if($fechaDelMes->gt($fechaDelBalance)) <!-- SI LA FECHA DEL MES ES POSTERIOR A LA FECHA DE BALANCE -->
+                    </td>
 
-                  <td style="text-align: center; vertical-align: middle;"><b>{{$mes}}</b></td>
-                  <td style="text-align: center; vertical-align: middle;"><b>{{$cuota->id}}</b></td>
-                  <td style="text-align: center; vertical-align: middle;">
 
-                    @if ($balanceAnterior == '')
+                    <td style="text-align: center; vertical-align: middle;"> <!-- ACCIONES -->
 
-                      @role('Administrador') @if (Auth::check()) <i>Ingrese un pago para ver el valor de la cuota.</i> @endif @endrole
+                      @role('Administrador') @if (Auth::check() && $cuota->fecha_vencimiento == null && $cuota->monto_pagado == null)<button class="btn btn-xs btn-warning disabled" style="color:black;">No hay acciones disponibles</button>@endif @endrole
 
-                    @endif
+                      @role('Administrador') @if (Auth::check() && $cuota->fecha_vencimiento != null && $cuota->monto_pagado == null)<button class="btn btn-xs btn-danger" type="submit" name="">Declarar Cuota no Pagada</button>@endif @endrole
 
-                    @role('Administrador') @if (Auth::check() && $balanceAnterior != '') <button class="btn btn-xs btn-warning disabled" style="color:black;">Ingrese balances anteriores.</button> @endif @endrole
-
-                  </td>
-                  <td style="text-align: center; vertical-align: middle;">
-
-                    {!! Form::open(array('route' => array('modificarFechaVencimiento', $proyectoReferido->id, $usuarioReferido->id))) !!}
-                    <!-- {{ Form::open(array('url' => 'www.google.com.ar')) }} -->
-
-                    <?php echo Form::token(); ?>
-
-
-
-
-                    @if ($balanceAnterior == '')
-
-                    @role('Administrador') @if (Auth::check()) <?php echo Form::date('fecha_vencimiento', ""); ?> @endif @endrole
-                      @role('Administrador') @if (Auth::check()) <button class="btn btn-xs btn-primary" type="submit" name="fecha-vencimiento-agregada">Ingresar Fecha de Vencimiento</button> @endif @endrole
-
-                    @else
-
-                    @role('Administrador') @if (Auth::check() && $balanceAnterior != '') <button class="btn btn-xs btn-warning disabled" style="color:black;">Ingrese vencimientos anteriores.</button> @endif @endrole
-
-
-
-                    @endif
-
-
-
-
-                    {{ Form::close() }}
-
-
-
-                  </td>
-                  <td style="text-align: center; vertical-align: middle;">
-
-                    {!! Form::open(array('route' => array('ingresarEnDesarrollo', $usuarioReferido->id))) !!}
-                    <!-- {{ Form::open(array('url' => 'www.google.com.ar')) }} -->
-
-                    <?php echo Form::token(); ?>
-
-
-                    @role('Administrador') @if (Auth::check() && $cuota->fecha_vencimiento != null) <input class="form-control" type='number' name="monto-pagado" required> @endif @endrole
-
-                    @role('Administrador') @if (Auth::check() && $cuota->fecha_vencimiento == null && $balanceAnterior == '') <input class="form-control" type='number' name="monto-pagado" disabled> @endif @endrole
-
-                    @role('Administrador') @if (Auth::check() && $balanceAnterior == '')<button class="btn btn-xs btn-success" type="submit" name="pago-agregado">Ingresar Pago</button> @endif @endrole
-
-                    @role('Administrador') @if (Auth::check() && $balanceAnterior != '')<button class="btn btn-xs btn-success disabled" type="submit" name="pago-agregado">Ingresar Pago</button><br><span style="font-size: 0.8em; color:red">Debe ingresar un vencimiento anterior.</span> @endif @endrole
-
-                    {{ Form::close() }}
-
+                      @role('Administrador') @if (Auth::check() && $cuota->fecha_vencimiento != null && $cuota->monto_pagado != null)<button class="btn btn-xs btn-warning disabled" style="color:black;">No hay acciones disponibles</button> @endif @endrole
 
                    </td>
 
-                  <td style="text-align: center; vertical-align: middle;">
-
-                    @if ($balanceAnterior == '')
-
-                      @role('Administrador') @if (Auth::check()) <i>Ingrese un monto para ver la fecha de pago.</i> @endif @endrole
-
-                    @endif
-
-                    @role('Administrador') @if (Auth::check() && $balanceAnterior != '') <button class="btn btn-xs btn-warning disabled" style="color:black;">Ingrese pagos anteriores.</button> @endif @endrole
-
-                  </td>
-
-                  <td style="text-align: center; vertical-align: middle;">Balance.</td>
-
-                  <td style="text-align: center; vertical-align: middle;">
-
-                    @role('Administrador') @if (Auth::check() && $balanceAnterior != '') <button class="btn btn-xs btn-warning disabled" style="color:black;">No hay acciones disponibles</button> @endif @endrole
-
-                    <!-- @role('Administrador') @if (Auth::check())<a class="btn btn-xs btn-success" href="">Ingresar Pago</a> @endif @endrole -->
-                    <!-- @role('Administrador') @if (Auth::check())<a class="btn btn-xs btn-primary" href="">Ingresar Fecha de Vencimiento</a> @endif @endrole -->
-
-                    @if($balanceAnterior == '' && $cuota->fecha_vencimiento != null)
-
-                    @role('Administrador') @if (Auth::check() && $balanceAnterior == '')<a class="btn btn-xs btn-danger" href="">Declarar Cuota no Pagada</a> @endif @endrole
-
-                    @endif
-
-                    <?php    $balanceAnterior = $balanceAnterior + 1; ?>
-                    <?php    $idAnterior = $cuota->id + 1; ?>
-
-                  </td>
-
                     <?php $color = $color + 1; ?>
-                                      <?php continue; ?>
-                  @endif
+
+                    @endif
 
 
-                  {{-- dd (Carbon\Carbon::parse($mes)->format('m-Y') ) --}} <!-- ESTE ES EL MES DE CADA FILA DE LA TABLA -->
+                    @if($fechaDelMes->gt($fechaDelBalance)) <!-- SI LA FECHA DEL MES ES POSTERIOR A LA FECHA DE BALANCE -->
 
-                  {{-- dd (Carbon\Carbon::parse($cuota->created_at)->format('m-Y') ) --}}  <!-- ESTE ES EL MES DE CADA CUOTA -->
+                    <td style="text-align: center; vertical-align: middle;"><b>{{$mes}}</b></td>
+                    <!-- <td style="text-align: center; vertical-align: middle;"><b>{{$cuota->id}}</b></td> -->
+
+                    <td style="text-align: center; vertical-align: middle;">   <!-- MONTO ESTABLECIDO -->
+
+                      @role('Administrador') @if (Auth::check()) <i class="btn btn-xs btn-warning disabled" style="color:black;">Ingrese un pago para aplicar el valor de la cuota</i> @endif @endrole
+
+                    </td>
+
+                    <td style="text-align: center; vertical-align: middle;">--------------------</td>
+                    <td style="text-align: center; vertical-align: middle;">--------------------</td>
+                    <td style="text-align: center; vertical-align: middle;">--------------------</td>
+                    <td style="text-align: center; vertical-align: middle;">--------------------</td>
+                    <td style="text-align: center; vertical-align: middle;">--------------------</td>
+
+                    @endif
 
 
-
-
-                    <tr>
-                      <?php $mesAnterior = $periodoMensual[$mes] + 1; ?>
                         @endforeach
                       @endforeach
                 </tbody>

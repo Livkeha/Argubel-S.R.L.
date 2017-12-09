@@ -186,13 +186,14 @@ class UsuariosController extends Controller
   public function crearBalance($proyectoId, $usuarioId)
   {
     $balanceCreado = Balance::create([
-      'monto_establecido' => 500,
+      'monto_establecido' => null,
       'fecha_vencimiento' => null,
       'monto_pagado' => null,
       'fecha_pagado' => null,
       'balance' => 0,
       'user_id' => $usuarioId,
       'project_id' => $proyectoId,
+      'es_visible' => false,
       ]);
 
       return redirect()->action(

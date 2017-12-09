@@ -53,9 +53,9 @@ $anioActual = $anioProyecto - 1;
                     <?php break;  ?>
                   @endforeach
                     @if ($page == $paginator->currentPage())
-                        <li class="active my-active"><span>{{ $anioActual }}</span></li>
+                        <li class="active my-active"><span>{{ $page }}</span></li>
                     @else
-                        <li><a href="{{ $url }}">{{ $anioActual }}</a></li>
+                        <li><a href="{{ $url }}">{{ $page }}</a></li>
                         @endif
                 @endforeach
             @endif
