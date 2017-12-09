@@ -143,8 +143,25 @@ Route::get('/crearBalance/{proyectoId}/{usuarioId}', 'UsuariosController@crearBa
 
 
 Route::group(['middleware' => ['permission:editar_clientes']], function () {
-  Route::post('/modificarFechaVencimiento/{proyectoId}/{usuarioId}', 'UsuariosController@modificarFechaVencimiento')->name('modificarFechaVencimiento');
+  Route::post('/modificarFechaCuota/{proyectoId}/{usuarioId}/{cuotaId}', 'UsuariosController@modificarFechaCuota')->name('modificarFechaCuota');
 });
+
+Route::group(['middleware' => ['permission:editar_clientes']], function () {
+  Route::post('/modificarFechaVencimiento/{proyectoId}/{usuarioId}/{cuotaId}', 'UsuariosController@modificarFechaVencimiento')->name('modificarFechaVencimiento');
+});
+
+Route::group(['middleware' => ['permission:editar_clientes']], function () {
+  Route::post('/modificarMontoPagado/{proyectoId}/{usuarioId}/{cuotaId}', 'UsuariosController@modificarMontoPagado')->name('modificarMontoPagado');
+});
+
+Route::group(['middleware' => ['permission:editar_clientes']], function () {
+  Route::post('/modificarFechaPagado/{proyectoId}/{usuarioId}/{cuotaId}', 'UsuariosController@modificarFechaPagado')->name('modificarFechaPagado');
+});
+
+Route::group(['middleware' => ['permission:editar_clientes']], function () {
+  Route::post('/agregarCuota/{proyectoId}/{usuarioId}/{cuotaId}', 'UsuariosController@agregarCuota')->name('agregarCuota');
+});
+
 Route::group(['middleware' => ['permission:lista_clientes']], function () {
     Route::get('/listaUsuarios', 'UsuariosController@verLista')->name('listaUsuarios');
 });

@@ -56,6 +56,11 @@ img {
 
 .container-inversores { border:2px solid #ccc; width:400px; height: 100px; overflow-y: scroll; background-color: white;}
 
+.ocultar {
+  display: none;
+  background-color: red;
+}
+
 /* TODO: TERMINA LO NUEVO */
 
 /*NAV*/

@@ -46,7 +46,7 @@
                 <input id="cpassword" type="password" name="" placeholder="" class="input-48"> <div class="erroresNewUserJS" id="errorCPassword"> <span id="spanCPassword"></span></div>
 
                 <label> Rol: </label>
-                <select name="rol">
+                <select name="rol" required>
                   <option disabled selected value> -- Seleccione un Rol -- </option>
                   <option value="administrador">Administrador</option>
                   <option value="cliente">Cliente</option>

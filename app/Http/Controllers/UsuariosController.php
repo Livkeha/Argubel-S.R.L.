@@ -75,14 +75,15 @@ class UsuariosController extends Controller
       ['project_id' => $idDelProyecto]
     );
 
+    $usuarioAfectado = DB::table('users')->where("id", "=", "$usuarioId")->select('balance')->update(
+      ['balance' => 0]
+    );
+
     $desarrolloAfectado = DB::table('projects')->where("id", "=", "$idDelProyecto")->first();
 
     $balanceInicial = Balance::create([
       'monto_establecido' => $desarrolloAfectado->monto_establecido,
-      'fecha_vencimiento' => null,
       'monto_pagado' => null,
-      'fecha_pagado' => null,
-      'balance' => 0,
       'user_id' => $usuarioId,
       'project_id' => $idDelProyecto,
       ]);
@@ -95,7 +96,7 @@ class UsuariosController extends Controller
 
 
 
-  public function misCuotas($proyectoId, $usuarioId)
+  public function misCuotasBACKUP($proyectoId, $usuarioId)
   {
 
         if(Auth::user()->rol == "cliente" && $proyectoId != Auth::user()->project_id)
@@ -108,7 +109,7 @@ class UsuariosController extends Controller
 
     $usuarioReferido = DB::table('users')->where('id', '=', "$usuarioId")->first();
 
-    $cantidadCuotasReferidas = DB::table('balances')->where('project_id', '=', "$proyectoId")->where('user_id', '=', "$usuarioId")->orderBy('fecha_pagado', 'asc')->oldest()->first();  // ESTE ES EL PRIMER BALANCE DEL USUARIO (EL MAS VIEJO).
+    $cantidadCuotasReferidas = DB::table('balances')->where('project_id', '=', "$proyectoId")->where('user_id', '=', "$usuarioId")->orderBy('created_at', 'asc')->oldest()->first();  // ESTE ES EL PRIMER BALANCE DEL USUARIO (EL MAS VIEJO).
 
     $cuotasReferidas = DB::table('balances')->where('project_id', '=', "$proyectoId")->where('user_id', '=', "$usuarioId")->orderBy('id', 'asc')->get();
 
@@ -183,17 +184,34 @@ class UsuariosController extends Controller
 
   }
 
+
+
+
+
+
+
+
   public function crearBalance($proyectoId, $usuarioId)
   {
+
+    if (Auth::check()) {
+
+      if(Auth::user()->rol == "cliente" && $proyectoId != Auth::user()->project_id)
+      {
+        Session::flash('permisoDenegado', "Usted no tiene permisos para acceder a esa ruta.");
+        return Redirect::route('index');
+      }
+
+    }else {
+      Session::flash('permisoDenegado', "Usted no tiene permisos para acceder a esa ruta.");
+      return Redirect::route('index');
+    }
+
     $balanceCreado = Balance::create([
       'monto_establecido' => null,
-      'fecha_vencimiento' => null,
       'monto_pagado' => null,
-      'fecha_pagado' => null,
-      'balance' => 0,
       'user_id' => $usuarioId,
       'project_id' => $proyectoId,
-      'es_visible' => false,
       ]);
 
       return redirect()->action(
@@ -201,22 +219,68 @@ class UsuariosController extends Controller
       );
   }
 
-  public function modificarFechaVencimiento($proyectoId, $usuarioId)
+
+
+
+
+
+
+
+  public function modificarFechaCuota($proyectoId, $usuarioId, $cuotaId)
   {
 
-    $fechaVencimiento = $_POST["fecha_vencimiento"];
+    $mesCuota = $_POST["mes"];
+
+    $anioCuota = $_POST["anio"];
 
     $desarrolloAfectado = DB::table('projects')->where("id", "=", "$proyectoId")->first();
 
-    $balanceCreado = Balance::create([
-      'monto_establecido' => null,
-      'fecha_vencimiento' => $fechaVencimiento,
-      'monto_pagado' => null,
-      'fecha_pagado' => null,
-      'balance' => 0,
-      'user_id' => $usuarioId,
-      'project_id' => $proyectoId,
-      ]);
+    $balanceAfectado = DB::table('balances')->where("id", "=", "$cuotaId")->first();
+
+    $balanceAfectado = DB::table('balances')->where("project_id", "=", "$proyectoId")->where("user_id", "=", "$usuarioId")->where("id", "=", "$cuotaId")->select('mes')->update(
+      ['mes' => $mesCuota]
+    );
+
+    $balanceAfectado = DB::table('balances')->where("project_id", "=", "$proyectoId")->where("user_id", "=", "$usuarioId")->where("id", "=", "$cuotaId")->select('anio')->update(
+      ['anio' => $anioCuota]
+    );
+
+      Session::flash('fechaCuotaActualizada', "La fecha de cuota ha sido actualizada correctamente.");
+
+      return redirect()->action(
+        'UsuariosController@misCuotas', ['proyectoId' => $proyectoId, '$usuarioId' => $usuarioId]
+      );
+  }
+
+
+
+
+
+
+  public function modificarFechaVencimiento($proyectoId, $usuarioId, $cuotaId)
+  {
+
+    $diaVencimiento = $_POST["dia_vencimiento"];
+
+    $mesVencimiento = $_POST["mes_vencimiento"];
+
+    $anioVencimiento = $_POST["anio_vencimiento"];
+
+    $desarrolloAfectado = DB::table('projects')->where("id", "=", "$proyectoId")->first();
+
+    $balanceAfectado = DB::table('balances')->where("id", "=", "$cuotaId")->first();
+
+    $balanceAfectado = DB::table('balances')->where("project_id", "=", "$proyectoId")->where("user_id", "=", "$usuarioId")->where("id", "=", "$cuotaId")->select('dia_vencimiento')->update(
+      ['dia_vencimiento' => $diaVencimiento]
+    );
+
+    $balanceAfectado = DB::table('balances')->where("project_id", "=", "$proyectoId")->where("user_id", "=", "$usuarioId")->where("id", "=", "$cuotaId")->select('mes_vencimiento')->update(
+      ['mes_vencimiento' => $mesVencimiento]
+    );
+
+    $balanceAfectado = DB::table('balances')->where("project_id", "=", "$proyectoId")->where("user_id", "=", "$usuarioId")->where("id", "=", "$cuotaId")->select('anio_vencimiento')->update(
+      ['anio_vencimiento' => $anioVencimiento]
+    );
 
       Session::flash('fechaVencimientoActualizada', "La fecha de vencimiento ha sido actualizada correctamente.");
 
@@ -226,16 +290,120 @@ class UsuariosController extends Controller
   }
 
 
-  public function misCuotasBACKUP($proyectoId, $usuarioId)
+
+
+
+
+  public function modificarMontoPagado($proyectoId, $usuarioId, $cuotaId)
   {
 
-    if(Auth::user()->rol == "cliente" && $proyectoId != Auth::user()->project_id)
+    // $diaPagado = $_POST["dia_pagado"];
+    //
+    // $mesPagado = $_POST["mes_pagado"];
+    //
+    // $anioPagado = $_POST["anio_pagado"];
+
+    $montoPagado = $_POST["monto_pagado"];
+
+
+    $desarrolloAfectado = DB::table('projects')->where("id", "=", "$proyectoId")->first();
+
+    $balanceAfectado = DB::table('balances')->where("id", "=", "$cuotaId")->first();
+
+    $usuarioAfectado = DB::table('users')->where("id", "=", "$usuarioId")->first();
+
+
+    $balanceAfectado = DB::table('balances')->where("project_id", "=", "$proyectoId")->where("user_id", "=", "$usuarioId")->where("id", "=", "$cuotaId")->select('monto_pagado')->update(
+      ['monto_pagado' => $montoPagado]
+    );
+    //
+    // $balanceAfectado = DB::table('balances')->where("project_id", "=", "$proyectoId")->where("user_id", "=", "$usuarioId")->where("id", "=", "$cuotaId")->select('dia_pagado')->update(
+    //   ['dia_pagado' => $diaPagado]
+    // );
+    //
+    // $balanceAfectado = DB::table('balances')->where("project_id", "=", "$proyectoId")->where("user_id", "=", "$usuarioId")->where("id", "=", "$cuotaId")->select('mes_pagado')->update(
+    //   ['mes_pagado' => $mesPagado]
+    // );
+    //
+    // $balanceAfectado = DB::table('balances')->where("project_id", "=", "$proyectoId")->where("user_id", "=", "$usuarioId")->where("id", "=", "$cuotaId")->select('anio_pagado')->update(
+    //   ['anio_pagado' => $anioPagado]
+    // );
+
+    $balanceAfectado = DB::table('balances')->where("id", "=", "$cuotaId")->first();
+
+    $nuevoBalance = ($montoPagado - $balanceAfectado->monto_establecido) + $usuarioAfectado->balance;
+
+    $balanceUsuarioAfectado = DB::table('users')->where("project_id", "=", "$proyectoId")->where("id", "=", "$usuarioId")->select('balance')->update(
+      ['balance' => $nuevoBalance]
+    );
+
+      Session::flash('montoPagadoActualizado', "El monto pagado ha sido actualizado correctamente.");
+
+      return redirect()->action(
+        'UsuariosController@misCuotas', ['proyectoId' => $proyectoId, '$usuarioId' => $usuarioId]
+      );
+  }
+
+
+  public function modificarFechaPagado($proyectoId, $usuarioId, $cuotaId)
+  {
+
+    $diaPagado = $_POST["dia_pagado"];
+
+    $mesPagado = $_POST["mes_pagado"];
+
+    $anioPagado = $_POST["anio_pagado"];
+
+    $desarrolloAfectado = DB::table('projects')->where("id", "=", "$proyectoId")->first();
+
+    $usuarioAfectado = DB::table('users')->where("id", "=", "$usuarioId")->first();
+
+
+    $balanceAfectado = DB::table('balances')->where("project_id", "=", "$proyectoId")->where("user_id", "=", "$usuarioId")->where("id", "=", "$cuotaId")->select('dia_pagado')->update(
+      ['dia_pagado' => $diaPagado]
+    );
+
+    $balanceAfectado = DB::table('balances')->where("project_id", "=", "$proyectoId")->where("user_id", "=", "$usuarioId")->where("id", "=", "$cuotaId")->select('mes_pagado')->update(
+      ['mes_pagado' => $mesPagado]
+    );
+
+    $balanceAfectado = DB::table('balances')->where("project_id", "=", "$proyectoId")->where("user_id", "=", "$usuarioId")->where("id", "=", "$cuotaId")->select('anio_pagado')->update(
+      ['anio_pagado' => $anioPagado]
+    );
+
+      Session::flash('fechaPagadoActualizada', "La fecha de pago ha sido actualizado correctamente.");
+
+      return redirect()->action(
+        'UsuariosController@misCuotas', ['proyectoId' => $proyectoId, '$usuarioId' => $usuarioId]
+      );
+  }
+
+
+
+
+
+
+
+
+
+
+  public function misCuotas($proyectoId, $usuarioId)
+  {
+
+    if (Auth::check()) {
+
+      if(Auth::user()->rol == "cliente" && $proyectoId != Auth::user()->project_id)
       {
         Session::flash('permisoDenegado', "Usted no tiene permisos para acceder a esa ruta.");
         return Redirect::route('index');
       }
 
-    $cuotas = DB::table('balances')->where('project_id', '=', "$proyectoId")->where('user_id', '=', "$usuarioId")->orderBy('fecha_pagado', 'asc')->first();
+    }else {
+        Session::flash('permisoDenegado', "Usted no tiene permisos para acceder a esa ruta.");
+        return Redirect::route('index');
+    }
+
+    $cuotas = DB::table('balances')->where('project_id', '=', "$proyectoId")->where('user_id', '=', "$usuarioId")->orderBy('created_at', 'asc')->first();
 
     if($cuotas == null && Auth::user()->rol == "cliente")
     {
@@ -245,11 +413,120 @@ class UsuariosController extends Controller
 
     $proyectoReferido = DB::table('projects')->where('id', '=', "$proyectoId")->first();
 
-    $balance = DB::table('balances')->where('project_id', '=', "$proyectoId")->where('user_id', '=', "$usuarioId")->orderBy('fecha_pagado', 'asc')->paginate(1);
 
-    return view('mi-balance', compact('balance', 'proyectoReferido', 'usuarioId'));
+    $creacionDelProyecto = $proyectoReferido->created_at;
+
+    $anioProyecto = Carbon::createFromFormat('Y-m-d H:i:s', $creacionDelProyecto)->year;
+
+    $anioFinProyecto = $anioProyecto + 11;
+
+    $fechaProyecto  = '01/01/' . $anioProyecto;
+    $fechaFinProyecto  = '01/01/' . $anioFinProyecto;
+    $format = 'd/m/Y';
+
+    $start    = DateTime::createFromFormat($format, $fechaProyecto); // Today date   // EL START ES LA FECHA DE CREACIÓN DEL PROYECTO.
+
+    $end      = DateTime::createFromFormat($format, $fechaFinProyecto); // Create a datetime object from your Carbon object   // EL FINAL ES UN AÑO DESPUÉS (¿O 10?).
+
+    $interval = DateInterval::createFromDateString('1 year'); // 1 month interval  // ESTE ES EL INTERVALO, ESTÁ PERFECTO.
+
+    $period   = new DatePeriod($start, $interval, $end); // Get a set of date beetween the 2 period // HAY QUE PAGINAR CADA 12 ELEMENTOS.
+
+    $periodoTotal = array();
+
+    foreach ($period as $dt) {
+        $periodoTotal[] = $dt->format("Y");
+    }
+
+    for($i = 1; $i <  32; $i++)
+    {
+      $diasDelMes[] = $i;
+    }
+
+
+    $usuarioReferido = DB::table('users')->where('id', '=', "$usuarioId")->first();
+
+
+    $cuotasReferidas = DB::table('balances')->where('project_id', '=', "$proyectoId")->where('user_id', '=', "$usuarioId")->orderBy('created_at', 'asc')->paginate(1);
+
+        View::share('proyectoId', $proyectoId);
+
+    return view('mi-balance', compact('diasDelMes', 'periodoTotal', 'cuotasReferidas', 'proyectoReferido', 'usuarioReferido', 'proyectoId', 'usuarioId'));
 
   }
+
+
+
+
+
+
+  public function agregarCuota($proyectoId, $usuarioId, $cuotaId)
+  {
+
+    $mesCuota = $_POST["mes"];
+
+    $anioCuota = $_POST["anio"];
+
+    $montoEstablecido = $_POST["monto_establecido"];
+
+    $diaVencimiento = $_POST["dia_vencimiento"];
+
+    $mesVencimiento = $_POST["mes_vencimiento"];
+
+    $anioVencimiento = $_POST["anio_vencimiento"];
+
+    $montoPagado = $_POST["monto_pagado"];
+
+    $diaPagado = $_POST["dia_pagado"];
+
+    $mesPagado = $_POST["mes_pagado"];
+
+    $anioPagado = $_POST["anio_pagado"];
+
+
+
+    $usuarioAfectado = DB::table('users')->where("id", "=", "$usuarioId")->first();
+
+    $nuevoBalance = ($montoPagado - $montoEstablecido) + $usuarioAfectado->balance;
+
+    $balanceAnterior = DB::table('users')->where("project_id", "=", "$proyectoId")->where("id", "=", "$usuarioId")->select('balance')->update(
+      ['balance' => $nuevoBalance]
+    );
+
+
+    $desarrolloAfectado = DB::table('projects')->where("id", "=", "$proyectoId")->first();
+
+    $montoEstablecidoAnterior = DB::table('projects')->where("id", "=", "$proyectoId")->select('monto_establecido')->update(
+      ['monto_establecido' => $montoEstablecido]
+    );
+
+    $nuevaCuota = Balance::create([
+      'mes' => $mesCuota,
+      'anio' => $anioCuota,
+      'monto_establecido' => $montoEstablecido,
+      'dia_vencimiento' => $diaVencimiento,
+      'mes_vencimiento' => $mesVencimiento,
+      'anio_vencimiento' => $anioVencimiento,
+      'monto_pagado' => $montoPagado,
+      'dia_pagado' => $diaPagado,
+      'mes_pagado' => $mesPagado,
+      'anio_pagado' => $anioPagado,
+      'user_id' => $usuarioId,
+      'project_id' => $proyectoId,
+    ]);
+
+      Session::flash('cuotaCreada', "La cuota ha sido creada correctamente.");
+
+      return redirect()->action(
+        'UsuariosController@misCuotas', ['proyectoId' => $proyectoId, '$usuarioId' => $usuarioId]
+      );
+  }
+
+
+
+
+
+
 
   public function abandonarDesarrollo($proyectoId, $usuarioId)
   {

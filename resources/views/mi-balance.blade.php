@@ -22,20 +22,45 @@
            <h2 class="alert alert-info" style="color:red; text-align: center;">{{ Session::get('montoEstablecidoModificado') }}</h2>
         @endif
 
+        @if (Session::has('fechaCuotaActualizada'))
+           <h1 class="alert alert-info" style="color:black; text-align: center;">{{ Session::get('fechaCuotaActualizada') }}</h1>
+        @endif
+
         @if (Session::has('fechaVencimientoActualizada'))
            <h1 class="alert alert-info" style="color:black; text-align: center;">{{ Session::get('fechaVencimientoActualizada') }}</h1>
         @endif
 
-        {{-- {{dd($proyectoReferido)}} --}}
+        @if (Session::has('montoPagadoActualizado'))
+           <h1 class="alert alert-info" style="color:black; text-align: center;">{{ Session::get('montoPagadoActualizado') }}</h1>
+        @endif
+
+        @if (Session::has('fechaPagadoActualizada'))
+           <h1 class="alert alert-info" style="color:black; text-align: center;">{{ Session::get('fechaPagadoActualizada') }}</h1>
+        @endif
+
+        @if (Session::has('cuotaCreada'))
+           <h1 class="alert alert-info" style="color:black; text-align: center;">{{ Session::get('cuotaCreada') }}</h1>
+        @endif
+
 
         <h2 class="form-titulo" style="color: blue; text-align:center;">Balance - Desarrollo: {{ $proyectoReferido->nombre }}</h2>
 
       <h4 style="color: red; text-align:center;"><b>Valor de la cuota establecido al día {{ \Carbon\Carbon::now()->format('d/m/Y') }}: ${{ $proyectoReferido->monto_establecido }}.</b></h4>
 
+      <button type="button" name="button" class="btn btn-xs btn-success">Agregar pago</button>
+
         <div class="container" style="height:502px; width:100%;">
           <div class="responsive-table">
 
-            {{  $periodoTotal->links('paginador-balance') }}
+            @if($cuotasReferidas->all() == null)
+            <h1>No hay balances</h1>
+            @endif
+
+            @if($cuotasReferidas->all() != null)
+
+
+
+            {{  $cuotasReferidas->links('paginador-balance') }}
 
             <table class="table table-hover" style="table-layout: fixed; width: 100%; height:100px;">
                 <thead>
@@ -56,19 +81,15 @@
                   <?php $color = 0; ?>
                   <?php $balanceAnterior = null; ?>
                   <?php $idAnterior = null; ?>
-                  <?php $mesAnterior = null; ?>
 
-                  @foreach($periodoTotal as $periodoMensual => $mes)  <!-- ESTO ES CADA FECHA QUE APARECE EN LA PRIMERA COLUMNA -->
                   @foreach($cuotasReferidas as $cuotaReferida) <!-- ESTO ES CADA BALANCE QUE HAY EN LA BASE DE DATOS -->
 
                   <?php $cuota = $cuotaReferida; ?>
 
                   <?php
 
-                  $stringDelMes = Carbon\Carbon::parse($mes)->format('m-Y');
                   $stringDelBalance = Carbon\Carbon::parse($cuota->created_at)->format('m-Y');
 
-                  $fechaDelMes = Carbon\Carbon::createFromFormat('m-Y', $stringDelMes, 'America/Argentina/Buenos_Aires');
                   $fechaDelBalance = Carbon\Carbon::createFromFormat('m-Y', $stringDelBalance, 'America/Argentina/Buenos_Aires');
 
 
@@ -79,136 +100,414 @@
 
 
 
+                    <td style="text-align: center; vertical-align: middle;">
 
-                    @if($fechaDelMes->lt($fechaDelBalance))  <!--  SI LA FECHA DEL MES ES ANTERIOR A LA FECHA DE BALANCE -->
+                      @if($cuotaReferida->mes == null || $cuotaReferida->anio == null)
 
-                    <td style="text-align: center; vertical-align: middle;"><b>{{$mes}}</b></td>
-                    <!-- <td style="text-align: center; vertical-align: middle;"><b>{{$cuota->id}}</b></td> -->
-                    <td style="text-align: center; vertical-align: middle;">--------------------</td>
-                    <td style="text-align: center; vertical-align: middle;">--------------------</td>
-                    <td style="text-align: center; vertical-align: middle;">--------------------</td>
-                    <td style="text-align: center; vertical-align: middle;">--------------------</td>
-                    <td style="text-align: center; vertical-align: middle;">--------------------</td>
-                    <td style="text-align: center; vertical-align: middle;">--------------------</td>
+                      {!! Form::open(array('route' => array('modificarFechaCuota', $proyectoReferido->id, $usuarioReferido->id, $cuotaReferida->id))) !!}
+                      <!-- {{ Form::open(array('url' => 'www.google.com.ar')) }} -->
 
+                      <?php echo Form::token(); ?>
 
-                    @endif
+                      <label> Mes: </label>
+                      <select name="mes" required>
+                        <option disabled selected value> -- Seleccione un Mes -- </option>
+                        <option value="enero">Enero</option>
+                        <option value="febrero">Febrero</option>
+                        <option value="marzo">Marzo</option>
+                        <option value="abril">Abril</option>
+                        <option value="mayo">Mayo</option>
+                        <option value="junio">Junio</option>
+                        <option value="julio">Julio</option>
+                        <option value="agosto">Agosto</option>
+                        <option value="septiembre">Septiembre</option>
+                        <option value="octubre">Octubre</option>
+                        <option value="noviembre">Noviembre</option>
+                        <option value="diciembre">Diciembre</option>
+                      </select>
 
-                    @if($fechaDelMes->eq($fechaDelBalance) && $cuota->es_visible == true) <!-- SI LA FECHA DEL MES ES IGUAL A LA FECHA DE BALANCE -->
+                      <label> Año: </label>
+                      <select name="anio" required>
+                        <option disabled selected value> -- Seleccione un Año -- </option>
+                        @foreach($periodoTotal as $anio)
+                        <option value="{{$anio}}">{{$anio}}</option>
+                        @endforeach
+                      </select>
 
-                    <td style="text-align: center; vertical-align: middle;"><b>{{$mes}}</b></td>
-                    <!-- <td style="text-align: center; vertical-align: middle;"><b>{{$cuota->id}}</b></td> -->
+                      @role('Administrador') @if (Auth::check() && $cuota->mes_vencimiento == null && $cuota->anio_vencimiento == null && $cuota->monto_pagado == null) <button class="btn btn-xs btn-primary" type="submit" name="fecha-cuota-agregada">Ingresar Fecha de Cuota</button> @endif @endrole
+
+                        {{ Form::close() }}
+                      @endif
+
+                      @if($cuotaReferida->mes != null && $cuotaReferida->anio != null)
+                      <b>{{ ucfirst($cuota->mes) }} {{ $cuota->anio }}</b>
+                      @endif
+
+                    </td>
+
                     <td style="text-align: center; vertical-align: middle;">  <!-- MONTO ESTABLECIDO -->
 
-                      @role('Administrador') @if (Auth::check() && $cuota->fecha_vencimiento == null && $cuota->monto_pagado == null) <i class="btn btn-xs btn-warning disabled" style="color:black;">Ingrese una fecha de vencimiento</i> @endif @endrole
-
-                      @role('Administrador') @if (Auth::check() && $cuota->fecha_vencimiento != null && $cuota->monto_pagado == null) <i class="btn btn-xs btn-warning disabled" style="color:black;">Ingrese un pago</i> @endif @endrole
-
-                      @role('Administrador') @if (Auth::check() && $cuota->fecha_vencimiento != null && $cuota->monto_pagado != null) $ {{ $cuota->monto_establecido }} @endif @endrole
+                      @if($cuotasReferidas->first())
+                       ${{ $cuota->monto_establecido }}
+                      @endif
 
                     </td>
 
                     <td style="text-align: center; vertical-align: middle;">  <!-- FECHA DE VENCIMIENTO -->
 
-                      @role('Administrador') @if (Auth::check() && $cuota->fecha_vencimiento == null && $cuota->monto_pagado == null)
 
-                      {!! Form::open(array('route' => array('modificarFechaVencimiento', $proyectoReferido->id, $usuarioReferido->id))) !!}
+                      @role('Administrador') @if (Auth::check() && $cuota->mes == null || $cuota->anio == null) <i class="btn btn-xs btn-warning disabled" style="color:black;"> Ingrese una fecha de cuota </i> @endif @endrole
+
+                      @role('Administrador') @if (Auth::check() && $cuota->monto_pagado == null && $cuota->mes != null && $cuota->anio != null  && $cuota->mes_vencimiento == null && $cuota->anio_vencimiento == null )
+
+                      {!! Form::open(array('route' => array('modificarFechaVencimiento', $proyectoReferido->id, $usuarioReferido->id, $cuotaReferida->id))) !!}
                       <!-- {{ Form::open(array('url' => 'www.google.com.ar')) }} -->
 
                       <?php echo Form::token(); ?>
 
-                        <?php echo Form::date('fecha_vencimiento', ""); ?>
 
-                        @role('Administrador') @if (Auth::check() && $cuota->fecha_vencimiento == null && $cuota->monto_pagado == null) <button class="btn btn-xs btn-primary" type="submit" name="fecha-vencimiento-agregada">Ingresar Fecha de Vencimiento</button> @endif @endrole
+                      <label> Dia: </label>
+                      <select name="dia_vencimiento" required>
+                        <option disabled selected value> -- Seleccione un Dia -- </option>
+                        @foreach($diasDelMes as $dia)
+                        <option value="{{$dia}}">{{$dia}}</option>
+                        @endforeach
+                      </select>
+
+                      <label> Mes: </label>
+                      <select name="mes_vencimiento" required>
+                        <option disabled selected value> -- Seleccione un Mes -- </option>
+                        <option value="enero">Enero</option>
+                        <option value="febrero">Febrero</option>
+                        <option value="marzo">Marzo</option>
+                        <option value="abril">Abril</option>
+                        <option value="mayo">Mayo</option>
+                        <option value="junio">Junio</option>
+                        <option value="julio">Julio</option>
+                        <option value="agosto">Agosto</option>
+                        <option value="septiembre">Septiembre</option>
+                        <option value="octubre">Octubre</option>
+                        <option value="noviembre">Noviembre</option>
+                        <option value="diciembre">Diciembre</option>
+                      </select>
+
+                      <label> Año: </label>
+                      <select name="anio_vencimiento" required>
+                        <option disabled selected value> -- Seleccione un Año -- </option>
+                        @foreach($periodoTotal as $anio)
+                        <option value="{{$anio}}">{{$anio}}</option>
+                        @endforeach
+                      </select>
+
+                      @role('Administrador') @if (Auth::check() && $cuota->mes_vencimiento == null && $cuota->anio_vencimiento == null) <button class="btn btn-xs btn-primary" type="submit" name="fecha-cuota-agregada">Ingresar Fecha de Vencimiento</button> @endif @endrole
 
                         {{ Form::close() }}
 
                       @endif @endrole
 
-                      @role('Administrador') @if (Auth::check() && $cuota->fecha_vencimiento != null) <b> {{Carbon\Carbon::parse($cuota->fecha_vencimiento)->format('d-m-Y')}} </b> @endif @endrole
+                      @role('Administrador') @if (Auth::check() && $cuota->mes_vencimiento != null && $cuota->anio_vencimiento != null) <b>{{$cuota->dia_vencimiento}}  {{ucfirst($cuota->mes_vencimiento)}} {{$cuota->anio_vencimiento}} </b> @endif @endrole
 
                     </td>
+
+
+
+
 
                     <td style="text-align: center; vertical-align: middle;">  <!-- MONTO PAGADO -->
 
-                      @role('Administrador') @if (Auth::check() && $cuota->fecha_vencimiento == null || $cuota->monto_pagado == null) <i class="btn btn-xs btn-warning disabled" style="color:black;"> Ingrese una fecha de vencimiento </i> @endif @endrole
+                      @role('Administrador') @if (Auth::check() && $cuota->mes_vencimiento == null && $cuota->anio_vencimiento == null && $cuota->monto_pagado == null) <i class="btn btn-xs btn-warning disabled" style="color:black;"> Ingrese una fecha de vencimiento </i> @endif @endrole
 
-                      @role('Administrador') @if (Auth::check() && $cuota->fecha_vencimiento != null && $cuota->monto_pagado != null)$ {{ $cuota->monto_pagado }} @endif @endrole
+                      @role('Administrador') @if (Auth::check() && $cuota->mes_vencimiento != null && $cuota->anio_vencimiento != null && $cuota->monto_pagado == null)
+
+                      {!! Form::open(array('route' => array('modificarMontoPagado', $proyectoReferido->id, $usuarioReferido->id, $cuotaReferida->id))) !!}
+                      <!-- {{ Form::open(array('url' => 'www.google.com.ar')) }} -->
+
+                      <?php echo Form::token(); ?>
+
+                      @role('Administrador') @if (Auth::check() && $cuota->mes_vencimiento != null && $cuota->anio_vencimiento != null && $cuota->monto_pagado == null) <input class="form-control" type='number' name="monto_pagado" required> @endif @endrole
+
+                      @role('Administrador') @if (Auth::check() && $cuota->mes_vencimiento != null && $cuota->anio_vencimiento != null && $cuota->monto_pagado == null) <button class="btn btn-xs btn-success" type="submit" name="pago-agregado">Ingresar Pago</button> @endif @endrole
+
+                      {{ Form::close() }}
+
+                      @endif @endrole
+
+                      @role('Administrador') @if (Auth::check() && $cuota->mes_vencimiento != null && $cuota->anio_vencimiento != null && $cuota->monto_pagado != null)${{ $cuota->monto_pagado }} @endif @endrole
 
                     </td>
+
+
+
+
+
 
                     <td style="text-align: center; vertical-align: middle;">  <!-- FECHA PAGADO -->
 
-                      @role('Administrador') @if (Auth::check() && $cuota->fecha_vencimiento == null && $cuota->monto_pagado == null)<i class="btn btn-xs btn-warning disabled" style="color:black;"> Pago aún no ingresado </i> @endif @endrole
+                      @role('Administrador') @if (Auth::check() && $cuota->monto_pagado == null)<i class="btn btn-xs btn-warning disabled" style="color:black;"> Pago aún no ingresado </i> @endif @endrole
 
-                      @role('Administrador') @if (Auth::check() && $cuota->fecha_vencimiento != null && $cuota->monto_pagado == null)<b> {{Carbon\Carbon::parse($cuota->fecha_pagado)->format('d-m-Y')}}</b> @endif @endrole
+                      @role('Administrador') @if (Auth::check() && $cuota->monto_pagado != null && $cuota->dia_pagado == null)
+
+                      {!! Form::open(array('route' => array('modificarFechaPagado', $proyectoReferido->id, $usuarioReferido->id, $cuotaReferida->id))) !!}
+                      <!-- {{ Form::open(array('url' => 'www.google.com.ar')) }} -->
+
+                      <?php echo Form::token(); ?>
+
+
+                      <label> Dia: </label>
+                      <select name="dia_pagado" required>
+                        <option disabled selected value> -- Seleccione un Dia -- </option>
+                        @foreach($diasDelMes as $dia)
+                        <option value="{{$dia}}">{{$dia}}</option>
+                        @endforeach
+                      </select>
+
+                      <label> Mes: </label>
+                      <select name="mes_pagado" required>
+                        <option disabled selected value> -- Seleccione un Mes -- </option>
+                        <option value="enero">Enero</option>
+                        <option value="febrero">Febrero</option>
+                        <option value="marzo">Marzo</option>
+                        <option value="abril">Abril</option>
+                        <option value="mayo">Mayo</option>
+                        <option value="junio">Junio</option>
+                        <option value="julio">Julio</option>
+                        <option value="agosto">Agosto</option>
+                        <option value="septiembre">Septiembre</option>
+                        <option value="octubre">Octubre</option>
+                        <option value="noviembre">Noviembre</option>
+                        <option value="diciembre">Diciembre</option>
+                      </select>
+
+                      <label> Año: </label>
+                      <select name="anio_pagado" required>
+                        <option disabled selected value> -- Seleccione un Año -- </option>
+                        @foreach($periodoTotal as $anio)
+                        <option value="{{$anio}}">{{$anio}}</option>
+                        @endforeach
+                      </select>
+
+                      @role('Administrador') @if (Auth::check() && $cuota->monto_pagado != null && $cuota->dia_pagado == null) <button class="btn btn-xs btn-primary" type="submit" name="fecha-pago-agregado">Ingresar Fecha de Pago</button> @endif @endrole
+
+                        {{ Form::close() }}
+
+                      @endif @endrole
+
+                      @role('Administrador') @if (Auth::check() && $cuota->mes_pagado != null && $cuota->anio_pagado != null) <b>{{$cuota->dia_pagado}}  {{ucfirst($cuota->mes_pagado)}} {{$cuota->anio_pagado}} </b> @endif @endrole
 
                     </td>
+
+
+
+
+
 
 
                     <td style="text-align: center; vertical-align: middle;"> <!-- BALANCE -->
 
-                      @role('Administrador') @if (Auth::check() && $cuota->fecha_vencimiento == null && $cuota->monto_pagado === "0")<i class="btn btn-xs btn-warning disabled" style="color:black;"> Ingrese una fecha de vencimiento </i> @endif @endrole
+                      @role('Administrador') @if (Auth::check() && $cuota->mes_vencimiento == null && $cuota->anio_vencimiento == null && $cuota->monto_pagado === "0")<i class="btn btn-xs btn-warning disabled" style="color:black;"> Ingrese una fecha de vencimiento </i> @endif @endrole
 
-                      @if($cuota->balance >= 0)
-                      <span style="color:green"><b>{{$cuota->balance}}</b></span>
+                      @if($usuarioReferido->balance > 0)
+                      <span style="color:green"><b>+ ${{$usuarioReferido->balance}}</b></span>
                       @endif
 
-                      @if($cuota->balance < 0)
-                      <span style="color:red"><b>{{$cuota->balance}}</b></span>
+                      @if($usuarioReferido->balance == 0)
+                      <span style="color:blue"><b>$ 0</b></span>
+                      @endif
+
+                      @if($usuarioReferido->balance < 0)
+                      <span style="color:red"><b>- ${{abs($usuarioReferido->balance)}}</b></span>
                       @endif
 
 
                     </td>
 
 
+
+
+
+
                     <td style="text-align: center; vertical-align: middle;"> <!-- ACCIONES -->
 
-                      @role('Administrador') @if (Auth::check() && $cuota->fecha_vencimiento == null && $cuota->monto_pagado == null)<button class="btn btn-xs btn-warning disabled" style="color:black;">No hay acciones disponibles</button>@endif @endrole
+                      @role('Administrador') @if (Auth::check() && $cuota->mes_vencimiento == null && $cuota->anio_vencimiento == null && $cuota->monto_pagado == null)<button class="btn btn-xs btn-warning disabled" style="color:black;">No hay acciones disponibles</button>@endif @endrole
 
-                      @role('Administrador') @if (Auth::check() && $cuota->fecha_vencimiento != null && $cuota->monto_pagado == null)<button class="btn btn-xs btn-danger" type="submit" name="">Declarar Cuota no Pagada</button>@endif @endrole
+                      @role('Administrador') @if (Auth::check() && $cuota->mes_vencimiento != null && $cuota->anio_vencimiento != null && $cuota->monto_pagado == null)<button class="btn btn-xs btn-danger" type="submit" name="">Declarar Cuota no Pagada</button>@endif @endrole
 
-                      @role('Administrador') @if (Auth::check() && $cuota->fecha_vencimiento != null && $cuota->monto_pagado != null)<button class="btn btn-xs btn-warning disabled" style="color:black;">No hay acciones disponibles</button> @endif @endrole
+                      @role('Administrador') @if (Auth::check() && $cuota->mes_vencimiento != null && $cuota->anio_vencimiento != null && $cuota->monto_pagado != null)<button class="btn btn-xs btn-warning disabled" style="color:black;">No hay acciones disponibles</button> @endif @endrole
 
                    </td>
 
                     <?php $color = $color + 1; ?>
 
-                    @endif
 
-
-                    @if($fechaDelMes->gt($fechaDelBalance)) <!-- SI LA FECHA DEL MES ES POSTERIOR A LA FECHA DE BALANCE -->
-
-                    <td style="text-align: center; vertical-align: middle;"><b>{{$mes}}</b></td>
-                    <!-- <td style="text-align: center; vertical-align: middle;"><b>{{$cuota->id}}</b></td> -->
-
-                    <td style="text-align: center; vertical-align: middle;">   <!-- MONTO ESTABLECIDO -->
-
-                      @role('Administrador') @if (Auth::check()) <i class="btn btn-xs btn-warning disabled" style="color:black;">Ingrese un pago para aplicar el valor de la cuota</i> @endif @endrole
-
-                    </td>
-
-                    <td style="text-align: center; vertical-align: middle;">--------------------</td>
-                    <td style="text-align: center; vertical-align: middle;">--------------------</td>
-                    <td style="text-align: center; vertical-align: middle;">--------------------</td>
-                    <td style="text-align: center; vertical-align: middle;">--------------------</td>
-                    <td style="text-align: center; vertical-align: middle;">--------------------</td>
-
-                    @endif
-
-
-                        @endforeach
                       @endforeach
+
+
+                    </tbody>
+
+
+
+
+
+
+
+
+
+
+                  <tbody class="ocultasr">
+
+                      {!! Form::open(array('route' => array('agregarCuota', $proyectoReferido->id, $usuarioReferido->id, $cuotaReferida->id))) !!}
+                      <!-- {{ Form::open(array('url' => 'www.google.com.ar')) }} -->
+
+                      <?php echo Form::token(); ?>
+                      <td style="text-align: center; vertical-align: middle;">  <!--  FECHA -->
+
+                        <label> Mes: </label>
+                        <select name="mes" required>
+                          <option disabled selected value> -- Seleccione un Mes -- </option>
+                          <option value="enero">Enero</option>
+                          <option value="febrero">Febrero</option>
+                          <option value="marzo">Marzo</option>
+                          <option value="abril">Abril</option>
+                          <option value="mayo">Mayo</option>
+                          <option value="junio">Junio</option>
+                          <option value="julio">Julio</option>
+                          <option value="agosto">Agosto</option>
+                          <option value="septiembre">Septiembre</option>
+                          <option value="octubre">Octubre</option>
+                          <option value="noviembre">Noviembre</option>
+                          <option value="diciembre">Diciembre</option>
+                        </select>
+
+                        <label> Año: </label>
+                        <select name="anio" required>
+                          <option disabled selected value> -- Seleccione un Año -- </option>
+                          @foreach($periodoTotal as $anio)
+                          <option value="{{$anio}}">{{$anio}}</option>
+                          @endforeach
+                        </select>
+
+                      </td>
+
+                      <td style="text-align: center; vertical-align: middle;">  <!--  MONTO ESTABLECIDO -->
+
+                        <label> Monto establecido: </label>
+                        <input class="form-control" type="number" name="monto_establecido" value="{{$proyectoReferido->monto_establecido}}" required>
+
+                      </td>
+
+                      <td style="text-align: center; vertical-align: middle;">  <!-- FECHA DE VENCIMIENTO -->
+
+                        <label> Dia: </label>
+                        <select name="dia_vencimiento" required>
+                          <option disabled selected value> -- Seleccione un Dia -- </option>
+                          @foreach($diasDelMes as $dia)
+                          <option value="{{$dia}}">{{$dia}}</option>
+                          @endforeach
+                        </select>
+
+                        <label> Mes: </label>
+                        <select name="mes_vencimiento" required>
+                          <option disabled selected value> -- Seleccione un Mes -- </option>
+                          <option value="enero">Enero</option>
+                          <option value="febrero">Febrero</option>
+                          <option value="marzo">Marzo</option>
+                          <option value="abril">Abril</option>
+                          <option value="mayo">Mayo</option>
+                          <option value="junio">Junio</option>
+                          <option value="julio">Julio</option>
+                          <option value="agosto">Agosto</option>
+                          <option value="septiembre">Septiembre</option>
+                          <option value="octubre">Octubre</option>
+                          <option value="noviembre">Noviembre</option>
+                          <option value="diciembre">Diciembre</option>
+                        </select>
+
+                        <label> Año: </label>
+                        <select name="anio_vencimiento" required>
+                          <option disabled selected value> -- Seleccione un Año -- </option>
+                          @foreach($periodoTotal as $anio)
+                          <option value="{{$anio}}">{{$anio}}</option>
+                          @endforeach
+                        </select>
+
+                      </td>
+
+
+
+
+                      <td style="text-align: center; vertical-align: middle;">  <!-- MONTO PAGADO -->
+
+                        <label> Monto pagado: </label>
+                        <input class="form-control" type='number' name="monto_pagado" required>
+
+                      </td>
+
+                      <td style="text-align: center; vertical-align: middle;">  <!-- FECHA PAGADO -->
+
+                        <label> Dia: </label>
+                        <select name="dia_pagado" required>
+                          <option disabled selected value> -- Seleccione un Dia -- </option>
+                          @foreach($diasDelMes as $dia)
+                          <option value="{{$dia}}">{{$dia}}</option>
+                          @endforeach
+                        </select>
+
+                        <label> Mes: </label>
+                        <select name="mes_pagado" required>
+                          <option disabled selected value> -- Seleccione un Mes -- </option>
+                          <option value="enero">Enero</option>
+                          <option value="febrero">Febrero</option>
+                          <option value="marzo">Marzo</option>
+                          <option value="abril">Abril</option>
+                          <option value="mayo">Mayo</option>
+                          <option value="junio">Junio</option>
+                          <option value="julio">Julio</option>
+                          <option value="agosto">Agosto</option>
+                          <option value="septiembre">Septiembre</option>
+                          <option value="octubre">Octubre</option>
+                          <option value="noviembre">Noviembre</option>
+                          <option value="diciembre">Diciembre</option>
+                        </select>
+
+                        <label> Año: </label>
+                        <select name="anio_pagado" required>
+                          <option disabled selected value> -- Seleccione un Año -- </option>
+                          @foreach($periodoTotal as $anio)
+                          <option value="{{$anio}}">{{$anio}}</option>
+                          @endforeach
+                        </select>
+
+                      </td>
+
+
+
+
+                      <td style="text-align: center; vertical-align: middle;"> <!-- BALANCE -->
+
+                        <i>Calculado al ingresar cuota</i>
+
+                          </td>
+
+
+                          <td style="text-align: center; vertical-align: middle;"> <!-- ACCIONES -->
+
+                            <button class="btn btn-xs btn-primary" type="submit" name="cuota-agregada">Ingresar Cuota</button>
+
+                              </td>
+
+
+                        {{ Form::close() }}
+
+
                 </tbody>
             </table>
-            {{  $periodoTotal->links('paginador-balance') }}
-            {{--  $months->render() --}}
-            {{-- $proyectos->links() --}}
-            {{-- {{ $proyectos->render() }} --}}
+
+            {{  $cuotasReferidas->links('paginador-balance') }}
+            @endif
+
           </div>
         </div>
 
-    {{--  @endif --}}
       @endif
       </section>
 

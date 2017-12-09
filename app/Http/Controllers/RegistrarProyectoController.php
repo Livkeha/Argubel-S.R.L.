@@ -233,8 +233,6 @@ class RegistrarProyectoController extends Controller
               $balanceInicial = Balance::create([
                 'monto_establecido' => $proyectoNuevo['monto_establecido'],
                 'monto_pagado' => null,
-                'fecha_pagado' => null,
-                'balance' => 0,
                 'user_id' => $idInversor,
                 'project_id' => $idProyecto,
               ]);

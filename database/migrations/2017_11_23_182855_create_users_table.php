@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->string('rol');
+            $table->integer('balance')->nullable();
             $table->integer('project_id')->unsigned()->nullable();
             $table->foreign('project_id')->references('id')->on('projects');
             $table->rememberToken();

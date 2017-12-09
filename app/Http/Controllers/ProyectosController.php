@@ -107,7 +107,6 @@ class ProyectosController extends Controller
         $balanceInicial = Balance::create([
           'monto_establecido' => $proyectoReferido->monto_establecido,
           'monto_pagado' => null,
-          'fecha_pagado' => null,
           'balance' => 0,
           'user_id' => $idInversor,
           'project_id' => $idProyecto,
@@ -151,7 +150,7 @@ class ProyectosController extends Controller
         $listaBalances = DB::table('balances')->where("project_id", "=", "$idProyecto")->get();
 
         foreach ($listaBalances as $balanceUsuario) {
-          
+
         $contarBalancesPorUsuario = DB::table('balances')->where("project_id", "=", "$idProyecto")->where('user_id', "=", "$balanceUsuario->user_id")->count('user_id');
 
 

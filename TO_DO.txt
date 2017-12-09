@@ -22,6 +22,8 @@ Cambiar contraseña de X usuario en la lista de usuarios.   HECHO
 
   Probar al final del último @endif, hacer algo como $cuota[valor] = $cuota[valor + 1];
 
+  SI BORRO EL DESARROLLO O SI ELIMINO AL INVERSOR DEL DESARROLLO, LIMPIARLE EL BALANCE.
+
 
 
   Desarrollo - Monto Establecido: $10000 (Lapicito)
