@@ -2,21 +2,27 @@
 
 @extends('layout.headerAndFooter')
 @section('contenido')
-
+				<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <script src="{{ asset('js/formNewUser.js') }}"></script>
 
         @if (isset($usuarioCreado))
 
                 <section class="postSatisfactorio" style=<?php if(isset($usuarioCreado)) {?> "background-color: rgba(47, 175, 36, 0.4);" <?php } ?>>
-                  <ul>
+									<div class="alert alert-success" role="alert">
+										<h4>
+											<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+											<strong>El nuevo usuario se ha creado correctamente!</strong>
+										</h4>
+									</div>
+                  {{-- <ul>
                     <li>El nuevo usuario se ha creado correctamente.</li>
-                  </ul>
+                  </ul> --}}
                   {{-- <span class="postSatisfactorio">El nuevo usuario se ha creado correctamente.</span> --}}
                 </section>
 
         @endif
-
-            <h2 class="form-titulo" style="color: blue; padding-top: 10px; text-align:center;">Nuevo Usuario</h2>
+						<h2 style="padding-top: 10px; text-align:center;"><span class="label label-primary">Nuevo Usuario</span></h2>
+            {{-- <h2 class="form-titulo" style="color: blue; padding-top: 10px; text-align:center;">Nuevo Usuario</h2> --}}
 
         <form id="formNewUser" class="form-registro" action="{{ route('register') }}" method="POST" enctype="multipart/form-data">
 
