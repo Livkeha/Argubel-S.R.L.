@@ -22,6 +22,10 @@
    <h1 class="alert alert-info" style="color:red; text-align: center;">{{ Session::get('sinDesarrollo') }}</h1>
 @endif
 
+@if (Session::has('primerPasswordModificada'))
+   <h1 class="alert alert-info" style="color:red; text-align: center;">{{ Session::get('primerPasswordModificada') }}</h1>
+@endif
+
 <section id="content">
 
   <div class="interior">

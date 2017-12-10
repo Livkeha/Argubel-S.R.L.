@@ -56,10 +56,12 @@ class UsuariosController extends Controller
       return Redirect::route('index');
     }
 
-    if(Auth::user()->rol == "cliente" && Auth::user()->primer_logueo == false)
-    {
-      {{dd("Está bien");}}
-    }
+    // if(Auth::user()->rol == "cliente" && Auth::user()->primer_logueo == false)
+    // {
+    //   $usuarioReferido = DB::table('users')->where("id", "=", "$usuarioId")->first();
+    //
+    //   return view('cambiar-password', compact('usuarioReferido'));
+    // }
 
   }
 
@@ -76,7 +78,24 @@ class UsuariosController extends Controller
 
     Session::flash('passwordModificada', "La contraseña de \"" . $usuarioReferido->nombre . " " . $usuarioReferido->apellido . "\" ha sido modificada satisfactoriamente.");
 
-    return redirect()->action('UsuariosController@verLista');
+
+    if (Auth::check() && Auth::user()->rol == "administrador")
+    {
+      return redirect()->action('UsuariosController@verLista');
+    }
+
+    if (Auth::check() && Auth::user()->rol == "cliente")
+    {
+      Session::flash('primerPasswordModificada', "Su contraseña ha sido modificada satisfactoriamente.");
+
+      $usuarioAfectado = DB::table('users')->where("id", "=", "$usuarioId")->select('primer_logueo')->update(
+        ['primer_logueo' => true]
+      );
+
+      return Redirect::route('index');
+    }
+
+
   }
 
   public function ingresarEnDesarrollo($usuarioId)

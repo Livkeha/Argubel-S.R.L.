@@ -37,9 +37,13 @@ class HomeController extends Controller
 
        if(Auth::check() && Auth::user()->primer_logueo == false && Auth::user()->rol == "cliente")
        {
-         $usuarioReferido = DB::table('users')->where("id", "=", "$usuarioId")->first();
+
+         $usuarioReferido = DB::table('users')->where("id", "=", Auth::user()->id)->first();
+
+         $usuarioId = $usuarioReferido->id;
 
          return view('cambiar-password', compact('usuarioReferido'));
+
        }
 
        return view('index');

@@ -128,13 +128,9 @@ Route::group(['middleware' => ['permission:editar_clientes']], function () {
     Route::get('/eliminarInversor/{usuarioId}', 'UsuariosController@eliminarInversor')->name('eliminarInversor');
 });
 
-Route::group(['middleware' => ['permission:editar_clientes']], function () {
-    Route::get('/cambiarPassword/{usuarioId}', 'UsuariosController@cambiarPassword')->name('cambiarPassword');
-});
+Route::get('/cambiarPassword/{usuarioId}', 'UsuariosController@cambiarPassword')->name('cambiarPassword');
 
-Route::group(['middleware' => ['permission:editar_clientes']], function () {
-    Route::post('/passwordModificada/{usuarioId}', 'UsuariosController@passwordModificada')->name('passwordModificada');
-});
+Route::post('/passwordModificada/{usuarioId}', 'UsuariosController@passwordModificada')->name('passwordModificada');
 
 Route::get('/misCuotas/{proyectoId}/{usuarioId}', 'UsuariosController@misCuotas')->name('misCuotas');
 

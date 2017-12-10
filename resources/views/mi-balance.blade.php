@@ -16,12 +16,6 @@
 
         <section class="postsPaginados">
 
-          {{-- dd($cuotasReferidas) --}}
-
-        {{-- @if ($balance->first() != null) --}}
-
-        {{--  dd($cuotas->all()) --}}
-
         @if (Session::has('proyectoActualizado'))
            <h2 class="alert alert-info" style="color:red; text-align: center;">{{ Session::get('proyectoActualizado') }}</h2>
         @endif
@@ -84,11 +78,14 @@
         <div class="container" style="height:502px; width:100%;">
           <div class="responsive-table">
 
-            @if($cuotasReferidas->all() == null)
-            <h1>No hay balances</h1>
-            @endif
 
-            @if($cuotasReferidas->all() != null)
+            @role('Cliente')
+            @if($cuotasReferidas->first()->anio_pagado == null)
+            <h1>No se registran pagos realizados.</h1>
+            @endif
+            @endrole
+
+            @if($cuotasReferidas->all() != null && auth()->user()->isAdministrator() || auth()->user()->isClient() && $cuotasReferidas->first()->anio_pagado != null)
 
 
 
