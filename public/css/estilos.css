@@ -11,8 +11,9 @@ body {
  color: #969696;
  background-color: #333;
  background-image: url(../images/fondo-general.jpg);
- background-repeat: no-repeat;
- background-position: center top
+ /*background-repeat: no-repeat;
+ background-position: center top;*/
+ background-size:100% 100%;
 }
 a {
  text-decoration: none

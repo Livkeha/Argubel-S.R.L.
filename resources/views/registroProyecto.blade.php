@@ -27,10 +27,10 @@
           </section>
 
   @endif
+			<h2 style="padding-top: 10px; text-align:center;"><span class="label label-default">Nuevo Desarrollo</span></h2>
+      {{-- <h2 class="form-titulo" class="text-info" style="padding-top: 10px; text-align:center;">Nuevo Desarrollo</h2> --}}
 
-      <h2 class="form-titulo" style="color: blue; padding-top: 10px; text-align:center;">Nuevo Desarrollo</h2>
-
-@if($inversoresNuevos->all() == null) <h3 style="color: red; text-align:center;padding-top: 5px;padding-bottom: 20px;"><b>Debe crear un inversor nuevo antes de crear un desarrollo.</b></h3> @endif
+@if($inversoresNuevos->all() == null) <h3 class="text-danger" style="text-align:center;padding-top: 5px;padding-bottom: 20px;"><b>Debe crear un inversor nuevo antes de crear un desarrollo.</b></h3> @endif
 
 <section class="container">
   <!-- <h3 class="contactenos" style=<php if($errors->all() != null || isset($_POST['proyectoCreado'])) {?> "padding-top: 0px;" <php } ?>> Nuevo Post </h3> -->
@@ -39,45 +39,52 @@
     {{ csrf_field() }}
 
     <div class="form-group">
-      <label class="control-label col-md-2 bg-info"> Nombre de Desarrollo: </label>
+			<h3><span class="label label-info">Nombre de Desarrollo:</span></h3>
+      {{-- <label class="control-label col-md-2 bg-secondary text-white"> Nombre de Desarrollo: </label> --}}
       <input class="form-control" type="text" name="nombre" required @if ($inversoresNuevos->all() == null) disabled @endif>
       <span class="erroresPost"><?php isset($error) ?></span>
     </div>
 
     <div class="form-group">
-      <label class="control-label col-sm-2"> Calle: </label>
+			<h3><span class="label label-info"></span>Calle:</h3>
+      {{-- <label class="control-label col-sm-2 bg-secondary text-info"> Calle: </label> --}}
       <input class="form-control" type="text" name="calle" required @if ($inversoresNuevos->all() == null) disabled @endif>
     </div>
 
     <div class="form-group">
-      <label class="control-label col-sm-2"> Altura: </label>
+			<h3><span class="label label-info"></span>Altura:</h3>
+      {{-- <label class="control-label col-sm-2 bg-secondary text-info"> Altura: </label> --}}
       <input class="form-control" type='number' name="altura" required  @if ($inversoresNuevos->all() == null) disabled @endif>
     </div>
 
     <div class="form-group">
-      <label class="control-label col-sm-4"> Monto inicial de cuota establecido: </label>
+			<h3><span class="label label-info"></span>Monto inicial de cuota establedico:</h3>
+      {{-- <label class="control-label col-sm-4 bg-secondary text-info"> Monto inicial de cuota establecido: </label> --}}
       <input class="form-control" type='number' name="monto_establecido" required  @if ($inversoresNuevos->all() == null) disabled @endif>
     </div>
 
     <div class="form-group">
-      <label class="control-label col-md-3" for="">Imagen de presentación:</label>
+			<h3><span class="label label-info"></span>Imagen de presentacion:</h3>
+      {{-- <label class="control-label col-md-3 bg-secondary text-info" for="">Imagen de presentación:</label> --}}
       <input type="file" name="imagenPresentacion" class="file" value="" @if ($inversoresNuevos->all() == null) disabled @endif>
       <span class="error-imgPresentacion"></span>
     </div>
 
     <div class="form-group">
-      <label class="control-label col-md-2" for="">Imagen de ubicación:</label>
+			<h3><span class="label label-info"></span>Imagen de ubicacion:</h3>
+      {{-- <label class="control-label col-md-2 bg-secondary text-info" for="">Imagen de ubicación:</label> --}}
       <input type="file" name="imagenUbicacion" class="file" value="" @if ($inversoresNuevos->all() == null) disabled @endif>
       <span class="error-imgUbicacion"></span>
     </div>
 
     <div class="form-group">
-      <label class="control-label col-md-2"> Descripción: </label>
-      <textarea type='textarea' name="descripcion" required @if ($inversoresNuevos->all() == null) disabled @endif></textarea>
+			<h3><span class="label label-info">Descripción:</span></h3>
+      {{-- <label class="control-label col-md-2 bg-secondary text-info"> Descripción: </label> --}}
+      <textarea type='textarea' name="descripcion" rows="10" style="min-width: 100%;" required @if ($inversoresNuevos->all() == null) disabled @endif></textarea>
     </div>
 
-
-    <label class="control-label col-sm-2"> Inversor: </label>
+		<h3><span class="label label-info"></span>Inversor:</h3>
+    {{-- <label class="control-label col-sm-2 bg-secondary text-info"> Inversor: </label> --}}
 
     <?php $numeroInversor = 0; ?>
 
@@ -102,8 +109,8 @@
 
     <div class="cleaner"></div>
 
-    @if ($inversoresNuevos->all() != null)<button class="enviar" type="submit" name="proyectoCreado">Crear Desarrollo</button> @endif
-    @if ($inversoresNuevos->all() == null)<button class="enviar" type="" name="proyectoCreado" disabled>Crear Desarrollo</button> @endif
+    @if ($inversoresNuevos->all() != null)<button style="margin-top: 50px" class="btn btn-lg btn-success" type="submit" name="proyectoCreado">Crear Desarrollo</button> @endif
+    @if ($inversoresNuevos->all() == null)<button class="btn btn-lg btn-success" type="" name="proyectoCreado" disabled>Crear Desarrollo</button> @endif
 
   </form>
 </section>
