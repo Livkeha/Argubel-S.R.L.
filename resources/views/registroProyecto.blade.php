@@ -74,20 +74,20 @@
     </div>
 
     <div class="form-group">
-			<h3><span class="label label-info">Monto inicial de cuota establedico:</span></h3>
+			<h3><span class="label label-info">Monto inicial de cuota establecido:</span></h3>
       {{-- <label class="control-label col-sm-4 bg-secondary text-info"> Monto inicial de cuota establecido: </label> --}}
       <input class="form-control" type='number' name="monto_establecido" required  @if ($inversoresNuevos->all() == null) disabled @endif>
     </div>
 
     <div class="form-group">
-			<h3><span class="label label-info">Imagen de presentacion:</span></h3>
+			<h3><span class="label label-info">Imagen de presentación:</span></h3>
       {{-- <label class="control-label col-md-3 bg-secondary text-info" for="">Imagen de presentación:</label> --}}
       <input type="file" name="imagenPresentacion" class="file" value="" @if ($inversoresNuevos->all() == null) disabled @endif>
       <span class="error-imgPresentacion"></span>
     </div>
 
     <div class="form-group">
-			<h3><span class="label label-info">Imagen de ubicacion:</span></h3>
+			<h3><span class="label label-info">Imagen de ubicación:</span></h3>
       {{-- <label class="control-label col-md-2 bg-secondary text-info" for="">Imagen de ubicación:</label> --}}
       <input type="file" name="imagenUbicacion" class="file" value="" @if ($inversoresNuevos->all() == null) disabled @endif>
       <span class="error-imgUbicacion"></span>
