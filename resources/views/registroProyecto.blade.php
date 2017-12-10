@@ -46,32 +46,32 @@
     </div>
 
     <div class="form-group">
-			<h3><span class="label label-info"></span>Calle:</h3>
+			<h3><span class="label label-info">Calle:</span></h3>
       {{-- <label class="control-label col-sm-2 bg-secondary text-info"> Calle: </label> --}}
       <input class="form-control" type="text" name="calle" required @if ($inversoresNuevos->all() == null) disabled @endif>
     </div>
 
     <div class="form-group">
-			<h3><span class="label label-info"></span>Altura:</h3>
+			<h3><span class="label label-info">Altura:</span></h3>
       {{-- <label class="control-label col-sm-2 bg-secondary text-info"> Altura: </label> --}}
       <input class="form-control" type='number' name="altura" required  @if ($inversoresNuevos->all() == null) disabled @endif>
     </div>
 
     <div class="form-group">
-			<h3><span class="label label-info"></span>Monto inicial de cuota establedico:</h3>
+			<h3><span class="label label-info">Monto inicial de cuota establedico:</span></h3>
       {{-- <label class="control-label col-sm-4 bg-secondary text-info"> Monto inicial de cuota establecido: </label> --}}
       <input class="form-control" type='number' name="monto_establecido" required  @if ($inversoresNuevos->all() == null) disabled @endif>
     </div>
 
     <div class="form-group">
-			<h3><span class="label label-info"></span>Imagen de presentacion:</h3>
+			<h3><span class="label label-info">Imagen de presentacion:</span></h3>
       {{-- <label class="control-label col-md-3 bg-secondary text-info" for="">Imagen de presentación:</label> --}}
       <input type="file" name="imagenPresentacion" class="file" value="" @if ($inversoresNuevos->all() == null) disabled @endif>
       <span class="error-imgPresentacion"></span>
     </div>
 
     <div class="form-group">
-			<h3><span class="label label-info"></span>Imagen de ubicacion:</h3>
+			<h3><span class="label label-info">Imagen de ubicacion:</span></h3>
       {{-- <label class="control-label col-md-2 bg-secondary text-info" for="">Imagen de ubicación:</label> --}}
       <input type="file" name="imagenUbicacion" class="file" value="" @if ($inversoresNuevos->all() == null) disabled @endif>
       <span class="error-imgUbicacion"></span>
@@ -83,7 +83,7 @@
       <textarea type='textarea' name="descripcion" rows="10" style="min-width: 100%;" required @if ($inversoresNuevos->all() == null) disabled @endif></textarea>
     </div>
 
-		<h3><span class="label label-info"></span>Inversor:</h3>
+		<h3><span class="label label-info">Inversor:</span></h3>
     {{-- <label class="control-label col-sm-2 bg-secondary text-info"> Inversor: </label> --}}
 
     <?php $numeroInversor = 0; ?>
