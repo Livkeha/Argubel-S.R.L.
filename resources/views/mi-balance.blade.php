@@ -1,5 +1,3 @@
-@if (auth()->user()->isAdministrator())
-
 @extends('layout.headerAndFooter')
 @section('contenido')
 
@@ -58,7 +56,19 @@
 
       <h4 style="color: red; text-align:center;"><b>Valor de la cuota establecido al día {{ \Carbon\Carbon::now()->format('d/m/Y') }}: ${{ $proyectoReferido->monto_establecido }}.</b></h4>
 
+      @role('Administrador')
+
       <h5 style="color: blue; text-align:center;"><b>Balance actual del inversor: ${{abs($usuarioReferido->balance)}}</b></h5>
+
+      @endrole
+
+      @role('Cliente')
+
+      <h5 style="color: blue; text-align:center;"><b>Su balance actual al día {{ \Carbon\Carbon::now()->format('d/m/Y') }}: ${{abs($usuarioReferido->balance)}}</b></h5>
+
+      @endrole
+
+      @if (auth()->user()->isAdministrator())
 
       @foreach($cuotasReferidas as $cuota)
       @if(count($cuotasReferidas) >= 1 && $cuota->anio_pagado != null)
@@ -66,6 +76,8 @@
       <?php break; ?>
       @endif
       @endforeach
+
+      @endif
 
 
 
@@ -122,6 +134,8 @@
 
                     <td style="text-align: center; vertical-align: middle;">
 
+                      @role('Administrador')
+
                       @if($cuotaReferida->mes == null || $cuotaReferida->anio == null)
 
                       {!! Form::open(array('route' => array('modificarFechaCuota', $proyectoReferido->id, $usuarioReferido->id, $cuotaReferida->id))) !!}
@@ -153,6 +167,8 @@
                         <option value="{{$anio}}">{{$anio}}</option>
                         @endforeach
                       </select>
+
+                      @endrole
 
                       @role('Administrador') @if (Auth::check() && $cuota->mes_vencimiento == null && $cuota->anio_vencimiento == null && $cuota->monto_pagado == null) <button class="btn btn-xs btn-primary" type="submit" name="fecha-cuota-agregada">Ingresar Fecha de Cuota</button> @endif @endrole
 
@@ -225,7 +241,7 @@
 
                       @endif @endrole
 
-                      @role('Administrador') @if (Auth::check() && $cuota->mes_vencimiento != null && $cuota->anio_vencimiento != null) <b>{{$cuota->dia_vencimiento}}  {{ucfirst($cuota->mes_vencimiento)}} {{$cuota->anio_vencimiento}} </b> @endif @endrole
+                      @if (Auth::check() && $cuota->mes_vencimiento != null && $cuota->anio_vencimiento != null) <b>{{$cuota->dia_vencimiento}}  {{ucfirst($cuota->mes_vencimiento)}} {{$cuota->anio_vencimiento}} </b> @endif
 
                     </td>
 
@@ -252,7 +268,7 @@
 
                       @endif @endrole
 
-                      @role('Administrador') @if (Auth::check() && $cuota->mes_vencimiento != null && $cuota->anio_vencimiento != null && $cuota->balance_mensual !== null)${{ $cuota->monto_pagado }} @endif @endrole
+                      @if (Auth::check() && $cuota->mes_vencimiento != null && $cuota->anio_vencimiento != null && $cuota->balance_mensual !== null)${{ $cuota->monto_pagado }} @endif
 
                     </td>
 
@@ -312,7 +328,7 @@
 
                       @endif @endrole
 
-                      @role('Administrador') @if (Auth::check() && $cuota->mes_pagado != null && $cuota->anio_pagado != null) <b>{{$cuota->dia_pagado}}  {{ucfirst($cuota->mes_pagado)}} {{$cuota->anio_pagado}} </b> @endif @endrole
+                      @if (Auth::check() && $cuota->mes_pagado != null && $cuota->anio_pagado != null) <b>{{$cuota->dia_pagado}}  {{ucfirst($cuota->mes_pagado)}} {{$cuota->anio_pagado}} </b> @endif
 
                     </td>
 
@@ -325,18 +341,6 @@
                     <td style="text-align: center; vertical-align: middle;"> <!-- BALANCE -->
 
                       @role('Administrador') @if (Auth::check() && $cuota->mes_vencimiento == null && $cuota->anio_vencimiento == null && $cuota->monto_pagado === "0")<i class="btn btn-xs btn-warning disabled" style="color:black;"> Ingrese una fecha de vencimiento </i> @endif @endrole
-<!--
-                      @if($usuarioReferido->balance > 0)
-                      <span style="color:green"><b>+ ${{$usuarioReferido->balance}}</b></span>
-                      @endif
-
-                      @if($usuarioReferido->balance == 0)
-                      <span style="color:blue"><b>$ 0</b></span>
-                      @endif
-
-                      @if($usuarioReferido->balance < 0)
-                      <span style="color:red"><b>- ${{abs($usuarioReferido->balance)}}</b></span>
-                      @endif -->
 
                       @if($cuota->balance_mensual > 0)
                       <span style="color:green"><b>+ ${{$cuota->balance_mensual}}</b></span>
@@ -352,13 +356,6 @@
 
                     </td>
 
-
-
-
-
-
-
-
                     <?php $color = $color + 1; ?>
 
 
@@ -368,13 +365,7 @@
                     </tbody>
 
 
-
-
-
-
-
-
-
+                  @role('Administrador')
 
                   <tbody class="ocultar">
 
@@ -515,6 +506,7 @@
 
 
                 </tbody>
+                @endrole
             </table>
 
             {{  $cuotasReferidas->links('paginador-balance') }}
@@ -523,7 +515,6 @@
           </div>
         </div>
 
-      @endif
       </section>
 
 @endsection

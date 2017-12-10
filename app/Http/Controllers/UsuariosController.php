@@ -43,9 +43,24 @@ class UsuariosController extends Controller
   public function cambiarPassword($usuarioId)
   {
 
-    $usuarioReferido = DB::table('users')->where("id", "=", "$usuarioId")->first();
+    if (Auth::check() && Auth::user()->rol == "administrador")
+    {
+      $usuarioReferido = DB::table('users')->where("id", "=", "$usuarioId")->first();
 
-    return view('cambiar-password', compact('usuarioReferido'));
+      return view('cambiar-password', compact('usuarioReferido'));
+    }
+
+    if(Auth::user()->rol == "cliente" && Auth::user()->primer_logueo != false)
+    {
+      Session::flash('permisoDenegado', "Usted no tiene permisos para acceder a esa ruta.");
+      return Redirect::route('index');
+    }
+
+    if(Auth::user()->rol == "cliente" && Auth::user()->primer_logueo == false)
+    {
+      {{dd("Está bien");}}
+    }
+
   }
 
   public function passwordModificada($usuarioId)

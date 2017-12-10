@@ -25,6 +25,7 @@ class CreateUsersTable extends Migration
             $table->integer('balance')->nullable();
             $table->integer('project_id')->unsigned()->nullable();
             $table->foreign('project_id')->references('id')->on('projects');
+            $table->boolean('primer_logueo')->default(false);
             $table->rememberToken();
             $table->timestamps();
         });
