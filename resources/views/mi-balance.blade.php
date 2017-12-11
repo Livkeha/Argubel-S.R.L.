@@ -46,21 +46,54 @@
 
 
         <h2 class="form-titulo" style="color: blue; text-align:center;">Balance - Desarrollo: {{ $proyectoReferido->nombre }}</h2>
+
         <h2 class="form-titulo" style="color: green; text-align:center;">Inversor: {{ $usuarioReferido->nombre }} {{ $usuarioReferido->apellido }} - {{ $usuarioReferido->documento }}</h2>
 
       <h4 style="color: red; text-align:center;"><b>Valor de la cuota establecido al día {{ \Carbon\Carbon::now()->format('d/m/Y') }}: ${{ $proyectoReferido->monto_establecido }}.</b></h4>
 
+      @foreach($cuotasReferidas as $cuota)
+      @if(count($cuotasReferidas) >= 1 && $cuota->anio_pagado != null)
+
       @role('Administrador')
 
-      <h5 style="color: blue; text-align:center;"><b>Balance actual del inversor: ${{abs($usuarioReferido->balance)}}</b></h5>
+      @if($usuarioReferido->balance > 0)
+      <h5 style="color: blue; text-align:center;"><b>Balance actual del inversor: <b style="color: green; text-align:center;">${{abs($usuarioReferido->balance)}}.</b></b></h5>
+      <?php break; ?>
+      @endif
+
+      @if($usuarioReferido->balance == 0)
+      <h5 style="color: blue; text-align:center;"><b>Balance actual del inversor: <b style="color: blue; text-align:center;">${{abs($usuarioReferido->balance)}}.</b></b></h5>
+      <?php break; ?>
+      @endif
+
+      @if($usuarioReferido->balance < 0)
+      <h5 style="color: blue; text-align:center;"><b>Balance actual del inversor: <b style="color: red; text-align:center;">- ${{abs($usuarioReferido->balance)}}.</b></b></h5>
+      <?php break; ?>
+      @endif
 
       @endrole
 
       @role('Cliente')
 
-      <h5 style="color: blue; text-align:center;"><b>Su balance actual al día {{ \Carbon\Carbon::now()->format('d/m/Y') }}: ${{abs($usuarioReferido->balance)}}</b></h5>
+      @if($usuarioReferido->balance > 0)
+      <h5 style="color: blue; text-align:center;"><b>Su balance actual al día {{ \Carbon\Carbon::now()->format('d/m/Y') }}: <b style="color: green; text-align:center;">${{abs($usuarioReferido->balance)}}.</b></b></h5>
+      <?php break; ?>
+      @endif
+
+      @if($usuarioReferido->balance == 0)
+      <h5 style="color: blue; text-align:center;"><b>Su balance actual al día {{ \Carbon\Carbon::now()->format('d/m/Y') }}: <b style="color: blue; text-align:center;">${{abs($usuarioReferido->balance)}}.</b></b></h5>
+      <?php break; ?>
+      @endif
+
+      @if($usuarioReferido->balance < 0)
+      <h5 style="color: blue; text-align:center;"><b>Su balance actual al día {{ \Carbon\Carbon::now()->format('d/m/Y') }}: <b style="color: red; text-align:center;">- ${{abs($usuarioReferido->balance)}}.</b></b></h5>
+      <?php break; ?>
+      @endif
 
       @endrole
+
+      @endif
+      @endforeach
 
       @if (auth()->user()->isAdministrator())
 
@@ -167,7 +200,7 @@
 
                       @endrole
 
-                      @role('Administrador') @if (Auth::check() && $cuota->mes_vencimiento == null && $cuota->anio_vencimiento == null && $cuota->monto_pagado == null) <button class="btn btn-xs btn-primary" type="submit" name="fecha-cuota-agregada">Ingresar Fecha de Cuota</button> @endif @endrole
+                      @role('Administrador') @if (Auth::check() && $cuota->mes == null && $cuota->mes_vencimiento == null && $cuota->anio_vencimiento == null && $cuota->monto_pagado == null) <button class="btn btn-xs btn-primary" type="submit" name="fecha-cuota-agregada">Ingresar Fecha de Cuota</button> @endif @endrole
 
                         {{ Form::close() }}
                       @endif
