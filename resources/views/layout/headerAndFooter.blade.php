@@ -6,6 +6,7 @@
 <link rel="icon" href="{{ url('images/icono-Argubel.png') }}">
 <meta name="description" content="Argubel es una empresa Argentina de la Industria de la Construcción, creada con el objetivo de ofrecer a nuestros clientes un completo abanico de servicios, dedicada a proyectos de gran envergadura y particulares...">
 <meta name="keywords" content="Obra Publica, Obra Residencial, Obra Comercial, Construcción, Remodelación">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <link id="stylesheet1" href="{{asset('../css/estilos.css')}}" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="{{asset('../engine1/style.css')}}" />
 <meta name="viewport" content="width=device-width">
@@ -31,8 +32,10 @@
 
 
         @if (Auth::check())
-        <h3 class="login"> {{ Auth::user()->nombre }} {{ Auth::user()->apellido }}</h3>
-        <a href="{{ url('/logout') }}"><h4 class="login"> Logout </h4></a>
+					<div class="login-box">
+						<h4 class="log log-on"><span class="glyphicon glyphicon-user color-gris" aria-hidden="true"></span> {{ Auth::user()->nombre }} {{ Auth::user()->apellido }}</h4>
+						<a href="{{ url('/logout') }}"><h5 class="log"><span class="glyphicon glyphicon-remove color-rojo" aria-hidden="true" style="padding-right: 5px; font-size: 1.2em; display: inline-block;"></span>SALIR</h5></a>
+					</div>
         @endif
 
                         <!-- @role('Administrador')
@@ -42,7 +45,9 @@
                         @endrole -->
 
         @if (!Auth::check())
-        <a href="{{ url('/login') }}"><h3 class="login">LOGIN</h3></a>
+					<button class="btn btn-info login-box">
+						<a href="{{ url('/login') }}"><h4 class="">INGRESAR</h4></a>
+					</button>
         @endif
 
   <h1><a href="{{ url('/index') }}"><img src="{{ url('images/logo-Argubel.png') }}" alt="Argubel Empresa Constructora"/></a></h1>

@@ -4,7 +4,7 @@
 @section('contenido')
 
 
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
 
         <section class="postsPaginados">
 
@@ -27,14 +27,14 @@
         @if (Session::has('usuarioEliminado'))
            <h1 class="alert alert-info" style="color:black; text-align: center;">{{ Session::get('usuarioEliminado') }}</h1>
         @endif
+				{{-- <h2 style="padding-top: 10px; text-align:center;"><span class="label label-default">Nuevo Desarrollo</span></h2> --}}
+        <h2 class="form-titulo" style="padding-top: 50px; text-align:center;"><span class="label label-info">Lista de inversores</span></h2>
 
-        <h2 class="form-titulo" style="color: blue; text-align:center;">Lista de inversores</h2>
 
-
-        <div class="container" style="height:541px; width:100%;">
+        <div class="container" style="height:541px; width:100%; margin-top: 100px;">
           <div class="responsive-table">
 
-            <table class="table table-hover" style="table-layout: fixed; width: 100%; height:100px;">
+            <table class="table table-dark" style="table-layout: fixed; width: 100%; height:100px;">
                 <thead>
                   <tr>
                     <th>Inversor</th>
@@ -49,8 +49,8 @@
                 <tbody>
                   @foreach($usuarios as $usuario)
 
-                    @if($usuario->rol == "administrador") <tr style="border: 1px solid rgba(0,0,0,0.3); background-color: rgba(124,88,145,0.3);"> @endif
-                    @if($usuario->rol == "cliente") <tr style="border: 1px solid rgba(0,0,0,0.3); background-color: rgba(176,106,92,0.3);"> @endif
+		                @if($usuario->rol == "administrador") <tr style="border: 1px solid rgba(0,0,0,0.3); {{--background-color: rgba(124,88,145,0.3);--}}"> @endif
+                    @if($usuario->rol == "cliente") <tr style="border: 1px solid rgba(0,0,0,0.3); {{--background-color: rgba(176,106,92,0.3);--}}"> @endif
 
                       <td ><b>{{ $usuario->apellido }}, {{ $usuario->nombre }}</b> @if($usuario->documento != "71139326") <a class="btn btn-xs btn-primary" href="{{ URL::to('cambiarPassword/' . $usuario->id) }}">Cambiar Contraseña</a> @endif</td>
 
@@ -67,7 +67,7 @@
                         @if($usuario->rol == "administrador" && $usuario->documento != "71139326") <a class="btn btn-xs btn-danger" href="{{ URL::to('eliminarInversor/' . $usuario->id) }}">Eliminar Administrador</a> @endif
                         @if($usuario->project_id != null && $usuario->rol == "cliente") <a class="btn btn-xs btn-success" href="{{ URL::to('misCuotas/' . $usuario->project_id . '/' . $usuario->id )}}">Ver Balance</a> @endif
                         @if($usuario->rol == "cliente") <a class="btn btn-xs btn-danger" href="{{ URL::to('eliminarInversor/' . $usuario->id) }}">Eliminar Inversor</a> @endif
-                        @if($usuario->rol == "administrador" && $usuario->documento == "71139326") <button class="btn btn-xs btn-warning disabled" style="color:black;">No se puede eliminar este usuario</button> @endif
+                        @if($usuario->rol == "administrador" && $usuario->documento == "71139326") <button class="btn btn-xs btn-warning disabled" style="color:black; word-wrap: break-word;">No se puede eliminar <br></br>este usuario</button> @endif
 
                         @if($usuario->project_id == null && $usuario->rol == "cliente" && $totalProyectos->first() != null)
 

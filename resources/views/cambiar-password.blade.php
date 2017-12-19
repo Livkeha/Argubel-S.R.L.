@@ -1,6 +1,5 @@
 @extends('layout.headerAndFooter')
 @section('contenido')
-
 <script src="{{ asset('js/formModifyPass.js') }}"></script>
 
 
@@ -18,26 +17,41 @@
 @endrole
 
 @role('Administrador')
-<h2 style="color:red; text-align:center">Cambiar Contraseña</h2>
-@if($usuarioReferido->rol == "administrador")<h3 style="color:blue; text-align:center">Administrador: {{$usuarioReferido->nombre}} {{$usuarioReferido->apellido}}</h3> @endif
-@if($usuarioReferido->rol == "cliente")<h3 style="color:blue; text-align:center">Inversor: {{$usuarioReferido->nombre}} {{$usuarioReferido->apellido}}</h3> @endif
+<h2 style="padding-top: 10px; text-align:center;"><span class="label label-danger">Cambiar Contraseña</span></h2>
+{{-- <h2 style="color:red; text-align:center">Cambiar Contraseña</h2> --}}
+<div class="bg-primary text-white" style="width: 20%; border-radius: 5px;">
+	<div style="margin: 10px; padding: 10px;">
 
-<h4 style="color:green; text-align:center">DNI: {{$usuarioReferido->documento}} </h4>
+			@if($usuarioReferido->rol == "administrador")<h4 style="">Administrador: {{$usuarioReferido->nombre}} {{$usuarioReferido->apellido}}</h4> @endif
+			@if($usuarioReferido->rol == "cliente")<h4 style="">Inversor: {{$usuarioReferido->nombre}} {{$usuarioReferido->apellido}}</h4> @endif
+
+			<h5 style="">DNI: {{$usuarioReferido->documento}} </h5>
+
+	</div>
+</div>
+
 
 @endrole
 
-  <form id="formModifyPass" class="form-registro" action="/passwordModificada/{{$usuarioReferido->id}}" method="POST">
+<section class="container" style="margin-top: 70px;">
+
+  <form id="formModifyPass" class="form" action="/passwordModificada/{{$usuarioReferido->id}}" method="POST">
 
     {{ csrf_field() }}
 
-  <label> Nueva contraseña: </label>
-  <input id="password" type="password" name="password"class="input-48"> <div class="erroresNewUserJS" id="errorPassword"> <span id="spanPassword"></span></div>
+		<div class="form-group">
+			<h3><span class="label label-primary">Nueva contraseña:</span></h3>
+			<input id="password" type="password" name="password"class="form-control"> <div class="erroresNewUserJS" id="errorPassword"> <span id="spanPassword"></span></div>
+		</div>
 
-  <label> Confirmar nueva contraseña: </label>
-  <input id="cpassword" type="password" name="" class="input-48"> <div class="erroresNewUserJS" id="errorCPassword"> <span id="spanCPassword"></span></div>
+		<div class="form-group">
+			<h3><span class="label label-primary">Confirmar nueva contraseña:</span></h3>
+			<input id="cpassword" type="password" name="" class="form-control"> <div class="erroresNewUserJS" id="errorCPassword"> <span id="spanCPassword"></span></div>
+		</div>
 
-  <button class="boton-enviar" type="submit" name="password-cambiada" value"Enviar">Cambiar Contraseña</button>
+  	<button class="btn btn-lg btn-success" type="submit" name="password-cambiada" value"Enviar">Cambiar Contraseña</button>
 
-</form>
+	</form>
+</section>
 
 @endsection

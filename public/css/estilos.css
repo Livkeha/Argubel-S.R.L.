@@ -11,12 +11,12 @@ body {
  color: #969696;
  background-color: #333;
  background-image: url(../images/fondo-general.jpg);
- /*background-repeat: no-repeat;
- background-position: center top;*/
- background-size:100% 100%;
+ background-repeat: no-repeat;
+ background-position: center top;
+ /* background-size:100% 100%; */
 }
 a {
- text-decoration: none
+ text-decoration: none;
 }
 img {
  max-width: 100%;
@@ -46,16 +46,42 @@ img {
 
 /* TODO: EMPIEZA LO NUEVO */
 
-.login {
+.login-box {
   /*font-family: Helvetica, Arial, sans-serif;*/
   font-weight: normal;
   background-color: #333;
   float: right;
-  padding: 5px 10px;
-  margin: 55px 0px 0px 0px;
+  /* padding: 5px 0px; */
+  margin: 40px 0px 15px 0px;
+	border-radius: 5px;
 }
 
-.container-inversores { border:2px solid #ccc; width:400px; height: 100px; overflow-y: scroll; background-color: white;}
+.log{
+	text-align: center;
+	vertical-align: middle;
+	padding: 5px 10px;
+	/* display: inline-block; */
+	/* border-bottom: 2px solid #00E0DF; */
+}
+
+.log-on{
+	border-bottom: 2px solid #00E0DF;
+}
+
+.color-gris{
+	color: gray;
+}
+.color-rojo{
+	color: #dd2233;
+}
+
+.container-inversores {
+	border:2px solid #ccc;
+	width:400px;
+	height: 100px;
+	overflow-y: scroll;
+	background-color: white;
+}
 
 .ocultar {
   display: none;
@@ -251,7 +277,7 @@ footer .footer .interior-footer {
 @media screen and (max-width: 500px) {
 
 body {
- background-image: url(../imagenes/fondo-general-small.jpg);
+ background-image: url(../images/fondo-general-small.jpg);
 }
 #header h1 {
  width: 100%; text-align:center

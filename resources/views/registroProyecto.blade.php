@@ -3,7 +3,7 @@
   @extends('layout.headerAndFooter')
   @section('contenido')
 
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  
 
   @if ($errors->all() != null)
   {{-- {{dd($errors->all())}} --}}

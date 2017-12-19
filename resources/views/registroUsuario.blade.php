@@ -2,7 +2,7 @@
 
 @extends('layout.headerAndFooter')
 @section('contenido')
-				<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+				
         <script src="{{ asset('js/formNewUser.js') }}"></script>
 
         @if (isset($usuarioCreado))
@@ -23,49 +23,62 @@
         @endif
 						<h2 style="padding-top: 10px; text-align:center;"><span class="label label-primary">Nuevo Usuario</span></h2>
             {{-- <h2 class="form-titulo" style="color: blue; padding-top: 10px; text-align:center;">Nuevo Usuario</h2> --}}
-
-        <form id="formNewUser" class="form-registro" action="{{ route('register') }}" method="POST" enctype="multipart/form-data">
+				<section class="container">
+        	<form id="formNewUser" class="form" action="{{ route('register') }}" method="POST" enctype="multipart/form-data">
 
           {{ csrf_field() }}
 
-            <div class="container-inputs">
+            <div class="form-group">
+							<h3><span class="label label-info">Nombre:</span></h3>
+              <input id="nombre" type="text" name="nombre" placeholder="" class="form-control" value=""> <div class="erroresNewUserJS" id="errorNombre"><span id="spanNombre"></span></div>
+						</div>
 
-                <label> Nombre: </label>
-                <input id="nombre" type="text" name="nombre" placeholder="" class="input-48" value=""> <div class="erroresNewUserJS" id="errorNombre"><span id="spanNombre"></span></div>
+						<div class="form-group">
+							<h3><span class="label label-info">Apellido:</span></h3>
+							<input id="apellido" type="text" name="apellido" placeholder="" class="form-control" value=""> <div class="erroresNewUserJS" id="errorApellido"><span id="spanApellido"></span></div>
+						</div>
 
-                <label> Apellido: </label>
-                <input id="apellido" type="text" name="apellido" placeholder="" class="input-48" value=""> <div class="erroresNewUserJS" id="errorApellido"><span id="spanApellido"></span></div>
+						<div class="form-group">
+							<h3><span class="label label-info">Documento de Identidad:</span></h3>
+							<input id="documento" type="text" name="documento" placeholder="" class="form-control" value=""> <div class="erroresNewUserJS" id="errorDocumento"><span id="spanDocumento"></span></div>
+						</div>
 
-                <label> Documento de Identidad: </label>
-                <input id="documento" type="text" name="documento" placeholder="" class="input-100" value=""> <div class="erroresNewUserJS" id="errorDocumento"><span id="spanDocumento"></span></div>
+						<div class="form-group">
+							<h3><span class="label label-info">Teléfono:</span></h3>
+							<input id="telefono" type="text" name="telefono" placeholder="" class="form-control" value=""><div class="erroresNewUserJS" id="errorTelefono"> <span id="spanTelefono"></span></div>
+						</div>
 
-                <label> Teléfono: </label>
-                <input id="telefono" type="text" name="telefono" placeholder="" class="input-48" value=""><div class="erroresNewUserJS" id="errorTelefono"> <span id="spanTelefono"></span></div>
+						<div class="form-group">
+							<h3><span class="label label-info">Correo electrónico:</span></h3>
+							<input id="correo" type="email" name="email" placeholder="" class="form-control" value=""><div class="erroresNewUserJS" id="errorCorreo"> <span id="spanCorreo"></span></div>
+						</div>
 
-                <label> Correo electrónico: </label>
-                <input id="correo" type="email" name="email" placeholder="" class="input-100" value=""><div class="erroresNewUserJS" id="errorCorreo"> <span id="spanCorreo"></span></div>
+						<div class="form-group">
+							<h3><span class="label label-info">Contraseña:</span></h3>
+							<input id="password" type="password" name="password" placeholder="" class="form-control"> <div class="erroresNewUserJS" id="errorPassword"> <span id="spanPassword"></span></div>
+						</div>
 
-                <label> Contraseña: </label>
-                <input id="password" type="password" name="password" placeholder="" class="input-48"> <div class="erroresNewUserJS" id="errorPassword"> <span id="spanPassword"></span></div>
+						<div class="form-group">
+							<h3><span class="label label-info">Confirmar contraseña:</span></h3>
+							<input id="cpassword" type="password" name="" placeholder="" class="form-control"> <div class="erroresNewUserJS" id="errorCPassword"> <span id="spanCPassword"></span></div>
+						</div>
 
-                <label> Confirmar contraseña: </label>
-                <input id="cpassword" type="password" name="" placeholder="" class="input-48"> <div class="erroresNewUserJS" id="errorCPassword"> <span id="spanCPassword"></span></div>
-
-                <label> Rol: </label>
-                <select name="rol" required>
-                  <option disabled selected value> -- Seleccione un Rol -- </option>
-                  <option value="administrador">Administrador</option>
-                  <option value="cliente">Cliente</option>
-                </select>
+						<div class="form-group">
+							<h3><span class="label label-info">Rol:</span></h3>
+							<select name="rol" required class="form-control">
+								<option disabled selected value> -- Seleccione un Rol -- </option>
+								<option value="administrador">Administrador</option>
+								<option value="cliente">Cliente</option>
+							</select>
+						</div>
 
                 <input type="text" name="errors" value="<?$errors?>" hidden="">
 
+                <button class="btn btn-lg btn-success" type="submit" name="usuario-registrado" value"Enviar">Registrar Usuario</button>
+                <div class="cleaner"></div>
 
-                <button class="boton-enviar" type="submit" name="usuario-registrado" value"Enviar">Registrar Usuario</button>
-                  <div class="cleaner"></div>
-                </div>
-            </div>
-        </form>
+        	</form>
+				</section>
 
 
 @endsection
