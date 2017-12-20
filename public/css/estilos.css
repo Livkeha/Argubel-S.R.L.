@@ -46,6 +46,15 @@ img {
 
 /* TODO: EMPIEZA LO NUEVO */
 
+#noEliminar {
+  font-size: 1em;
+}
+
+#iconoLogueado {
+  text-align: center;
+  vertical-align: middle;
+}
+
 .login-box {
   /*font-family: Helvetica, Arial, sans-serif;*/
   font-weight: normal;

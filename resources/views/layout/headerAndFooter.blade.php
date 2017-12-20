@@ -33,7 +33,7 @@
 
         @if (Auth::check())
 					<div class="login-box">
-						<h4 class="log log-on"><span class="glyphicon glyphicon-user color-gris" aria-hidden="true"></span> {{ Auth::user()->nombre }} {{ Auth::user()->apellido }}</h4>
+						<h4 class="log log-on"><span class="glyphicon glyphicon-user color-gris" id="iconoLogueado" aria-hidden="true"></span> {{ Auth::user()->nombre }} {{ Auth::user()->apellido }}</h4>
 						<a href="{{ url('/logout') }}"><h5 class="log"><span class="glyphicon glyphicon-remove color-rojo" aria-hidden="true" style="padding-right: 5px; font-size: 1.2em; display: inline-block;"></span>SALIR</h5></a>
 					</div>
         @endif
@@ -45,9 +45,9 @@
                         @endrole -->
 
         @if (!Auth::check())
-					<button class="btn btn-info login-box">
-						<a href="{{ url('/login') }}"><h4 class="">INGRESAR</h4></a>
-					</button>
+					<a href="{{ url('/login') }}"><h4 class=""><button class="btn btn-info login-box">
+						INGRESAR</h4>
+					</button></a>
         @endif
 
   <h1><a href="{{ url('/index') }}"><img src="{{ url('images/logo-Argubel.png') }}" alt="Argubel Empresa Constructora"/></a></h1>

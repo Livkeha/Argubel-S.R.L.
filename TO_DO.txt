@@ -26,6 +26,19 @@ Cambiar contraseña de X usuario en la lista de usuarios.   HECHO
 
 
 
+------------JUACO-------------
+
+Intercalar colores en listas de inversores, proyectos, etc.
+
+Color de texto en lista de usuarios.
+
+Centrar nombre de usuario y botón de SALIR
+
+------------JUACO-------------
+
+
+
+
   Desarrollo - Monto Establecido: $10000 (Lapicito)
 
 Año: {SELECT DEL AÑO} | (Monto Establecido) | Fecha Vencimiento | (Monto Pagado) | Fecha Pagado | Balance | (BOTÓN DE QUE PAGÓ)  (Administrador) (Añadir valor establecido)
