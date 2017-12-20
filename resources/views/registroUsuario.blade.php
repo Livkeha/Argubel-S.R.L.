@@ -2,7 +2,7 @@
 
 @extends('layout.headerAndFooter')
 @section('contenido')
-				
+
         <script src="{{ asset('js/formNewUser.js') }}"></script>
 
         @if (isset($usuarioCreado))
@@ -21,9 +21,9 @@
                 </section>
 
         @endif
-						<h2 style="padding-top: 10px; text-align:center;"><span class="label label-primary">Nuevo Usuario</span></h2>
+						<h2 class="margen-50" style="padding-top: 10px; text-align:center;"><span class="label label-primary">Nuevo Usuario</span></h2>
             {{-- <h2 class="form-titulo" style="color: blue; padding-top: 10px; text-align:center;">Nuevo Usuario</h2> --}}
-				<section class="container">
+				<section class="container margen-100">
         	<form id="formNewUser" class="form" action="{{ route('register') }}" method="POST" enctype="multipart/form-data">
 
           {{ csrf_field() }}
@@ -84,10 +84,20 @@
 @endsection
 @if ($errors->all() != null)
   {{-- {{dd($errors->all())}} --}}
-        <section class="erroresPostUser">
+        <section {{--class="erroresPostUser"--}} class="alert alert-danger" role="alert" style="text-align:center;margin-top: 10px;">
           @foreach ($errors->all() as $error)
+						{{-- <div class="alert alert-danger" role="alert" style="text-align:center;margin-top: 10px;"> --}}
                 <ul>
-                    <li style='font-size:40px; color:red'>{{ $error }}</li>
+                    <li>
+												<h4>
+													<span class="glyphicon glyphicon-exclamation-sign color-rojo" aria-hidden="true"></span>
+													<span class="sr-only">Error:</span>
+													<strong>
+														{{ $error }}
+													</strong>
+												</h4>
+										</li>
+									{{-- </div> --}}
                     {{-- {{dd(<li>{{ $error }}</li>);}} --}}
                 </ul>
               @endforeach

@@ -3,7 +3,7 @@
   @extends('layout.headerAndFooter')
   @section('contenido')
 
-  
+
 
   @if ($errors->all() != null)
   {{-- {{dd($errors->all())}} --}}
@@ -19,7 +19,7 @@
 
   @if (isset($_POST['proyectoCreado']))
 
-          <section class="postSatisfactorio" style=<?php if(isset($_POST['proyectoCreado'])) {?> "background-color: rgba(47, 175, 36, 0.4);" <?php } ?>>
+          <section class="postSatisfactorio">
 						<div class="alert alert-success" role="alert">
 							<h4>
 								<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
@@ -33,13 +33,13 @@
           </section>
 
   @endif
-			<h2 style="padding-top: 10px; text-align:center;"><span class="label label-default">Nuevo Desarrollo</span></h2>
+			<h2 class="margen-50" style="padding-top: 10px; text-align:center;"><span class="label label-default">Nuevo Desarrollo</span></h2>
       {{-- <h2 class="form-titulo" class="text-info" style="padding-top: 10px; text-align:center;">Nuevo Desarrollo</h2> --}}
 
 @if($inversoresNuevos->all() == null)
 	<div class="alert alert-danger" role="alert" style="text-align:center;margin-top: 10px;">
 		<h4>
-			<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+			<span class="glyphicon glyphicon-exclamation-sign color-rojo" aria-hidden="true"></span>
 			<span class="sr-only">Error:</span>
 			<strong>Debe crear un inversor nuevo antes de crear un desarrollo!</strong>
 		</h4>
@@ -48,7 +48,7 @@
 @endif
 
 
-<section class="container">
+<section class="container margen-100">
   <!-- <h3 class="contactenos" style=<php if($errors->all() != null || isset($_POST['proyectoCreado'])) {?> "padding-top: 0px;" <php } ?>> Nuevo Post </h3> -->
   <form class="form" action="{{ route('validarDesarrollo') }}" method="post" enctype="multipart/form-data">
 

@@ -3,7 +3,8 @@
 /* GENERAL */
 * {
  margin: 0;
- padding: 0
+ padding: 0;
+ box-sizing: border-box;
 }
 body {
  font-family: Helvetica, Arial, sans-serif;
@@ -81,8 +82,61 @@ img {
 	color: gray;
 }
 .color-rojo{
-	color: #dd2233;
+	color: #a94442;
 }
+
+.margen-100{
+	margin-top: 100px;
+}
+
+.margen-50{
+	margin-top: 50px;
+}
+
+.color-fondo{
+	background-color: #333333 !important;
+	border-color: #333333 !important;
+	color: #969696 !important;
+	border-radius: 0 !important;
+}
+
+
+
+
+/* ------GALERIA------ */
+
+div.galeria {
+    border: 1px solid #ccc;
+}
+
+div.galeria:hover {
+    border: 1px solid #777;
+}
+
+div.galeria img {
+    width: 100%;
+    height: auto;
+}
+
+.responsive-foto {
+    padding: 0 6px;
+    float: left;
+    width: 24.99999%;
+}
+
+.clearfix:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+
+
+/* -----FIN GALERIA------ */
+
+
+
+
 
 .container-inversores {
 	border:2px solid #ccc;
@@ -90,6 +144,7 @@ img {
 	height: 100px;
 	overflow-y: scroll;
 	background-color: white;
+	color: black;
 }
 
 .ocultar {
@@ -248,6 +303,14 @@ footer .footer .interior-footer {
  padding-left: 0px;
 }
 }
+
+@media only screen and (max-width: 700px){
+    .responsive-foto {
+        width: 49.99999%;
+        margin: 6px 0;
+    }
+}
+
 @media screen and (max-width: 620px) {
 
 #nav ul li {
@@ -287,6 +350,9 @@ footer .footer .interior-footer {
 
 body {
  background-image: url(../images/fondo-general-small.jpg);
+}
+.responsive-foto {
+	width: 100%;
 }
 #header h1 {
  width: 100%; text-align:center

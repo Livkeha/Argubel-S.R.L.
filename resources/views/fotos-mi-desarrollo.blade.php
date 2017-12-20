@@ -30,19 +30,20 @@
    <h1 class="alert alert-info" style="color:black; text-align: center;">{{ Session::get('fotoEliminada') }}</h1>
 @endif
 
-<h2 style="color:blue;">Cantidad de fotos subidas: {{$cantidadFotos}}. 10 fotos permitidas.</h2>
+<h2 class="margen-50" style="padding-top: 10px; text-align:center;"><span class="label label-default" style="font-size: 1.5em">Fotos</span></h2>
+{{-- <h2 style="color:blue;">Cantidad de fotos subidas: {{$cantidadFotos}}. 10 fotos permitidas.</h2> --}}
 
 @endrole
 
 
 @role('Administrador')
 
-<form action="{{ route('validarFotos') }}" method="post" enctype="multipart/form-data">
+<form class="margen-100" action="{{ route('validarFotos') }}" method="post" enctype="multipart/form-data">
 
     {{ csrf_field() }}
 
-      @if($cantidadFotos < 10)<h3 style="color:green">Subir fotos (Puede subir hasta 10 fotos):</h3>@endif
-      @if($cantidadFotos == 10)<h3 style="color:green">No se permite subir mas fotos.</h3>@endif
+      @if($cantidadFotos < 10)<h3 class="margen-50" style="padding-top: 10px;"><span class="label label-primary">Subir fotos (Puede subir hasta 10 fotos):</span></h3>@endif
+      @if($cantidadFotos == 10)<h3 class="margen-50" style="padding-top: 10px;"><span class="label label-warning">No se permite subir mas fotos.</span></h3>@endif
 
     <br />
     <br />
@@ -51,7 +52,7 @@
     <input type="hidden" value="{{$proyectoReferido->id}}" name="idProyecto" />
     <input type="hidden" value="{{$proyectoReferido->nombre}}" name="nombreProyecto" />
     <input type="hidden" value="{{$cantidadFotos}}" name="cantidadFotos" />
-    <button class="boton-enviar" type="submit" name="" value"Enviar">Subir fotos</button>
+    <button class="btn btn-success" type="submit" name="" value"Enviar">Subir fotos</button>
     <!-- <input type="submit" value="Upload" /> -->
 
 </form>
@@ -70,11 +71,19 @@
 
 <!-- @role('Administrador') <a class="btn btn-xs btn-danger" href="{{ URL::to('miDesarrollo/' . strtolower($proyectoReferido->id)) . '/fotos' . '/eliminarFoto/' . $proyectoReferido->imagenUbicacion }}">Eliminar Foto</a> @endif @endrole -->
 
-<h1 style="color:red;">Fotos:</h1>
+{{-- <h1 style="color:red;">Fotos:</h1> --}}
 
-@foreach($fotosProyecto as $foto)
-<img src="{{ URL::to('/') }}/imagenesDesarrollos/{{$proyectoReferido->nombre}}/Fotos/{{$foto}}" alt="{{$foto}}" class="profileImage" style='height:300px'>
-@role('Administrador') <a class="btn btn-xs btn-danger" href="{{ URL::to('miDesarrollo/' . strtolower($proyectoReferido->id)) . '/fotos' . '/eliminarFoto/' . $foto }}">Eliminar Foto</a> @endrole
-@endforeach
+	<div class="responsive-foto">
+		@foreach($fotosProyecto as $foto)
+			<div class="galeria">
+    		<a target="_blank" href="{{ URL::to('/') }}/imagenesDesarrollos/{{$proyectoReferido->nombre}}/Fotos/{{$foto}}">
+				<img src="{{ URL::to('/') }}/imagenesDesarrollos/{{$proyectoReferido->nombre}}/Fotos/{{$foto}}" alt="{{$foto}}" {{--class="profileImage"--}} style='height:300px'>
+      	{{-- <img src="img_fjords.jpg" alt="Trolltunga Norway" width="300" height="200"> --}}
+    		</a>
+				@role('Administrador') <a class="btn btn-xs btn-danger" href="{{ URL::to('miDesarrollo/' . strtolower($proyectoReferido->id)) . '/fotos' . '/eliminarFoto/' . $foto }}">Eliminar Foto</a> @endrole
+			</div>
+	@endforeach
+</div>
+
 
 @endsection

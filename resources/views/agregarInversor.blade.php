@@ -3,9 +3,12 @@
 @extends('layout.headerAndFooter')
 @section('contenido')
 
-<h1 style="color:red; text-align:center;">Agregar Inversor</h1>
-<h3 style="color:red; text-align:center;">Seleccione los inversores deseados para el proyecto "{{$proyectoReferido->nombre}}"</h3>
+<div class="margen-50">
+	<h1 style="padding-top: 10px; text-align:center;"><span class="label label-primary">Agregar Inversor</span></h1>
 
+</div>
+<div class="margen-100">
+	<h3 style="padding-top: 10px;"><span class="label label-default">Seleccione los inversores deseados para el proyecto "{{$proyectoReferido->nombre}}"</span></h3>
 @if ($errors->all() != null)
 
         <section class="erroresPostUser">
@@ -25,10 +28,16 @@
 
 @if (isset($proyectoActualizado))
 
-        <section class="postSatisfactorio" style=<?php if(isset($proyectoActualizado)) {?> "background-color: rgba(47, 175, 36, 0.4);" <?php } ?>>
-          <ul>
+        <section class="postSatisfactorio">
+					<div class="alert alert-success" role="alert">
+						<h4>
+							<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+							<strong>El desarrollo "{{$proyectoReferido->nombre}}" se ha actualizado correctamente!</strong>
+						</h4>
+					</div>
+          {{-- <ul>
             <li>El proyecto "{{$proyectoReferido->nombre}}" se ha actualizado correctamente.</li>
-          </ul>
+          </ul> --}}
           {{-- <span class="postSatisfactorio">El proyecto se ha actualizado correctamente.</span> --}}
         </section>
 
@@ -40,7 +49,7 @@
 
 <?php $numeroInversor = 0; ?>
 
-<div class="container">
+<div class="container-inversores" style="margin: 20px 0 20px 0;">
 
 @foreach ($inversoresNuevos as $inversor)
 
@@ -53,9 +62,10 @@
 
 <input type="hidden" value="{{$proyectoReferido->id}}" name="idProyecto" />
 
-<button class="enviar" type="submit" name="validarInversorAgregado">Añadir Inversor</button>
+<button class="btn btn-success" type="submit" name="validarInversorAgregado">Añadir Inversor</button>
 </form>
 
+</div>
 @endsection
 
 @else
