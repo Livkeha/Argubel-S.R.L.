@@ -25,9 +25,9 @@
 
 <!-- TODO: ACA INICIA LO MODIFICABLE -->
 
-<h4><span class="label label-danger">Cuota actual: {{$proyectoReferido->monto_establecido}}</span></h4>
+{{-- <h4><span class="label label-danger">Cuota actual: {{$proyectoReferido->monto_establecido}}</span></h4> --}}
 {{-- {{dd($proyectoReferido)}} --}}
-<h2 class="margen-50" style="margin-bottom: 50px; padding-top: 10px; text-align:center;"><span class="label label-default" style="font-size: 1.5em">{{$proyectoReferido->nombre}}</span></h2>
+<h2 class="margen-50" style="margin-bottom: 50px; padding-top: 10px; text-align:center;"><span class="label label-primary" style="font-size: 1.5em; color: #cccccc;">{{$proyectoReferido->nombre}}</span></h2>
 {{-- <h1>El proyecto es {{$proyectoReferido->nombre}}</h1> --}}
 <div class="col col-lg-6 margen-100" style="text-align: center">
 	<img src="{{ URL::to('/') }}/imagenesDesarrollos/{{$proyectoReferido->nombre}}/{{$proyectoReferido->imagenPresentacion}}">
@@ -35,10 +35,12 @@
 <div class="col col-lg-6 margen-100" style="text-align: center">
 	<h3>{{$proyectoReferido->descripcion}}</h3>
 </div>
-<div class="col col-lg-4 margen-50" style="text-align: left;">
+<div class="col col-lg-6 margen-50" style="text-align: left;">
+	<a target="_blank" href="{{ URL::to('/') }}/imagenesDesarrollos/{{$proyectoReferido->nombre}}/{{$proyectoReferido->imagenUbicacion}}">
 	<img width="640" height="480" src="{{ URL::to('/') }}/imagenesDesarrollos/{{$proyectoReferido->nombre}}/{{$proyectoReferido->imagenUbicacion}}">
+	</a>
 </div>
-<div class="col col-lg-2 margen-50" style="text-align: left;">
+<div class="col col-lg-6" style="text-align: center;">
 	<h3>Ubicacion: {{$proyectoReferido->calle}} {{$proyectoReferido->altura}}</h2>
 </div>
 
