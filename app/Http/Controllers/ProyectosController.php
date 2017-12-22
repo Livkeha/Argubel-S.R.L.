@@ -172,7 +172,6 @@ class ProyectosController extends Controller
 
   public function miDesarrollo($idProyecto)
   {
-
     $nombreProyecto = DB::table('projects')->where('id', "=", "$idProyecto")->first();
 
     $proyectoReferido = DB::table('projects')->where('nombre', "=", "$nombreProyecto->nombre")->first();

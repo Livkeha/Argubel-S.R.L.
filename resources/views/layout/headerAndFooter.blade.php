@@ -61,7 +61,7 @@
 <nav id="nav">
   <div class="interior">
     <ul>
-      @if (!Auth::check()) <li><a href="{{ url('/index') }}" class="current">HOME</a></li> @endif
+      <li><a href="{{ url('/index') }}" class="current">HOME</a></li>
       @role('Administrador')<li><a href="{{ url('/registrarUsuario') }}">REGISTRAR INVERSOR</a></li>@endrole
       @role('Administrador')<li><a href="{{ url('/listaUsuarios') }}">LISTA DE INVERSORES</a></li>@endrole
       @role('Administrador')<li><a href="{{ url('/registrarProyecto') }}">REGISTRAR DESARROLLO</a></li>@endrole

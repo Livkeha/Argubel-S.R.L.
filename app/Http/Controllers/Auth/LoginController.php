@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Auth;
+use Redirect;
 
 class LoginController extends Controller
 {
@@ -25,7 +27,36 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+
+     // if (Auth::check() && Auth::user()->rol == "administrador")
+     // {
+     //   return redirect()->action('UsuariosController@verLista');
+     // }
+     //
+     // if (Auth::check() && Auth::user()->rol == "cliente" && Auth::user()->primer_logueo == 1)
+     // {
+     //   return Redirect::route('/miDesarrollo/' . Auth::user()->project_id);
+     // }
+
+     public function redirectPath()
+     {
+       if (Auth::user()->rol == "administrador") {
+         return "/home";
+       }
+
+       if (Auth::user()->rol == "cliente" && Auth::user()->primer_logueo == 1 && Auth::user()->project_id != null)
+       {
+         $idProyecto = Auth::user()->project_id;
+         return '/miDesarrollo/' . "$idProyecto";
+       }
+
+       return "/home";
+     }
+
+    // protected $redirectTo = '/home';
+
+
+    // protected $redirectTo = '/home';
 
     /**
      * Create a new controller instance.
