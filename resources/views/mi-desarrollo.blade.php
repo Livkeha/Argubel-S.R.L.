@@ -23,6 +23,11 @@
            {{-- <h1 class="alert alert-info" style="color:red; text-align: center;">{{ Session::get('primerPasswordModificada') }}</h1> --}}
         @endif
 
+<!-- 
+        @if (Session::has('primerPasswordModificada'))
+           <h1 class="alert alert-info" style="color:red; text-align: center;">{{ Session::get('primerPasswordModificada') }}</h1>
+        @endif -->
+
 <!-- TODO: ACA INICIA LO MODIFICABLE -->
 
 {{-- <h4><span class="label label-danger">Cuota actual: {{$proyectoReferido->monto_establecido}}</span></h4> --}}

@@ -32,7 +32,7 @@
 @endrole
 
 <h2 class="margen-50" style="padding-top: 10px; text-align:center;"><span class="label label-default" style="font-size: 1.5em">Fotos</span></h2>
-{{-- <h2 style="color:blue;">Cantidad de fotos subidas: {{$cantidadFotos}}. 10 fotos permitidas.</h2> --}}
+{{-- <h2 style="color:blue;">Cantidad de fotos subidas: {{$cantidadFotos}}. 30 fotos permitidas.</h2> --}}
 
 
 
@@ -42,8 +42,8 @@
 
     {{ csrf_field() }}
 
-      @if($cantidadFotos < 10)<h3 class="margen-50" style="padding-top: 10px;"><span class="label label-primary">Subir fotos (Puede subir hasta 10 fotos):</span></h3>@endif
-      @if($cantidadFotos == 10)
+      @if($cantidadFotos < 30)<h3 class="margen-50" style="padding-top: 10px;"><span class="label label-primary">Subir fotos (Puede subir hasta 30 fotos):</span></h3>@endif
+      @if($cantidadFotos == 30)
 				<div class="alert alert-danger" role="alert" style="text-align:center;margin-top: 10px;">
 					<h4>
 						<span class="glyphicon glyphicon-exclamation-sign color-rojo" aria-hidden="true"></span>
@@ -56,12 +56,12 @@
 
     <br />
     <br />
-    @if($cantidadFotos != 10) <input class="btn btn-primary" type="file" name="photos[]" multiple required/> @endif
+    @if($cantidadFotos != 30) <input class="btn btn-primary" type="file" name="photos[]" multiple required/> @endif
     <br /><br />
     <input type="hidden" value="{{$proyectoReferido->id}}" name="idProyecto" />
     <input type="hidden" value="{{$proyectoReferido->nombre}}" name="nombreProyecto" />
     <input type="hidden" value="{{$cantidadFotos}}" name="cantidadFotos" />
-    @if($cantidadFotos != 10) <button class="btn btn-success" type="submit" name="" value"Enviar">Subir fotos</button> @endif
+    @if($cantidadFotos != 30) <button class="btn btn-success" type="submit" name="" value"Enviar">Subir fotos</button> @endif
     <!-- <input type="submit" value="Upload" /> -->
 
 </form>

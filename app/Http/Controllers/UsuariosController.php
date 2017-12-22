@@ -92,7 +92,17 @@ class UsuariosController extends Controller
         ['primer_logueo' => true]
       );
 
-      return Redirect::route('index');
+      if (Auth::user()->project_id == null)
+      {
+        return Redirect::route('index');
+      }
+
+      if (Auth::user()->project_id != null)
+      {
+        $idProyecto = Auth::user()->project_id;
+        return redirect()->route('miDesarrollo', ['idProyecto' => $idProyecto]);
+      }
+
     }
 
 

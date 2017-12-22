@@ -33,7 +33,7 @@
 
 {{-- <h1 style="color:red;">Planos:</h1> --}}
 <h2 class="margen-50" style="padding-top: 10px; text-align:center;"><span class="label label-default" style="font-size: 1.5em">Planos</span></h2>
-{{-- <h2 style="color:blue;">Cantidad de planos subidos: {{$cantidadPlanos}}. 10 planos permitidos.</h2> --}}
+{{-- <h2 style="color:blue;">Cantidad de planos subidos: {{$cantidadPlanos}}. 30 planos permitidos.</h2> --}}
 
 
 
@@ -43,8 +43,8 @@
 
     {{ csrf_field() }}
 
-      @if($cantidadPlanos < 10)<h3 class="margen-100" style="padding-top: 10px;"><span class="label label-primary">Subir planos (Puede subir hasta 10 planos):</span></h3>@endif
-      @if($cantidadPlanos == 10)
+      @if($cantidadPlanos < 30)<h3 class="margen-100" style="padding-top: 10px;"><span class="label label-primary">Subir planos (Puede subir hasta 30 planos):</span></h3>@endif
+      @if($cantidadPlanos == 30)
 				<div class="alert alert-danger" role="alert" style="text-align:center;margin-top: 10px;">
 					<h4>
 						<span class="glyphicon glyphicon-exclamation-sign color-rojo" aria-hidden="true"></span>
@@ -57,12 +57,12 @@
 
     <br />
     <br />
-    @if($cantidadPlanos != 10) <input class="btn btn-primary" type="file" name="blueprints[]" multiple required/> @endif
+    @if($cantidadPlanos != 30) <input class="btn btn-primary" type="file" name="blueprints[]" multiple required/> @endif
     <br /><br />
     <input type="hidden" value="{{$proyectoReferido->id}}" name="idProyecto" />
     <input type="hidden" value="{{$proyectoReferido->nombre}}" name="nombreProyecto" />
     <input type="hidden" value="{{$cantidadPlanos}}" name="cantidadPlanos" />
-    @if($cantidadPlanos != 10) <button class="btn btn-success" type="submit" name="" value"Enviar">Subir planos</button> @endif
+    @if($cantidadPlanos != 30) <button class="btn btn-success" type="submit" name="" value"Enviar">Subir planos</button> @endif
     <!-- <input type="submit" value="Upload" /> -->
 
 </form>

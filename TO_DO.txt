@@ -21,15 +21,15 @@ Cambiar contraseña de X usuario en la lista de usuarios.   HECHO
   SI BORRO EL DESARROLLO O SI ELIMINO AL INVERSOR DEL DESARROLLO, LIMPIARLE EL BALANCE.
 
   HACER UN BALANCE POR CUOTA.
+
+  Redirigir a la vista de presentación de desarrollo después de cambiar contraseña.     HECHO
+
+  Cambiar límite de fotos/planos a un máximo de 30.    HECHO
 --------------------------------------------------------------------------------------------------------------------------------------------
 
 
 ------------JOR-------------
 
-
-Redirigir a la vista de presentación de desarrollo después de cambiar contraseña.
-
-Cambiar límite de fotos/planos a un máximo de 30.
 
 Borrar monto inicial al registrar desarrollo.
 
