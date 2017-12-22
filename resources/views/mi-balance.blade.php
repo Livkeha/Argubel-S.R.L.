@@ -94,7 +94,7 @@
 					{{-- <h2 class="form-titulo" style="color: green; text-align:center;">Inversor: {{ $usuarioReferido->nombre }} {{ $usuarioReferido->apellido }} - {{ $usuarioReferido->documento }}</h2> --}}
 				</div>
 				<div class="col col-md-4 margen-50" style="margin-bottom: 20px;">
-					<h4 style="padding-top: 10px; text-align: right;"><span class="label label-danger">Valor de la proxima cuota: ${{ $proyectoReferido->monto_establecido }}</span></h4>
+					<h4 style="padding-top: 10px; text-align: right;"><span class="label label-danger">Valor de la próxima cuota: ${{ $proyectoReferido->monto_establecido }}</span></h4>
 					{{-- <h4 style="color: red; text-align:center;"><b>Valor de la cuota establecido al día {{ \Carbon\Carbon::now()->format('d/m/Y') }}: ${{ $proyectoReferido->monto_establecido }}.</b></h4> --}}
 				</div>
 

@@ -12,8 +12,6 @@ La vista de fotos, cuotas y planos es la misma para ambos. Si sos administrador,
 
 Cambiar contraseña de X usuario en la lista de usuarios.   HECHO
 
---------------------------------------------------------------------------------------------------------------------------------------------
-
   Agregar botón "No pagó", que haga que el monto establecido se reste al balance y que se pueda pagar cuando se disponga.
 
   Borrar todos los balances del usuario al eliminarlo o al desvincularlo de un proyecto.
@@ -23,16 +21,35 @@ Cambiar contraseña de X usuario en la lista de usuarios.   HECHO
   SI BORRO EL DESARROLLO O SI ELIMINO AL INVERSOR DEL DESARROLLO, LIMPIARLE EL BALANCE.
 
   HACER UN BALANCE POR CUOTA.
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+
+------------JOR-------------
+
+
+Redirigir a la vista de presentación de desarrollo después de cambiar contraseña.
+
+Cambiar límite de fotos/planos a un máximo de 30.
+
+Borrar monto inicial al registrar desarrollo.
+
+Agregar localidad del proyecto.
+
+
+------------JOR-------------
+
 
 
 
 ------------JUACO-------------
+
 
 Intercalar colores en listas de inversores, proyectos, etc.
 
 Color de texto en lista de usuarios.
 
 Centrar nombre de usuario y botón de SALIR
+
 
 ------------JUACO-------------
 
