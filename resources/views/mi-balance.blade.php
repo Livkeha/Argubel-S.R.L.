@@ -2,7 +2,7 @@
 @section('contenido')
 
 
-        
+
 
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -17,39 +17,87 @@
         <section class="postsPaginados">
 
         @if (Session::has('proyectoActualizado'))
-           <h2 class="alert alert-info" style="color:red; text-align: center;">{{ Session::get('proyectoActualizado') }}</h2>
+					<div class="alert alert-success" role="alert">
+						<h4>
+							<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+							<strong>{{ Session::get('proyectoActualizado') }}!</strong>
+						</h4>
+					</div>
+           {{-- <h2 class="alert alert-info" style="color:red; text-align: center;">{{ Session::get('proyectoActualizado') }}</h2> --}}
         @endif
 
         @if (Session::has('montoEstablecidoModificado'))
-           <h2 class="alert alert-info" style="color:red; text-align: center;">{{ Session::get('montoEstablecidoModificado') }}</h2>
+					<div class="alert alert-success" role="alert">
+						<h4>
+							<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+							<strong>{{ Session::get('montoEstablecidoModificado') }}!</strong>
+						</h4>
+					</div>
+           {{-- <h2 class="alert alert-info" style="color:red; text-align: center;">{{ Session::get('montoEstablecidoModificado') }}</h2> --}}
         @endif
 
         @if (Session::has('fechaCuotaActualizada'))
-           <h1 class="alert alert-info" style="color:black; text-align: center;">{{ Session::get('fechaCuotaActualizada') }}</h1>
+					<div class="alert alert-success" role="alert">
+						<h4>
+							<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+							<strong>{{ Session::get('fechaCuotaActualizada') }}!</strong>
+						</h4>
+					</div>
+           {{-- <h1 class="alert alert-info" style="color:black; text-align: center;">{{ Session::get('fechaCuotaActualizada') }}</h1> --}}
         @endif
 
         @if (Session::has('fechaVencimientoActualizada'))
-           <h1 class="alert alert-info" style="color:black; text-align: center;">{{ Session::get('fechaVencimientoActualizada') }}</h1>
+					<div class="alert alert-success" role="alert">
+						<h4>
+							<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+							<strong>{{ Session::get('fechaVencimientoActualizada') }}!</strong>
+						</h4>
+					</div>
+           {{-- <h1 class="alert alert-info" style="color:black; text-align: center;">{{ Session::get('fechaVencimientoActualizada') }}</h1> --}}
         @endif
 
         @if (Session::has('montoPagadoActualizado'))
-           <h1 class="alert alert-info" style="color:black; text-align: center;">{{ Session::get('montoPagadoActualizado') }}</h1>
+					<div class="alert alert-success" role="alert">
+						<h4>
+							<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+							<strong>{{ Session::get('montoPagadoActualizado') }}!</strong>
+						</h4>
+					</div>
+           {{-- <h1 class="alert alert-info" style="color:black; text-align: center;">{{ Session::get('montoPagadoActualizado') }}</h1> --}}
         @endif
 
         @if (Session::has('fechaPagadoActualizada'))
-           <h1 class="alert alert-info" style="color:black; text-align: center;">{{ Session::get('fechaPagadoActualizada') }}</h1>
+					<div class="alert alert-success" role="alert">
+						<h4>
+							<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+							<strong>{{ Session::get('fechaPagadoActualizada') }}!</strong>
+						</h4>
+					</div>
+           {{-- <h1 class="alert alert-info" style="color:black; text-align: center;">{{ Session::get('fechaPagadoActualizada') }}</h1> --}}
         @endif
 
         @if (Session::has('cuotaCreada'))
-           <h1 class="alert alert-info" style="color:black; text-align: center;">{{ Session::get('cuotaCreada') }}</h1>
+					<div class="alert alert-success" role="alert">
+						<h4>
+							<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+							<strong>{{ Session::get('cuotaCreada') }}!</strong>
+						</h4>
+					</div>
+           {{-- <h1 class="alert alert-info" style="color:black; text-align: center;">{{ Session::get('cuotaCreada') }}</h1> --}}
         @endif
 
+				<h2 class="margen-50" style="padding-top: 10px; text-align:center;"><span class="label label-primary">Balance - Desarrollo: {{ $proyectoReferido->nombre }}</span></h2>
+        {{-- <h2 class="form-titulo" style="color: blue; text-align:center;">Balance - Desarrollo: {{ $proyectoReferido->nombre }}</h2> --}}
 
-        <h2 class="form-titulo" style="color: blue; text-align:center;">Balance - Desarrollo: {{ $proyectoReferido->nombre }}</h2>
+				<div class="col col-md-4 margen-50" style="margin-bottom: 20px;">
+					<h4 style="padding-top: 10px;"><span class="label label-default">Inversor: {{ $usuarioReferido->nombre }} {{ $usuarioReferido->apellido }} - {{ $usuarioReferido->documento }}</span></h4>
+					{{-- <h2 class="form-titulo" style="color: green; text-align:center;">Inversor: {{ $usuarioReferido->nombre }} {{ $usuarioReferido->apellido }} - {{ $usuarioReferido->documento }}</h2> --}}
+				</div>
+				<div class="col col-md-4 margen-50" style="margin-bottom: 20px;">
+					<h4 style="padding-top: 10px; text-align: right;"><span class="label label-danger">Valor de la cuota establecido al día {{ \Carbon\Carbon::now()->format('d/m/Y') }}: ${{ $proyectoReferido->monto_establecido }}</span></h4>
+					{{-- <h4 style="color: red; text-align:center;"><b>Valor de la cuota establecido al día {{ \Carbon\Carbon::now()->format('d/m/Y') }}: ${{ $proyectoReferido->monto_establecido }}.</b></h4> --}}
+				</div>
 
-        <h2 class="form-titulo" style="color: green; text-align:center;">Inversor: {{ $usuarioReferido->nombre }} {{ $usuarioReferido->apellido }} - {{ $usuarioReferido->documento }}</h2>
-
-      <h4 style="color: red; text-align:center;"><b>Valor de la cuota establecido al día {{ \Carbon\Carbon::now()->format('d/m/Y') }}: ${{ $proyectoReferido->monto_establecido }}.</b></h4>
 
       @foreach($cuotasReferidas as $cuota)
       @if(count($cuotasReferidas) >= 1 && $cuota->anio_pagado != null)
@@ -57,17 +105,26 @@
       @role('Administrador')
 
       @if($usuarioReferido->balance > 0)
-      <h5 style="color: blue; text-align:center;"><b>Balance actual del inversor: <b style="color: green; text-align:center;">${{abs($usuarioReferido->balance)}}.</b></b></h5>
+				<div class="col col-md-4 margen-50" style="margin-bottom: 20px;">
+					<h4 style="padding-top: 10px; text-align: center;"><span class="label label-success">Balance actual del inversor: {{abs($usuarioReferido->balance)}}</span></h4>
+      	{{-- <h5 style="color: blue; text-align:center;"><b>Balance actual del inversor: <b style="color: green; text-align:center;">${{abs($usuarioReferido->balance)}}.</b></b></h5> --}}
+			</div>
       <?php break; ?>
       @endif
 
       @if($usuarioReferido->balance == 0)
-      <h5 style="color: blue; text-align:center;"><b>Balance actual del inversor: <b style="color: blue; text-align:center;">${{abs($usuarioReferido->balance)}}.</b></b></h5>
+				<div class="col col-md-4 margen-50">
+					<h4 style="padding-top: 10px; text-align: center;"><span class="label label-primary">Balance actual del inversor: {{abs($usuarioReferido->balance)}}</span></h4>
+      	{{-- <h5 style="color: blue; text-align:center;"><b>Balance actual del inversor: <b style="color: blue; text-align:center;">${{abs($usuarioReferido->balance)}}.</b></b></h5> --}}
+			</div>
       <?php break; ?>
       @endif
 
       @if($usuarioReferido->balance < 0)
-      <h5 style="color: blue; text-align:center;"><b>Balance actual del inversor: <b style="color: red; text-align:center;">- ${{abs($usuarioReferido->balance)}}.</b></b></h5>
+				<div class="col col-md-4 margen-50">
+					<h4 style="padding-top: 10px; text-align: center;"><span class="label label-warning">Balance actual del inversor: {{abs($usuarioReferido->balance)}}</span></h4>
+      	{{-- <h5 style="color: blue; text-align:center;"><b>Balance actual del inversor: <b style="color: red; text-align:center;">- ${{abs($usuarioReferido->balance)}}.</b></b></h5> --}}
+			</div>
       <?php break; ?>
       @endif
 
@@ -76,17 +133,25 @@
       @role('Cliente')
 
       @if($usuarioReferido->balance > 0)
-      <h5 style="color: blue; text-align:center;"><b>Su balance actual al día {{ \Carbon\Carbon::now()->format('d/m/Y') }}: <b style="color: green; text-align:center;">${{abs($usuarioReferido->balance)}}.</b></b></h5>
+				<div class="col col-md-4 margen-50">
+					<h4 style="padding-top: 10px; text-align: center;"><span class="label label-success">Su balance actual al día {{ \Carbon\Carbon::now()->format('d/m/Y') }}: ${{abs($usuarioReferido->balance)}}</span></h4>
+      {{-- <h5 style="color: blue; text-align:center;"><b>Su balance actual al día {{ \Carbon\Carbon::now()->format('d/m/Y') }}: <b style="color: green; text-align:center;">${{abs($usuarioReferido->balance)}}.</b></b></h5> --}}
+				</div>
       <?php break; ?>
       @endif
 
       @if($usuarioReferido->balance == 0)
-      <h5 style="color: blue; text-align:center;"><b>Su balance actual al día {{ \Carbon\Carbon::now()->format('d/m/Y') }}: <b style="color: blue; text-align:center;">${{abs($usuarioReferido->balance)}}.</b></b></h5>
+				<div class="col col-md-4 margen-50">
+					<h4 style="padding-top: 10px; text-align: center;"><span class="label label-primary">Su balance actual al día {{ \Carbon\Carbon::now()->format('d/m/Y') }}: ${{abs($usuarioReferido->balance)}}</span></h4>
+      {{-- <h5 style="color: blue; text-align:center;"><b>Su balance actual al día {{ \Carbon\Carbon::now()->format('d/m/Y') }}: <b style="color: blue; text-align:center;">${{abs($usuarioReferido->balance)}}.</b></b></h5> --}}
+				</div>
       <?php break; ?>
       @endif
 
-      @if($usuarioReferido->balance < 0)
-      <h5 style="color: blue; text-align:center;"><b>Su balance actual al día {{ \Carbon\Carbon::now()->format('d/m/Y') }}: <b style="color: red; text-align:center;">- ${{abs($usuarioReferido->balance)}}.</b></b></h5>
+      @if($usuarioReferido->balance < 0)<div class="col col-md-4 margen-50">
+				<h4 style="padding-top: 10px; text-align: center;"><span class="label label-warning">Su balance actual al día {{ \Carbon\Carbon::now()->format('d/m/Y') }}: ${{abs($usuarioReferido->balance)}}</span></h4>
+      {{-- <h5 style="color: blue; text-align:center;"><b>Su balance actual al día {{ \Carbon\Carbon::now()->format('d/m/Y') }}: <b style="color: red; text-align:center;">- ${{abs($usuarioReferido->balance)}}.</b></b></h5> --}}
+			</div>
       <?php break; ?>
       @endif
 
@@ -99,7 +164,7 @@
 
       @foreach($cuotasReferidas as $cuota)
       @if(count($cuotasReferidas) >= 1 && $cuota->anio_pagado != null)
-      <button type="button" name="button" class="btn btn-md btn-primary" id="agregar-pago">Nueva Cuota</button>
+      <button type="button" name="button" class="btn btn-md btn-primary margen-50" id="agregar-pago">Nueva Cuota</button>
       <?php break; ?>
       @endif
       @endforeach
@@ -107,14 +172,19 @@
       @endif
 
 
-
-        <div class="container" style="height:502px; width:100%;">
+        <div class="container margen-50" style="height:502px; width:100%;">
           <div class="responsive-table">
 
 
             @role('Cliente')
             @if($cuotasReferidas->first()->anio_pagado == null)
-            <h1>No se registran pagos realizados.</h1>
+							<div class="alert alert-info margen-100" role="alert">
+								<h4>
+									<span class="glyphicon glyphicon-ban-circle color-rojo" aria-hidden="true"></span>
+									<strong>No se registran pagos realizados</strong>
+								</h4>
+							</div>
+            {{-- <h1>No se registran pagos realizados.</h1> --}}
             @endif
             @endrole
 
@@ -124,7 +194,7 @@
 
             {{  $cuotasReferidas->links('paginador-balance') }}
 
-            <table class="table table-hover" style="table-layout: fixed; width: 100%; height:100px;">
+            <table class="table table-dark" style="table-layout: fixed; width: 100%; height:100px;">
                 <thead>
                   <tr>
 
@@ -157,8 +227,8 @@
 
                    ?>
 
-                  @if ($color % 2 == 0) <tr style="background-color:rgba(176,106,92,0.3); border: 1px solid rgba(0,0,0,0.3);"> @endif
-                  @if ($color % 2 != 0) <tr style="background-color:rgba(124,88,145,0.3); border: 1px solid rgba(0,0,0,0.3);"> @endif
+                  @if ($color % 2 == 0) <tr style="color: black; background-color:rgba(250,250,250,0.5); border: 1px solid rgba(0,0,0,0.3);"> @endif
+                  @if ($color % 2 != 0) <tr style="border: 1px solid rgba(0,0,0,0.3);"> @endif
 
 
 

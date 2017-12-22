@@ -105,23 +105,42 @@ img {
 
 /* ------GALERIA------ */
 
-div.galeria {
-    border: 1px solid #ccc;
+.galeria {
+    border: 1px solid #333333;
 }
 
-div.galeria:hover {
+.galeria:hover {
     border: 1px solid #777;
 }
 
-div.galeria img {
-    width: 100%;
-    height: auto;
+.galeria {
+  width: 47.99999%;
+  height: auto;
+	float: left;
+	position: relative;
+	margin: 10px;
+	text-align: center;
+}
+
+.galeria img{
+	align-items: center;
+	max-width: 640px;
+	max-height: 480px;
+}
+
+.btn-in{
+	position: absolute;
+	float: left;
+	left: 42.5%;
+	bottom: 10%;
 }
 
 .responsive-foto {
-    padding: 0 6px;
-    float: left;
-    width: 24.99999%;
+    padding: 6px 6px;
+    width: 100%;
+		overflow: hidden;
+		border: 1px solid #ccc;
+		height: 1630px;
 }
 
 .clearfix:after {

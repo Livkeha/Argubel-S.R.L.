@@ -29,10 +29,12 @@
 @if (Session::has('planoEliminado'))
    <h1 class="alert alert-info" style="color:black; text-align: center;">{{ Session::get('planoEliminado') }}</h1>
 @endif
-
-<h2 style="color:blue;">Cantidad de planos subidos: {{$cantidadPlanos}}. 10 planos permitidos.</h2>
-
 @endrole
+
+{{-- <h1 style="color:red;">Planos:</h1> --}}
+<h2 class="margen-50" style="padding-top: 10px; text-align:center;"><span class="label label-default" style="font-size: 1.5em">Planos</span></h2>
+{{-- <h2 style="color:blue;">Cantidad de planos subidos: {{$cantidadPlanos}}. 10 planos permitidos.</h2> --}}
+
 
 
 @role('Administrador')
@@ -41,17 +43,26 @@
 
     {{ csrf_field() }}
 
-      @if($cantidadPlanos < 10)<h3 style="color:green">Subir planos (Puede subir hasta 10 planos):</h3>@endif
-      @if($cantidadPlanos == 10)<h3 style="color:green">No se permite subir mas planos.</h3>@endif
+      @if($cantidadPlanos < 10)<h3 class="margen-100" style="padding-top: 10px;"><span class="label label-primary">Subir planos (Puede subir hasta 10 planos):</span></h3>@endif
+      @if($cantidadPlanos == 10)
+				<div class="alert alert-danger" role="alert" style="text-align:center;margin-top: 10px;">
+					<h4>
+						<span class="glyphicon glyphicon-exclamation-sign color-rojo" aria-hidden="true"></span>
+						<span class="sr-only">Error:</span>
+						<strong>No se permite subir mas planos!</strong>
+					</h4>
+				</div>
+				{{-- <h3 style="color:green">No se permite subir mas planos.</h3>--}}
+			@endif
 
     <br />
     <br />
-    <input type="file" name="blueprints[]" multiple required/>
+    @if($cantidadPlanos != 10) <input class="btn btn-primary" type="file" name="blueprints[]" multiple required/> @endif
     <br /><br />
     <input type="hidden" value="{{$proyectoReferido->id}}" name="idProyecto" />
     <input type="hidden" value="{{$proyectoReferido->nombre}}" name="nombreProyecto" />
     <input type="hidden" value="{{$cantidadPlanos}}" name="cantidadPlanos" />
-    <button class="boton-enviar" type="submit" name="" value"Enviar">Subir planos</button>
+    @if($cantidadPlanos != 10) <button class="btn btn-success" type="submit" name="" value"Enviar">Subir planos</button> @endif
     <!-- <input type="submit" value="Upload" /> -->
 
 </form>
@@ -59,11 +70,14 @@
 @endrole
 
 
-<h1 style="color:red;">Planos:</h1>
-
+<div class="responsive-foto" style="margin-top:130px;">
 @foreach($planosProyecto as $plano)
-<img src="{{ URL::to('/') }}/imagenesDesarrollos/{{$proyectoReferido->nombre}}/Planos/{{$plano}}" alt="{{$plano}}" class="profileImage" style='height:300px'>
-@role('Administrador') <a class="btn btn-xs btn-danger" href="{{ URL::to('miDesarrollo/' . strtolower($proyectoReferido->id)) . '/planos' . '/eliminarPlano/' . $plano }}">Eliminar Plano</a> @endrole
+	<div class="galeria">
+		<a target="_blank" href="{{ URL::to('/') }}/imagenesDesarrollos/{{$proyectoReferido->nombre}}/Planos/{{$plano}}">
+		<img src="{{ URL::to('/') }}/imagenesDesarrollos/{{$proyectoReferido->nombre}}/Planos/{{$plano}}" alt="{{$plano}}" style='height:300px'>
+		</a>
+		@role('Administrador') <a class="btn btn-xs btn-danger btn-in" href="{{ URL::to('miDesarrollo/' . strtolower($proyectoReferido->id)) . '/planos' . '/eliminarPlano/' . $plano }}">Eliminar Plano</a> @endrole
+	</div>
 @endforeach
-
+</div>
 @endsection

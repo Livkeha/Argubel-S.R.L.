@@ -61,7 +61,7 @@
 <nav id="nav">
   <div class="interior">
     <ul>
-      <li><a href="{{ url('/index') }}" class="current">HOME</a></li>
+      @if (!Auth::check()) <li><a href="{{ url('/index') }}" class="current">HOME</a></li> @endif
       @role('Administrador')<li><a href="{{ url('/registrarUsuario') }}">REGISTRAR INVERSOR</a></li>@endrole
       @role('Administrador')<li><a href="{{ url('/listaUsuarios') }}">LISTA DE INVERSORES</a></li>@endrole
       @role('Administrador')<li><a href="{{ url('/registrarProyecto') }}">REGISTRAR DESARROLLO</a></li>@endrole
@@ -76,7 +76,7 @@
       @role('Cliente') @if ($nombreProyecto) <li><a href="{{ URL::to('/') }}/misCuotas/{{$idProyecto}}/{{Auth::user()->id}}">CUOTAS</a></li> @endif @endrole
       @role('Cliente') @if ($nombreProyecto) <li><a href="{{ URL::to('/') }}/miDesarrollo/{{$idProyecto}}/fotos">FOTOS</a></li> @endif @endrole
       @role('Cliente') @if ($nombreProyecto) <li><a href="{{ URL::to('/') }}/miDesarrollo/{{$idProyecto}}/planos">PLANOS</a></li> @endif @endrole
-      @role('Cliente') @if ($nombreProyecto) <li style="text-decoration: underline"><a href="{{ URL::to('/') }}/miDesarrollo/{{$idProyecto}}"><b>{{ $nombreProyecto }}</b></a></li> @endif @endrole
+      @role('Cliente') @if ($nombreProyecto) <li style="text-decoration: underline;"><a class="current" href="{{ URL::to('/') }}/miDesarrollo/{{$idProyecto}}"><b>{{ $nombreProyecto }}</b></a></li> @endif @endrole
 	</ul>
   </div>
 </nav>
