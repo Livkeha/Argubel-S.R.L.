@@ -31,11 +31,8 @@
 @endif
 @endrole
 
-{{-- <h1 style="color:red;">Planos:</h1> --}}
+
 <h2 class="margen-50" style="padding-top: 10px; text-align:center;"><span class="label label-default" style="font-size: 1.5em">Planos</span></h2>
-{{-- <h2 style="color:blue;">Cantidad de planos subidos: {{$cantidadPlanos}}. 30 planos permitidos.</h2> --}}
-
-
 
 @role('Administrador')
 
@@ -43,7 +40,8 @@
 
     {{ csrf_field() }}
 
-      @if($cantidadPlanos < 30)<h3 class="margen-100" style="padding-top: 10px;"><span class="label label-primary">Subir planos (Puede subir hasta 30 planos):</span></h3>@endif
+      @if($cantidadPlanos < 30)<h3 class="margen-100" style="padding-top: 10px;"><span class="label label-primary">Subir planos (Puede subir hasta 30 planos):</span></h3>
+      <h4 class="" style="padding-top: 10px;"><span class="label label-success">Cantidad de planos subidas: {{$cantidadPlanos}}.</h4>@endif
       @if($cantidadPlanos == 30)
 				<div class="alert alert-danger" role="alert" style="text-align:center;margin-top: 10px;">
 					<h4>

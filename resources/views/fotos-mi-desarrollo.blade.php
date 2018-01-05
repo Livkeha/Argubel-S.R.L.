@@ -32,7 +32,6 @@
 @endrole
 
 <h2 class="margen-50" style="padding-top: 10px; text-align:center;"><span class="label label-default" style="font-size: 1.5em">Fotos</span></h2>
-{{-- <h2 style="color:blue;">Cantidad de fotos subidas: {{$cantidadFotos}}. 30 fotos permitidas.</h2> --}}
 
 
 
@@ -42,7 +41,8 @@
 
     {{ csrf_field() }}
 
-      @if($cantidadFotos < 30)<h3 class="margen-50" style="padding-top: 10px;"><span class="label label-primary">Subir fotos (Puede subir hasta 30 fotos):</span></h3>@endif
+      @if($cantidadFotos < 30)<h3 class="margen-50" style="padding-top: 10px;"><span class="label label-primary">Subir fotos (Puede subir hasta 30 fotos):</span></h3>
+      <h4 class="" style="padding-top: 10px;"><span class="label label-success">Cantidad de fotos subidas: {{$cantidadFotos}}.</h4>@endif
       @if($cantidadFotos == 30)
 				<div class="alert alert-danger" role="alert" style="text-align:center;margin-top: 10px;">
 					<h4>

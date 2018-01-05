@@ -74,6 +74,12 @@
     </div>
 
     <div class="form-group">
+			<h3><span class="label label-info">Localidad:</span></h3>
+      {{-- <label class="control-label col-sm-2 bg-secondary text-info"> Localidad: </label> --}}
+      <input class="form-control" type='text' name="localidad" required  @if ($inversoresNuevos->all() == null) disabled @endif>
+    </div>
+
+    <div class="form-group">
 			<h3><span class="label label-info">Monto inicial de cuota establecido:</span></h3>
       {{-- <label class="control-label col-sm-4 bg-secondary text-info"> Monto inicial de cuota establecido: </label> --}}
       <input class="form-control" type='number' name="monto_establecido" required  @if ($inversoresNuevos->all() == null) disabled @endif>

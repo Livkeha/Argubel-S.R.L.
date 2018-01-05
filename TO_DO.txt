@@ -51,6 +51,10 @@ Color de texto en lista de usuarios.
 Centrar nombre de usuario y botón de SALIR
 
 
+Estilo a los errores de crear desarrollo nuevo.
+
+
+
 ------------JUACO-------------
 
 

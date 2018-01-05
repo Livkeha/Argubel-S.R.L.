@@ -71,6 +71,7 @@ class RegistrarProyectoController extends Controller
         'nombre' => 'required|string|min:2|unique:projects',
         'calle' => 'required|string|min:2',
         'altura' => 'required|string|min:2',
+        'localidad' => 'required|string|min:2',
         'monto_establecido' => 'required|string|min:2',
         'imagenPresentacion' => 'required|image|mimes:jpeg,png,jpg|dimensions:min_width=640,min_height=480',
         'imagenUbicacion' => 'required|image|mimes:jpeg,png,jpg|dimensions:min_width=640,min_height=480',
@@ -124,6 +125,16 @@ class RegistrarProyectoController extends Controller
       if(isset($failedRules['altura']['Required']))
        {
          $errors['alturaRequired'] = ("El campo de la altura es obligatorio.");
+       }
+
+       if(isset($failedRules['localidad']['Min']))
+       {
+         $errors['localidadMin'] = ("La localidad debe poseer un mínimo de 2 caracteres.");
+       }
+
+       if(isset($failedRules['localidad']['Required']))
+       {
+         $errors['localidadRequired'] = ("El campo de la localidad es obligatorio.");
        }
 
       if(isset($failedRules['monto_establecido']['Min']))
@@ -210,6 +221,7 @@ class RegistrarProyectoController extends Controller
       'nombre' => $proyectoNuevo['nombre'],
       'calle' => $proyectoNuevo['calle'],
       'altura' => $proyectoNuevo['altura'],
+      'localidad' => $proyectoNuevo['localidad'],
       'monto_establecido' => $proyectoNuevo['monto_establecido'],
       'imagenPresentacion' => $this->subirImagenPresentacion($proyectoNuevo),
       'imagenUbicacion' => $this->subirImagenUbicacion($proyectoNuevo),
