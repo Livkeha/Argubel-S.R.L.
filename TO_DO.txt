@@ -53,6 +53,10 @@ Centrar nombre de usuario y botón de SALIR
 
 Estilo a los errores de crear desarrollo nuevo.
 
+Estilo a los errores de subir plano nuevo.
+
+Estilo a los errores de subir foto nueva.
+
 
 
 ------------JUACO-------------
