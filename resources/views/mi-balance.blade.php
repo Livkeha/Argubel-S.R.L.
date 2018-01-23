@@ -106,7 +106,7 @@
 
       @if($usuarioReferido->balance > 0)
 				<div class="col col-md-4 margen-50" style="margin-bottom: 20px;">
-					<h4 style="padding-top: 10px; text-align: center;"><span class="label label-success">Balance actual del inversor: {{abs($usuarioReferido->balance)}}</span></h4>
+					<h4 style="padding-top: 10px; text-align: center;"><span class="label label-success">Balance actual del inversor: ${{abs($usuarioReferido->balance)}}</span></h4>
       	{{-- <h5 style="color: blue; text-align:center;"><b>Balance actual del inversor: <b style="color: green; text-align:center;">${{abs($usuarioReferido->balance)}}.</b></b></h5> --}}
 			</div>
       <?php break; ?>
@@ -114,7 +114,7 @@
 
       @if($usuarioReferido->balance == 0)
 				<div class="col col-md-4 margen-50">
-					<h4 style="padding-top: 10px; text-align: center;"><span class="label label-primary">Balance actual del inversor: {{abs($usuarioReferido->balance)}}</span></h4>
+					<h4 style="padding-top: 10px; text-align: center;"><span class="label label-warning">Balance actual del inversor: ${{abs($usuarioReferido->balance)}}</span></h4>
       	{{-- <h5 style="color: blue; text-align:center;"><b>Balance actual del inversor: <b style="color: blue; text-align:center;">${{abs($usuarioReferido->balance)}}.</b></b></h5> --}}
 			</div>
       <?php break; ?>
@@ -122,7 +122,7 @@
 
       @if($usuarioReferido->balance < 0)
 				<div class="col col-md-4 margen-50">
-					<h4 style="padding-top: 10px; text-align: center;"><span class="label label-warning">Balance actual del inversor: {{abs($usuarioReferido->balance)}}</span></h4>
+					<h4 style="padding-top: 10px; text-align: center;"><span class="label label-danger">Balance actual del inversor: - ${{abs($usuarioReferido->balance)}}</span></h4>
       	{{-- <h5 style="color: blue; text-align:center;"><b>Balance actual del inversor: <b style="color: red; text-align:center;">- ${{abs($usuarioReferido->balance)}}.</b></b></h5> --}}
 			</div>
       <?php break; ?>
@@ -142,14 +142,14 @@
 
       @if($usuarioReferido->balance == 0)
 				<div class="col col-md-4 margen-50">
-					<h4 style="padding-top: 10px; text-align: center;"><span class="label label-primary">Su balance actual al día {{ \Carbon\Carbon::now()->format('d/m/Y') }}: ${{abs($usuarioReferido->balance)}}</span></h4>
+					<h4 style="padding-top: 10px; text-align: center;"><span class="label label-warning">Su balance actual al día {{ \Carbon\Carbon::now()->format('d/m/Y') }}: ${{abs($usuarioReferido->balance)}}</span></h4>
       {{-- <h5 style="color: blue; text-align:center;"><b>Su balance actual al día {{ \Carbon\Carbon::now()->format('d/m/Y') }}: <b style="color: blue; text-align:center;">${{abs($usuarioReferido->balance)}}.</b></b></h5> --}}
 				</div>
       <?php break; ?>
       @endif
 
       @if($usuarioReferido->balance < 0)<div class="col col-md-4 margen-50">
-				<h4 style="padding-top: 10px; text-align: center;"><span class="label label-warning">Su balance actual al día {{ \Carbon\Carbon::now()->format('d/m/Y') }}: ${{abs($usuarioReferido->balance)}}</span></h4>
+				<h4 style="padding-top: 10px; text-align: center;"><span class="label label-danger">Su balance actual al día {{ \Carbon\Carbon::now()->format('d/m/Y') }}: - ${{abs($usuarioReferido->balance)}}</span></h4>
       {{-- <h5 style="color: blue; text-align:center;"><b>Su balance actual al día {{ \Carbon\Carbon::now()->format('d/m/Y') }}: <b style="color: red; text-align:center;">- ${{abs($usuarioReferido->balance)}}.</b></b></h5> --}}
 			</div>
       <?php break; ?>
@@ -360,9 +360,9 @@
 
                       <?php echo Form::token(); ?>
 
-                      @role('Administrador') @if (Auth::check() && $cuota->mes_vencimiento != null && $cuota->anio_vencimiento != null && $cuota->monto_pagado == null && $cuota->balance_mensual == null) <input class="form-control" type='number' name="monto_pagado" required> @endif @endrole
+                      @role('Administrador') @if (Auth::check() && $cuota->mes_vencimiento != null && $cuota->anio_vencimiento != null && $cuota->monto_pagado === null && $cuota->balance_mensual == null) <input class="form-control" type='number' name="monto_pagado" required> @endif @endrole
 
-                      @role('Administrador') @if (Auth::check() && $cuota->mes_vencimiento != null && $cuota->anio_vencimiento != null && $cuota->monto_pagado == null && $cuota->balance_mensual == null) <button class="btn btn-xs btn-success" type="submit" name="pago-agregado">Ingresar Pago</button> @endif @endrole
+                      @role('Administrador') @if (Auth::check() && $cuota->mes_vencimiento != null && $cuota->anio_vencimiento != null && $cuota->monto_pagado === null && $cuota->balance_mensual == null) <button class="btn btn-xs btn-success" type="submit" name="pago-agregado">Ingresar Pago</button> @endif @endrole
 
                       {{ Form::close() }}
 
@@ -379,7 +379,7 @@
 
                     <td style="text-align: center; vertical-align: middle;">  <!-- FECHA PAGADO -->
 
-                      @role('Administrador') @if (Auth::check() && $cuota->monto_pagado == null && $cuota->balance_mensual == null)<i class="btn btn-xs btn-warning disabled" style="color:black;"> Pago aún no ingresado </i> @endif @endrole
+                      @role('Administrador') @if (Auth::check() && $cuota->monto_pagado === null && $cuota->balance_mensual == null)<i class="btn btn-xs btn-warning disabled" style="color:black;"> Pago aún no ingresado </i> @endif @endrole
 
                       @role('Administrador') @if (Auth::check() && $cuota->monto_pagado != null && $cuota->dia_pagado == null)
 
