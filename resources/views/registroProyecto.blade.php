@@ -10,7 +10,15 @@
           <section class="erroresPostUser">
             @foreach ($errors->all() as $error)
                   <ul>
-                      <li>{{ $error }}</li>
+                      <li>
+												<div class="alert alert-danger" role="alert" style="text-align:center;margin-top: 10px;">
+													<h5>
+														<span class="glyphicon glyphicon-exclamation-sign color-rojo" aria-hidden="true"></span>
+														<span class="sr-only">Error:</span>
+														<strong>{{ $error }}!</strong>
+													</h5>
+												</div>
+											</li>
                       {{-- {{dd(<li>{{ $error }}</li>);}} --}}
                   </ul>
                 @endforeach

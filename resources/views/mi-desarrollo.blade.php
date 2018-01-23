@@ -23,7 +23,7 @@
            {{-- <h1 class="alert alert-info" style="color:red; text-align: center;">{{ Session::get('primerPasswordModificada') }}</h1> --}}
         @endif
 
-<!-- 
+<!--
         @if (Session::has('primerPasswordModificada'))
            <h1 class="alert alert-info" style="color:red; text-align: center;">{{ Session::get('primerPasswordModificada') }}</h1>
         @endif -->
@@ -46,7 +46,7 @@
 	</a>
 </div>
 <div class="col col-lg-6" style="text-align: center;">
-	<h3>Ubicacion: {{$proyectoReferido->calle}} {{$proyectoReferido->altura}}</h2>
+	<h4>Ubicacion:</h4>    <h3> {{$proyectoReferido->calle}} {{$proyectoReferido->altura}}, {{$proyectoReferido->localidad}}.</h3>
 </div>
 
 {{-- @foreach($proyectoReferido as $datos)
