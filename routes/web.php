@@ -56,11 +56,11 @@ Route::group(['middleware' => ['permission:registrar_clientes']], function () {
 
 
 Route::group(['middleware' => ['permission:registrar_desarrollos']], function () {
-    Route::get('/registrarProyecto', 'registrarProyectoController@registrarProyecto')->name('registrarProyecto');
+    Route::get('/registrarProyecto', 'RegistrarProyectoController@registrarProyecto')->name('registrarProyecto');
 });
 
 Route::group(['middleware' => ['permission:registrar_desarrollos']], function () {
-    Route::post('/validarDesarrollo', 'registrarProyectoController@validarDesarrollo')->name('validarDesarrollo');
+    Route::post('/validarDesarrollo', 'RegistrarProyectoController@validarDesarrollo')->name('validarDesarrollo');
 });
 
 
