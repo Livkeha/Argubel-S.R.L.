@@ -345,6 +345,26 @@ class ProyectosController extends Controller
         ['balance' => null]
       );
 
+      $inversoresComprometidos = DB::table('users')->where('project_id', '=', "$proyectoReferido->id")->select('monto_establecido')->update(
+        ['monto_establecido' => null]
+      );
+
+      $inversoresComprometidos = DB::table('users')->where('project_id', '=', "$proyectoReferido->id")->select('dia_vencimiento')->update(
+        ['dia_vencimiento' => null]
+      );
+
+      $inversoresComprometidos = DB::table('users')->where('project_id', '=', "$proyectoReferido->id")->select('mes_vencimiento')->update(
+        ['mes_vencimiento' => null]
+      );
+
+      $inversoresComprometidos = DB::table('users')->where('project_id', '=', "$proyectoReferido->id")->select('anio_vencimiento')->update(
+        ['anio_vencimiento' => null]
+      );
+
+      $inversoresComprometidos = DB::table('users')->where('project_id', '=', "$proyectoReferido->id")->select('balance')->update(
+        ['balance' => null]
+      );
+
       $inversoresComprometidos = DB::table('users')->where('project_id', '=', "$proyectoReferido->id")->select('project_id')->update(
         ['project_id' => null]
       );

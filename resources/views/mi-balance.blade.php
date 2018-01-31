@@ -96,11 +96,20 @@
 
 
         @if($usuarioReferido->monto_establecido != null)
-          <div class="col col-md-4 margen-50" style="margin-bottom: 20px;">
-            <h4 style="padding-top: 10px; text-align: right;"><span class="label label-danger">Valor de la próxima cuota: ${{ $usuarioReferido->monto_establecido }}</span></h4>
+          <div class="col col-md-2 margen-50" style="margin-bottom: 20px;">
+            <h4 style="padding-top: 10px; text-align: left;"><span class="label label-danger">Valor de la próxima cuota: ${{ $usuarioReferido->monto_establecido }}</span></h4>
             {{-- <h4 style="color: red; text-align:center;"><b>Valor de la cuota establecido al día {{ \Carbon\Carbon::now()->format('d/m/Y') }}: ${{ $proyectoReferido->monto_establecido }}.</b></h4> --}}
           </div>
         @endif
+
+        @if($usuarioReferido->dia_vencimiento != null)
+          <div class="col col-md-2 margen-50" style="margin-bottom: 20px;">
+            <h4 style="padding-top: 10px; text-align: center;"><span class="label label-success">Próximo vencimiento: {{ $usuarioReferido->dia_vencimiento }} de {{ ucfirst($usuarioReferido->mes_vencimiento) }} de {{ $usuarioReferido->anio_vencimiento }}</span></h4>
+            {{-- <h4 style="color: red; text-align:center;"><b>Valor de la cuota establecido al día {{ \Carbon\Carbon::now()->format('d/m/Y') }}: ${{ $proyectoReferido->monto_establecido }}.</b></h4> --}}
+          </div>
+        @endif
+
+      @role('Administrador')
 
       @if($usuarioReferido->monto_establecido == null && $usuarioReferido->dia_vencimiento == null)
         <div class="alert alert-danger" role="alert" style="margin-top: 10px;">
@@ -129,6 +138,38 @@
         </div>
       @endif
 
+      @endrole
+
+      @role('Cliente')
+
+      @if($usuarioReferido->monto_establecido == null && $usuarioReferido->dia_vencimiento == null)
+        <div class="alert alert-danger" role="alert" style="margin-top: 10px;">
+          <h4>
+            <span class="glyphicon glyphicon-exclamation-sign color-rojo" aria-hidden="true"></span>
+            <strong>Aun no se le ha asignado valor de cuota ni fecha de vencimiento.</strong>
+          </h4>
+        </div>
+      @endif
+
+      @if($usuarioReferido->monto_establecido != null && $usuarioReferido->dia_vencimiento == null)
+        <div class="alert alert-danger" role="alert" style="text-align:center;margin-top: 10px;">
+          <h4>
+            <span class="glyphicon glyphicon-exclamation-sign color-rojo" aria-hidden="true"></span>
+            <strong>Aun no se le ha asignado una fecha de vencimiento de su cuota.</strong>
+          </h4>
+        </div>
+      @endif
+
+      @if($usuarioReferido->monto_establecido == null && $usuarioReferido->dia_vencimiento != null)
+        <div class="alert alert-danger" role="alert" style="text-align:center;margin-top: 10px;">
+          <h4>
+            <span class="glyphicon glyphicon-exclamation-sign color-rojo" aria-hidden="true"></span>
+            <strong>Aun no se le ha asignado el valor de la cuota.</strong>
+          </h4>
+        </div>
+      @endif
+
+      @endrole
 
       @foreach($cuotasReferidas as $cuota)
       @if(count($cuotasReferidas) >= 1 && $cuota->anio_pagado != null)
@@ -325,13 +366,22 @@
 
                     <td style="text-align: center; vertical-align: middle;">  <!-- MONTO ESTABLECIDO -->
 
-                      @if($usuarioReferido->monto_establecido != null)
+                      @if($cuota->monto_establecido == null && $usuarioReferido->monto_establecido != null)
 
                       @if($cuotasReferidas->first())
                        $ {{ $usuarioReferido->monto_establecido }}
                       @endif
 
                     @endif
+
+                      @if($cuota->monto_establecido != null && $usuarioReferido->monto_establecido != null)
+
+                        @if($cuotasReferidas->first())
+                         $ {{ $cuota->monto_establecido }}
+                        @endif
+
+                      @endif
+
 
                     @if($usuarioReferido->monto_establecido == null)
                       <i class="btn btn-xs btn-warning disabled" style="color:black;"> Establezca un valor de cuota </i>
@@ -392,7 +442,25 @@
                         <i class="btn btn-xs btn-warning disabled" style="color:black;"> Establezca una fecha de vencimiento </i>
                       @endif
 
-                      @if (Auth::check() && $usuarioReferido->mes_vencimiento != null && $usuarioReferido->anio_vencimiento != null) <b>{{$usuarioReferido->dia_vencimiento}} de {{ucfirst($usuarioReferido->mes_vencimiento)}} de {{$usuarioReferido->anio_vencimiento}} </b> @endif
+                      @if($cuota->monto_establecido == null && $usuarioReferido->dia_vencimiento != null)
+
+                      @if($cuotasReferidas->first())
+                       <b>{{$usuarioReferido->dia_vencimiento}} de {{ucfirst($usuarioReferido->mes_vencimiento)}} de {{$usuarioReferido->anio_vencimiento}} </b>
+                      @endif
+
+                    @endif
+
+                      @if($cuota->monto_establecido != null && $usuarioReferido->monto_establecido != null)
+
+                        @if($cuotasReferidas->first())
+                         <b>{{$cuota->dia_vencimiento}} de {{ucfirst($cuota->mes_vencimiento)}} de {{$cuota->anio_vencimiento}} </b>
+                        @endif
+
+                      @endif
+
+
+                      {{-- @if (Auth::check() && $usuarioReferido->mes_vencimiento != null && $usuarioReferido->anio_vencimiento != null) <b>{{$usuarioReferido->dia_vencimiento}} de {{ucfirst($usuarioReferido->mes_vencimiento)}} de {{$usuarioReferido->anio_vencimiento}} </b> @endif --}}
+
 
                     </td>
 
@@ -413,13 +481,15 @@
 
                       @role('Administrador')
 
-                       @if (Auth::check() && $usuarioReferido->mes_vencimiento != null && $usuarioReferido->monto_establecido != null && $cuota->dia != null && $cuota->monto_pagado == null) <input class="form-control" type='number' name="monto_pagado" required> @endif
+                       @if (Auth::check() && $usuarioReferido->mes_vencimiento != null && $usuarioReferido->monto_establecido != null && $cuota->dia != null && $cuota->monto_pagado === null) <input class="form-control" type='number' name="monto_pagado" required> @endif
 
-                       @if (Auth::check() && $usuarioReferido->mes_vencimiento == null || $usuarioReferido->monto_establecido == null || $cuota->dia == null) <input class="form-control" type='number' name="monto_pagado" disabled> @endif
+                       {{-- @if (Auth::check() && $usuarioReferido->mes_vencimiento == null || $usuarioReferido->monto_establecido == null || $cuota->dia == null) <input class="form-control" type='number' name="monto_pagado" disabled> @endif --}}
 
-                      @if (Auth::check() && $usuarioReferido->mes_vencimiento != null && $usuarioReferido->monto_establecido != null && $cuota->dia != null && $cuota->monto_pagado == null) <button class="btn btn-xs btn-success" type="submit" name="pago-agregado">Ingresar Pago</button> @endif
+                      @if (Auth::check() && $usuarioReferido->mes_vencimiento != null && $usuarioReferido->monto_establecido != null && $cuota->dia != null && $cuota->monto_pagado === null) <button class="btn btn-xs btn-success" type="submit" name="pago-agregado">Ingresar Pago</button> @endif
 
-                      @if (Auth::check() && $usuarioReferido->mes_vencimiento == null || $usuarioReferido->monto_establecido == null || $cuota->dia == null) <button class="btn btn-xs btn-success" type="submit" name="pago-agregado" disabled>Ingresar Pago</button> @endif
+                      {{-- @if (Auth::check() && $usuarioReferido->mes_vencimiento == null || $usuarioReferido->monto_establecido == null || $cuota->dia == null) <button class="btn btn-xs btn-success" type="submit" name="pago-agregado" disabled>Ingresar Pago</button> @endif --}}
+
+                      @if (Auth::check() && $usuarioReferido->mes_vencimiento == null || $usuarioReferido->monto_establecido == null || $cuota->dia == null)<i class="btn btn-xs btn-warning disabled" style="color:black;"> Ingrese fecha de registro </i> @endif
 
                        @endrole
 
@@ -427,7 +497,7 @@
 
                       {{-- @endif @endrole --}}
 
-                      @if (Auth::check() && $usuarioReferido->mes_vencimiento != null && $usuarioReferido->anio_vencimiento != null && $cuota->balance_mensual !== null)${{ $cuota->monto_pagado }} @endif
+                      @if (Auth::check() && $usuarioReferido->mes_vencimiento != null && $usuarioReferido->anio_vencimiento != null && $cuota->balance_mensual !== null) $ {{ $cuota->monto_pagado }} @endif
 
                     </td>
 
@@ -487,7 +557,7 @@
 
                       @endif @endrole
 
-                      @if (Auth::check() && $cuota->mes_pagado != null && $cuota->anio_pagado != null) <b>{{$cuota->dia_pagado}}  {{ucfirst($cuota->mes_pagado)}} {{$cuota->anio_pagado}} </b> @endif
+                      @if (Auth::check() && $cuota->mes_pagado != null && $cuota->anio_pagado != null) <b>{{$cuota->dia_pagado}} de {{ucfirst($cuota->mes_pagado)}} de {{$cuota->anio_pagado}} </b> @endif
 
                     </td>
 
@@ -534,6 +604,14 @@
                       <?php echo Form::token(); ?>
                       <td style="text-align: center; vertical-align: middle;">  <!--  FECHA -->
 
+                        <label> Dia: </label>
+                        <select name="dia" required>
+                          <option disabled selected value> -- Seleccione un Dia -- </option>
+                          @foreach($diasDelMes as $dia)
+                            <option value="{{$dia}}">{{$dia}}</option>
+                          @endforeach
+                        </select>
+
                         <label> Mes: </label>
                         <select name="mes" required>
                           <option disabled selected value> -- Seleccione un Mes -- </option>
@@ -563,7 +641,7 @@
 
                       <td style="text-align: center; vertical-align: middle;">  <!--  MONTO ESTABLECIDO -->
 
-                        <label> Monto establecido: </label>
+                        <label> Valor de Cuota: </label>
                         <input class="form-control" type="number" name="monto_establecido" value="{{$usuarioReferido->monto_establecido}}" required>
 
                       </td>

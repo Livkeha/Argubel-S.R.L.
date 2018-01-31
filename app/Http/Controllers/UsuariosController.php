@@ -456,7 +456,7 @@ class UsuariosController extends Controller
 
     $balanceAfectado = DB::table('balances')->where("id", "=", "$cuotaId")->first();
 
-    $nuevoBalance = ($montoPagado - $balanceAfectado->monto_establecido) + ($usuarioAfectado->balance);
+    $nuevoBalance = ($montoPagado - $usuarioAfectado->monto_establecido) + ($usuarioAfectado->balance);
 
     $balanceUsuarioAfectado = DB::table('users')->where("project_id", "=", "$proyectoId")->where("id", "=", "$usuarioId")->select('balance')->update(
       ['balance' => $nuevoBalance]
@@ -487,6 +487,29 @@ class UsuariosController extends Controller
 
     $usuarioAfectado = DB::table('users')->where("id", "=", "$usuarioId")->first();
 
+    $diaVencimiento = $usuarioAfectado->dia_vencimiento;
+
+    $mesVencimiento = $usuarioAfectado->mes_vencimiento;
+
+    $anioVencimiento = $usuarioAfectado->anio_vencimiento;
+
+    $cuotaInversor = $usuarioAfectado->monto_establecido;
+
+    $balanceAfectado = DB::table('balances')->where("project_id", "=", "$proyectoId")->where("user_id", "=", "$usuarioId")->where("id", "=", "$cuotaId")->select('monto_establecido')->update(
+      ['monto_establecido' => $cuotaInversor]
+    );
+
+    $balanceAfectado = DB::table('balances')->where("project_id", "=", "$proyectoId")->where("user_id", "=", "$usuarioId")->where("id", "=", "$cuotaId")->select('dia_vencimiento')->update(
+      ['dia_vencimiento' => $diaVencimiento]
+    );
+
+    $balanceAfectado = DB::table('balances')->where("project_id", "=", "$proyectoId")->where("user_id", "=", "$usuarioId")->where("id", "=", "$cuotaId")->select('dia_vencimiento')->update(
+      ['mes_vencimiento' => $mesVencimiento]
+    );
+
+    $balanceAfectado = DB::table('balances')->where("project_id", "=", "$proyectoId")->where("user_id", "=", "$usuarioId")->where("id", "=", "$cuotaId")->select('dia_vencimiento')->update(
+      ['anio_vencimiento' => $anioVencimiento]
+    );
 
     $balanceAfectado = DB::table('balances')->where("project_id", "=", "$proyectoId")->where("user_id", "=", "$usuarioId")->where("id", "=", "$cuotaId")->select('dia_pagado')->update(
       ['dia_pagado' => $diaPagado]
@@ -592,6 +615,8 @@ class UsuariosController extends Controller
   public function agregarCuota($proyectoId, $usuarioId, $cuotaId)
   {
 
+    $diaCuota = $_POST["dia"];
+
     $mesCuota = $_POST["mes"];
 
     $anioCuota = $_POST["anio"];
@@ -612,8 +637,6 @@ class UsuariosController extends Controller
 
     $anioPagado = $_POST["anio_pagado"];
 
-
-
     $usuarioAfectado = DB::table('users')->where("id", "=", "$usuarioId")->first();
 
     $nuevoBalance = ($montoPagado - $montoEstablecido) + ($usuarioAfectado->balance);
@@ -624,18 +647,19 @@ class UsuariosController extends Controller
 
     $desarrolloAfectado = DB::table('projects')->where("id", "=", "$proyectoId")->first();
 
-    $montoEstablecidoAnterior = DB::table('projects')->where("id", "=", "$proyectoId")->select('monto_establecido')->update(
-      ['monto_establecido' => $montoEstablecido]
-    );
+    // $montoEstablecidoAnterior = DB::table('projects')->where("id", "=", "$proyectoId")->select('monto_establecido')->update(
+    //   ['monto_establecido' => $montoEstablecido]
+    // );
 
     $nuevaCuota = Balance::create([
+      'dia' => $diaCuota,
       'mes' => $mesCuota,
       'anio' => $anioCuota,
       'monto_establecido' => $montoEstablecido,
+      'monto_pagado' => $montoPagado,
       'dia_vencimiento' => $diaVencimiento,
       'mes_vencimiento' => $mesVencimiento,
       'anio_vencimiento' => $anioVencimiento,
-      'monto_pagado' => $montoPagado,
       'dia_pagado' => $diaPagado,
       'mes_pagado' => $mesPagado,
       'anio_pagado' => $anioPagado,

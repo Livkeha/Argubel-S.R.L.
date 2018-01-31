@@ -24,6 +24,9 @@ class CreateBalancesTable extends Migration
             $table->integer('anio')->nullable();
             $table->integer('monto_establecido')->nullable();
             $table->integer('monto_pagado')->nullable();
+            $table->integer('dia_vencimiento')->nullable();
+            $table->string('mes_vencimiento')->nullable();
+            $table->integer('anio_vencimiento')->nullable();
             $table->integer('dia_pagado')->nullable();
             $table->string('mes_pagado')->nullable();
             $table->integer('anio_pagado')->nullable();
