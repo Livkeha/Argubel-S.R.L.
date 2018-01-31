@@ -20,6 +20,14 @@
            <h1 class="alert alert-info" style="color:black; text-align: center;">{{ Session::get('desarrolloIngresado') }}</h1>
         @endif
 
+        @if (Session::has('cuotaModificada'))
+           <h1 class="alert alert-info" style="color:black; text-align: center;">{{ Session::get('cuotaModificada') }}</h1>
+        @endif
+
+        @if (Session::has('vencimientoModificado'))
+           <h1 class="alert alert-info" style="color:black; text-align: center;">{{ Session::get('vencimientoModificado') }}</h1>
+        @endif
+
         @if (Session::has('passwordModificada'))
            <h1 class="alert alert-info" style="color:black; text-align: center;">{{ Session::get('passwordModificada') }}</h1>
         @endif
@@ -42,12 +50,16 @@
                     <th>Teléfono</th>
                     <th>Correo</th>
                     <th>Desarrollo</th>
+                    <th>Valor de Cuota</th>
+                    <th>Fecha de Vencimiento</th>
                     <th>Acciones</th>
                   <tr>
                 </thead>
 
                 <tbody>
                   @foreach($usuarios as $usuario)
+
+                    {{-- {{dd($usuario)}} --}}
 
 		                @if($usuario->rol == "administrador") <tr style="border: 1px solid rgba(0,0,0,0.3); {{--background-color: rgba(124,88,145,0.3);--}}"> @endif
                     @if($usuario->rol == "cliente") <tr style="border: 1px solid rgba(0,0,0,0.3); {{--background-color: rgba(176,106,92,0.3);--}}"> @endif
@@ -60,14 +72,38 @@
 
                       <td >{{ $usuario->email }}</td>
 
-                      <td >@if($usuario->project_id == null && $usuario->rol == "administrador") <span class="btn btn-xs btn-warning disabled" style="color:black;">Administrador</span> @elseif($usuario->project_id != null && $usuario->rol == "cliente") <b>{{ $listaProyectos[$usuario->project_id] }}</b> <a class="btn btn-xs btn-primary" href="{{ URL::to('abandonarDesarrollo/' . $usuario->project_id . "/" . $usuario->id) }}">Abandonar Desarrollo</a>@else @if($usuario->project_id == null && $usuario->rol == "cliente") <i>El inversor aun no participa de un desarrollo.</i> @endif @endif </td>
+                      <td >@if($usuario->project_id == null && $usuario->rol == "administrador") <span class="btn btn-xs btn-warning disabled" style="color:black;">Administrador</span> @elseif($usuario->project_id != null && $usuario->rol == "cliente") <b>{{ $listaProyectos[$usuario->project_id] }}</b> <br> <a class="btn btn-xs btn-primary" href="{{ URL::to('abandonarDesarrollo/' . $usuario->project_id . "/" . $usuario->id) }}">Abandonar Desarrollo</a>@else @if($usuario->project_id == null && $usuario->rol == "cliente") <i>Inversor sin desarrollo asignado.</i> @endif @endif </td>
+
+                      <td >
+
+                      @if($usuario->project_id == null && $usuario->rol == "cliente" && $usuario->monto_establecido == null)<i>Inversor sin desarrollo asignado.</i> @endif
+
+                      @if($usuario->project_id != null && $usuario->rol == "cliente" && $usuario->monto_establecido == null)<i>Sin cuota asignada.</i>  <a class="btn btn-xs btn-primary" href="{{ URL::to('modificarCuota/' . $usuario->id) }}">Agregar Valor de Cuota</a> @endif
+
+                      @if($usuario->project_id != null && $usuario->rol == "cliente" && $usuario->monto_establecido != null)$ {{ $usuario->monto_establecido }} <br> <a class="btn btn-xs btn-primary" href="{{ URL::to('modificarCuota/' . $usuario->id) }}">Modificar Valor de Cuota</a>  @endif
+
+                      @if($usuario->rol == "administrador")<span class="btn btn-xs btn-warning disabled" style="color:black;">Administrador</span> @endif
+
+                      </td>
+
+                      <td >
+
+                        @if($usuario->project_id == null && $usuario->rol == "cliente" && $usuario->dia_vencimiento == null)<i>Inversor sin desarrollo asignado.</i> @endif
+
+                        @if($usuario->project_id != null && $usuario->rol == "cliente" && $usuario->dia_vencimiento == null)<i>Sin vencimiento asignado.</i> <a class="btn btn-xs btn-primary" href="{{ URL::to('modificarVencimiento/' . $usuario->id) }}">Agregar Fecha de Vencimiento</a> @endif
+
+                        @if($usuario->project_id != null && $usuario->rol == "cliente" && $usuario->dia_vencimiento != null) {{ $usuario->dia_vencimiento }} de {{ ucfirst($usuario->mes_vencimiento) }} de {{ $usuario->anio_vencimiento }} <a class="btn btn-xs btn-primary" href="{{ URL::to('modificarVencimiento/' . $usuario->id) }}">Modificar Fecha de Vencimiento</a> @endif
+
+                        @if($usuario->rol == "administrador")<span class="btn btn-xs btn-warning disabled" style="color:black;">Administrador</span> @endif
+
+                      </td>
 
                       <td >
 
                         @if($usuario->rol == "administrador" && $usuario->documento != "71139326") <a class="btn btn-xs btn-danger" href="{{ URL::to('eliminarInversor/' . $usuario->id) }}">Eliminar Administrador</a> @endif
                         @if($usuario->project_id != null && $usuario->rol == "cliente") <a class="btn btn-xs btn-success" href="{{ URL::to('misCuotas/' . $usuario->project_id . '/' . $usuario->id )}}">Ver Balance</a> @endif
                         @if($usuario->rol == "cliente") <a class="btn btn-xs btn-danger" href="{{ URL::to('eliminarInversor/' . $usuario->id) }}">Eliminar Inversor</a> @endif
-                        @if($usuario->rol == "administrador" && $usuario->documento == "71139326") <button id="noEliminar" class="btn btn-xs btn-warning disabled" >No se puede eliminar<br>este usuario</button> @endif
+                        @if($usuario->rol == "administrador" && $usuario->documento == "71139326") <button id="noEliminar" class="btn btn-xs btn-warning disabled" style="color:black;">No se puede eliminar<br>este usuario</button> @endif
 
                         @if($usuario->project_id == null && $usuario->rol == "cliente" && $totalProyectos->first() != null)
 

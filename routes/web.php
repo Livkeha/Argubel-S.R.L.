@@ -162,6 +162,22 @@ Route::group(['middleware' => ['permission:lista_clientes']], function () {
     Route::get('/listaUsuarios', 'UsuariosController@verLista')->name('listaUsuarios');
 });
 
+Route::group(['middleware' => ['permission:editar_clientes']], function () {
+    Route::get('/modificarCuota/{usuarioId}', 'UsuariosController@modificarCuota')->name('modificarCuota');
+});
+
+Route::group(['middleware' => ['permission:editar_clientes']], function () {
+    Route::post('/cuotaModificada/{usuarioId}', 'UsuariosController@cuotaModificada')->name('cuotaModificada');
+});
+
+Route::group(['middleware' => ['permission:editar_clientes']], function () {
+    Route::get('/modificarVencimiento/{usuarioId}', 'UsuariosController@modificarVencimiento')->name('modificarVencimiento');
+});
+
+Route::group(['middleware' => ['permission:editar_clientes']], function () {
+    Route::post('/vencimientoModificado/{usuarioId}', 'UsuariosController@vencimientoModificado')->name('vencimientoModificado');
+});
+
 
 
 

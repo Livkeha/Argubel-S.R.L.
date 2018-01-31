@@ -19,7 +19,6 @@ class CreateProjectsTable extends Migration
             $table->string('calle');
             $table->string('altura');
             $table->string('localidad');
-            $table->string('monto_establecido');
             $table->string('imagenPresentacion');
             $table->string('imagenUbicacion');
             $table->text('descripcion');

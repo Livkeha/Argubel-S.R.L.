@@ -72,7 +72,6 @@ class RegistrarProyectoController extends Controller
         'calle' => 'required|string|min:2',
         'altura' => 'required|string|min:2',
         'localidad' => 'required|string|min:2',
-        'monto_establecido' => 'required|string|min:2',
         'imagenPresentacion' => 'required|image|mimes:jpeg,png,jpg|dimensions:min_width=640,min_height=480',
         'imagenUbicacion' => 'required|image|mimes:jpeg,png,jpg|dimensions:min_width=640,min_height=480',
         'descripcion' => 'required|string|min:10|max:3000',
@@ -135,16 +134,6 @@ class RegistrarProyectoController extends Controller
        if(isset($failedRules['localidad']['Required']))
        {
          $errors['localidadRequired'] = ("El campo de la localidad es obligatorio.");
-       }
-
-      if(isset($failedRules['monto_establecido']['Min']))
-       {
-         $errors['monto_establecidoMin'] = ("El monto inicial de cuota establecido debe poseer un mínimo de 1 caracter.");
-       }
-
-      if(isset($failedRules['monto_establecido']['Required']))
-       {
-         $errors['monto_establecidoRequired'] = ("El campo del monto inicial de cuota establecido es obligatorio.");
        }
 
       if(isset($failedRules['imagenPresentacion']['Required']))
@@ -222,7 +211,6 @@ class RegistrarProyectoController extends Controller
       'calle' => $proyectoNuevo['calle'],
       'altura' => $proyectoNuevo['altura'],
       'localidad' => $proyectoNuevo['localidad'],
-      'monto_establecido' => $proyectoNuevo['monto_establecido'],
       'imagenPresentacion' => $this->subirImagenPresentacion($proyectoNuevo),
       'imagenUbicacion' => $this->subirImagenUbicacion($proyectoNuevo),
       'descripcion' => $proyectoNuevo['descripcion'],
@@ -243,7 +231,6 @@ class RegistrarProyectoController extends Controller
               $usuarioAsignado = DB::table('users')->where("id", "=", "$idInversor")->where("project_id", '=', "$idProyecto")->first();
 
               $balanceInicial = Balance::create([
-                'monto_establecido' => $proyectoNuevo['monto_establecido'],
                 'monto_pagado' => null,
                 'user_id' => $idInversor,
                 'project_id' => $idProyecto,

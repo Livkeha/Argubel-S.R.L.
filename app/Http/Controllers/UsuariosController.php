@@ -126,7 +126,6 @@ class UsuariosController extends Controller
     $desarrolloAfectado = DB::table('projects')->where("id", "=", "$idDelProyecto")->first();
 
     $balanceInicial = Balance::create([
-      'monto_establecido' => $desarrolloAfectado->monto_establecido,
       'monto_pagado' => null,
       'user_id' => $usuarioId,
       'project_id' => $idDelProyecto,
@@ -264,14 +263,112 @@ class UsuariosController extends Controller
   }
 
 
+  public function modificarCuota($usuarioId)
+  {
 
+    $usuarioReferido = DB::table('users')->where("id", "=", "$usuarioId")->first();
 
+    $desarrolloReferido = DB::table('projects')->where("id", "=", "$usuarioReferido->project_id")->first();
 
+    return view('modificar-cuota', compact('usuarioReferido', 'desarrolloReferido'));
 
+  }
+
+  public function cuotaModificada($usuarioId)
+  {
+
+    $valorCuota = $_POST["cuota"];
+
+    $usuarioReferido = DB::table('users')->where("id", "=", "$usuarioId")->first();
+
+    $usuarioReferido = DB::table('users')->where("id", "=", "$usuarioId")->select('monto_establecido')->update(
+      ['monto_establecido' => $valorCuota]
+    );
+
+    $usuarioReferido = DB::table('users')->where("id", "=", "$usuarioId")->first();
+
+    Session::flash('cuotaModificada', "La cuota de \"" . $usuarioReferido->nombre . " " . $usuarioReferido->apellido . "\" ha sido actualizada satisfactoriamente.");
+
+    return redirect()->action('UsuariosController@verLista');
+
+  }
+
+  public function modificarVencimiento($usuarioId)
+  {
+
+    $usuarioReferido = DB::table('users')->where("id", "=", "$usuarioId")->first();
+
+    $desarrolloReferido = DB::table('projects')->where("id", "=", "$usuarioReferido->project_id")->first();
+
+    $creacionDelProyecto = $desarrolloReferido->created_at;
+
+    $anioProyecto = Carbon::createFromFormat('Y-m-d H:i:s', $creacionDelProyecto)->year;
+
+    $anioFinProyecto = $anioProyecto + 11;
+
+    $fechaProyecto  = '01/01/' . $anioProyecto;
+    $fechaFinProyecto  = '01/01/' . $anioFinProyecto;
+    $format = 'd/m/Y';
+
+    $start    = DateTime::createFromFormat($format, $fechaProyecto); // Today date   // EL START ES LA FECHA DE CREACIÓN DEL PROYECTO.
+
+    $end      = DateTime::createFromFormat($format, $fechaFinProyecto); // Create a datetime object from your Carbon object   // EL FINAL ES UN AÑO DESPUÉS (¿O 10?).
+
+    $interval = DateInterval::createFromDateString('1 year'); // 1 month interval  // ESTE ES EL INTERVALO, ESTÁ PERFECTO.
+
+    $period   = new DatePeriod($start, $interval, $end); // Get a set of date beetween the 2 period // HAY QUE PAGINAR CADA 12 ELEMENTOS.
+
+    $periodoTotal = array();
+
+    foreach ($period as $dt) {
+        $periodoTotal[] = $dt->format("Y");
+    }
+
+    for($i = 1; $i <  32; $i++)
+    {
+      $diasDelMes[] = $i;
+    }
+
+    return view('modificar-vencimiento', compact('usuarioReferido', 'desarrolloReferido', 'diasDelMes', 'periodoTotal'));
+
+  }
+
+  public function vencimientoModificado($usuarioId)
+  {
+
+    $diaVencimiento = $_POST["dia_vencimiento"];
+
+    $mesVencimiento = $_POST["mes_vencimiento"];
+
+    $anioVencimiento = $_POST["anio_vencimiento"];
+
+    $usuarioReferido = DB::table('users')->where("id", "=", "$usuarioId")->first();
+
+    $usuarioReferido = DB::table('users')->where("id", "=", "$usuarioId")->select('dia_vencimiento')->update(
+      ['dia_vencimiento' => $diaVencimiento]
+    );
+
+    $usuarioReferido = DB::table('users')->where("id", "=", "$usuarioId")->select('mes_vencimiento')->update(
+      ['mes_vencimiento' => $mesVencimiento]
+    );
+
+    $usuarioReferido = DB::table('users')->where("id", "=", "$usuarioId")->select('anio_vencimiento')->update(
+      ['anio_vencimiento' => $anioVencimiento]
+    );
+
+    $usuarioReferido = DB::table('users')->where("id", "=", "$usuarioId")->first();
+
+    Session::flash('vencimientoModificado', "La fecha de vencimiento de \"" . $usuarioReferido->nombre . " " . $usuarioReferido->apellido . "\" ha sido actualizada satisfactoriamente.");
+
+    return redirect()->action('UsuariosController@verLista');
+
+  }
 
 
   public function modificarFechaCuota($proyectoId, $usuarioId, $cuotaId)
   {
+
+    $diaCuota = $_POST["dia"];
 
     $mesCuota = $_POST["mes"];
 
@@ -280,6 +377,10 @@ class UsuariosController extends Controller
     $desarrolloAfectado = DB::table('projects')->where("id", "=", "$proyectoId")->first();
 
     $balanceAfectado = DB::table('balances')->where("id", "=", "$cuotaId")->first();
+
+    $balanceAfectado = DB::table('balances')->where("project_id", "=", "$proyectoId")->where("user_id", "=", "$usuarioId")->where("id", "=", "$cuotaId")->select('dia')->update(
+      ['dia' => $diaCuota]
+    );
 
     $balanceAfectado = DB::table('balances')->where("project_id", "=", "$proyectoId")->where("user_id", "=", "$usuarioId")->where("id", "=", "$cuotaId")->select('mes')->update(
       ['mes' => $mesCuota]
@@ -563,6 +664,22 @@ class UsuariosController extends Controller
 
     $usuarioAfectado = DB::table('users')->where("project_id", "=", "$proyectoId")->where("id", "=", "$usuarioId")->select('balance')->update(
       ['balance' => null]
+    );
+
+    $usuarioAfectado = DB::table('users')->where("project_id", "=", "$proyectoId")->where("id", "=", "$usuarioId")->select('monto_establecido')->update(
+      ['monto_establecido' => null]
+    );
+
+    $usuarioAfectado = DB::table('users')->where("project_id", "=", "$proyectoId")->where("id", "=", "$usuarioId")->select('dia_vencimiento')->update(
+      ['dia_vencimiento' => null]
+    );
+
+    $usuarioAfectado = DB::table('users')->where("project_id", "=", "$proyectoId")->where("id", "=", "$usuarioId")->select('mes_vencimiento')->update(
+      ['mes_vencimiento' => null]
+    );
+
+    $usuarioAfectado = DB::table('users')->where("project_id", "=", "$proyectoId")->where("id", "=", "$usuarioId")->select('anio_vencimiento')->update(
+      ['anio_vencimiento' => null]
     );
 
     $usuarioAfectado = DB::table('users')->where("project_id", "=", "$proyectoId")->where("id", "=", "$usuarioId")->select('project_id')->update(
